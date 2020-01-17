@@ -68,6 +68,15 @@ void hall_init()
 	//need to set pins to input, no pullup (this is default behavior, so ignoring for now)
 }
 
+//setup TC0 to continuously count from 0:127 with auto-reload
+void timer0_init()
+{
+	PRR &= ~(1<<PRTIM0);//enable timer
+	TCCR0A = 0b10000010; //set to clear on compare
+	TCCR0B = 0b00000101; //divide 16E6/1024 = 15.6 kHz
+	OCR0A = 127; //maximum timer value to count up to (before reset); counter continuously counts up from zero to this value
+}
+
 void phase_init()
 {
 	//Pull enable pin high
@@ -184,13 +193,17 @@ int main(void)
 	hall_init();
 	phase_init();
 	adc_init();
+	timer0_init();
 	
 //	adc_select_channel(ADC_CHANNEL_goalRPM);
 
 	while (1) {
 		uint8_t ai_result = adc_read_latest();
-		volatile uint8_t test_test = ai_result;
-		if( (ai_result != 0) ) { //~1.25 volts (Vresult / Vref *256)
+		uint8_t count_latest = TCNT0;
+		if( count_latest > ai_result ) { //if free-running counter value is greater than arduino wants, turn off all FETs
+			set_all_phases('Z','Z','Z'); //replicate GG2 behavior
+		
+		} else { //always true when 'S8000' sent, true half the time when 'S4000', never true when 'S0'
 			switch ( get_hall_logic() ) {
 				case 1: set_all_phases('H','L','Z'); break;
 				case 2: set_all_phases('L','Z','H'); break;
@@ -201,10 +214,10 @@ int main(void)
 				case 0: //fall through
 				case 7: // fall through 0b000 & 0b111 are invalid hall states
 				default:
-					set_all_phases('Z','Z','Z');
+					set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
 					break;
 			//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
 			}
-		} else { PIND |= (1<<3); } //debug }		
+		}
 	}
 }
