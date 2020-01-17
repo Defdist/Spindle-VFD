@@ -1,5 +1,5 @@
-main.d main.o: .././main.c ../atmel_start.h ../include/driver_init.h \
- ../utils/compiler.h \
+adc.d adc.o: .././adc.c ../adc.h ../atmel_start.h \
+ ../include/driver_init.h ../utils/compiler.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -20,7 +20,9 @@ main.d main.o: .././main.c ../atmel_start.h ../include/driver_init.h \
  ../Config/clock_config.h ../include/port.h ../include/atmel_start_pins.h \
  ../include/sysctrl.h ../utils/atomic.h ../include/protected_io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h \
- ../include/atmel_start_pins.h ../adc.h
+ ../include/atmel_start_pins.h
+
+../adc.h:
 
 ../atmel_start.h:
 
@@ -77,5 +79,3 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h:
 
 ../include/atmel_start_pins.h:
-
-../adc.h:

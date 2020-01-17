@@ -1,5 +1,6 @@
 #include <atmel_start.h>
 //#include "avr\iom64m1.h"
+#include <adc.h>
 
 #define BLDC_ENABLE_PORT PORTB
 #define BLDC_ENABLE_DDR DDRB
@@ -60,8 +61,6 @@
 #define FET_PORTB_MASK ( (1<<FET_C_HIGH_BIT) | (1<<FET_A_LOW_BIT) | (1<<FET_B_LOW_BIT) | (1<<FET_C_LOW_BIT) )
 #define FET_PORTC_MASK (1<<FET_B_HIGH_BIT)
 #define FET_PORTD_MASK (1<<FET_A_HIGH_BIT)
-
-
 
 
 void hall_init()
@@ -184,22 +183,27 @@ int main(void)
 	atmel_start_init();
 	hall_init();
 	phase_init();
+	adc_init();
+	
+	adc_select_channel(ADC_CHANNEL_goalRPM);
 
 	/* Replace with your application code */
 	while (1) {
-		
-		switch ( get_hall_logic() ) {
-			case 1: set_all_phases('H','L','Z'); break;
-			case 2: set_all_phases('L','Z','H'); break;
-			case 3: set_all_phases('Z','L','H'); break;
-			case 4: set_all_phases('Z','H','L'); break;
-			case 5: set_all_phases('H','Z','L'); break;
-			case 6: set_all_phases('L','H','Z'); break;
-			case 0: //fall through
-			case 7: // fall through 0b000 & 0b111 are invalid hall states
-			default: 
-				PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
-				break;
-		}	
+		if( (adc_read() != 0) ) { //~1.25 volts (Vresult / Vref *256)
+			switch ( get_hall_logic() ) {
+				case 1: set_all_phases('H','L','Z'); break;
+				case 2: set_all_phases('L','Z','H'); break;
+				case 3: set_all_phases('Z','L','H'); break;
+				case 4: set_all_phases('Z','H','L'); break;
+				case 5: set_all_phases('H','Z','L'); break;
+				case 6: set_all_phases('L','H','Z'); break;
+				case 0: //fall through
+				case 7: // fall through 0b000 & 0b111 are invalid hall states
+				default: 
+					break;
+			PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
+			}
+		} else { PIND |= (1<<3); }
+			
 	}
 }
