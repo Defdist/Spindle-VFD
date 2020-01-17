@@ -189,7 +189,7 @@ int main(void)
 
 	/* Replace with your application code */
 	while (1) {
-		if( (adc_read() != 0) ) { //~1.25 volts (Vresult / Vref *256)
+		//if( (adc_read() != 0) ) { //~1.25 volts (Vresult / Vref *256)
 			switch ( get_hall_logic() ) {
 				case 1: set_all_phases('H','L','Z'); break;
 				case 2: set_all_phases('L','Z','H'); break;
@@ -199,11 +199,12 @@ int main(void)
 				case 6: set_all_phases('L','H','Z'); break;
 				case 0: //fall through
 				case 7: // fall through 0b000 & 0b111 are invalid hall states
-				default: 
+				default:
+					set_all_phases('Z','Z','Z');
 					break;
 			PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
 			}
-		} else { PIND |= (1<<3); }
+		//} else { PIND |= (1<<3); }
 			
 	}
 }
