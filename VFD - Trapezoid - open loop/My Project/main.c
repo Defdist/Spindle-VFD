@@ -185,11 +185,12 @@ int main(void)
 	phase_init();
 	adc_init();
 	
-	adc_select_channel(ADC_CHANNEL_goalRPM);
+//	adc_select_channel(ADC_CHANNEL_goalRPM);
 
-	/* Replace with your application code */
 	while (1) {
-		//if( (adc_read() != 0) ) { //~1.25 volts (Vresult / Vref *256)
+		uint8_t ai_result = adc_read_latest();
+		volatile uint8_t test_test = ai_result;
+		if( (ai_result != 0) ) { //~1.25 volts (Vresult / Vref *256)
 			switch ( get_hall_logic() ) {
 				case 1: set_all_phases('H','L','Z'); break;
 				case 2: set_all_phases('L','Z','H'); break;
@@ -202,9 +203,8 @@ int main(void)
 				default:
 					set_all_phases('Z','Z','Z');
 					break;
-			PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
+			//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
 			}
-		//} else { PIND |= (1<<3); }
-			
+		} else { PIND |= (1<<3); } //debug }		
 	}
 }

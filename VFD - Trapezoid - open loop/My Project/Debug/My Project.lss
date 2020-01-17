@@ -3,29 +3,29 @@ My Project.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000350  2**0
+  0 .data         00000000  00800100  00800100  0000099e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000002fc  00000000  00000000  00000054  2**1
+  1 .text         0000094a  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000350  2**0
+  2 .comment      00000030  00000000  00000000  0000099e  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000380  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000009d0  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 000000e0  00000000  00000000  000003c0  2**3
+  4 .debug_aranges 00000110  00000000  00000000  00000a10  2**3
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000011b1  00000000  00000000  000004a0  2**0
+  5 .debug_info   00000fb9  00000000  00000000  00000b20  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000d2b  00000000  00000000  00001651  2**0
+  6 .debug_abbrev 00000c94  00000000  00000000  00001ad9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000076d  00000000  00000000  0000237c  2**0
+  7 .debug_line   0000092e  00000000  00000000  0000276d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000130  00000000  00000000  00002aec  2**2
+  8 .debug_frame  00000290  00000000  00000000  0000309c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000071e  00000000  00000000  00002c1c  2**0
+  9 .debug_str    000006d5  00000000  00000000  0000332c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000219  00000000  00000000  0000333a  2**0
+ 10 .debug_loc    000004b5  00000000  00000000  00003a01  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000080  00000000  00000000  00003553  2**0
+ 11 .debug_ranges 000000b0  00000000  00000000  00003eb6  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -70,498 +70,1590 @@ Disassembly of section .text:
   82:	d0 e1       	ldi	r29, 0x10	; 16
   84:	de bf       	out	0x3e, r29	; 62
   86:	cd bf       	out	0x3d, r28	; 61
-  88:	0e 94 13 01 	call	0x226	; 0x226 <main>
-  8c:	0c 94 7c 01 	jmp	0x2f8	; 0x2f8 <_exit>
+  88:	0e 94 d9 02 	call	0x5b2	; 0x5b2 <main>
+  8c:	0c 94 a3 04 	jmp	0x946	; 0x946 <_exit>
 
 00000090 <__bad_interrupt>:
   90:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000094 <adc_select_vref>:
+#include <adc.h>
+#include <atmel_start.h>
 
 
 void adc_select_vref(uint8_t reference)
 {
+  94:	cf 93       	push	r28
+  96:	df 93       	push	r29
+  98:	1f 92       	push	r1
+  9a:	cd b7       	in	r28, 0x3d	; 61
+  9c:	de b7       	in	r29, 0x3e	; 62
+  9e:	89 83       	std	Y+1, r24	; 0x01
 	//"The user is advised not to write new reference selection values during Free Running mode"
 	ADCSRA &= ~(1<<ADSC); //disable free running mode
-  94:	ea e7       	ldi	r30, 0x7A	; 122
-  96:	f0 e0       	ldi	r31, 0x00	; 0
-  98:	90 81       	ld	r25, Z
-  9a:	9f 7b       	andi	r25, 0xBF	; 191
-  9c:	90 83       	st	Z, r25
+  a0:	8a e7       	ldi	r24, 0x7A	; 122
+  a2:	90 e0       	ldi	r25, 0x00	; 0
+  a4:	2a e7       	ldi	r18, 0x7A	; 122
+  a6:	30 e0       	ldi	r19, 0x00	; 0
+  a8:	f9 01       	movw	r30, r18
+  aa:	20 81       	ld	r18, Z
+  ac:	2f 7b       	andi	r18, 0xBF	; 191
+  ae:	fc 01       	movw	r30, r24
+  b0:	20 83       	st	Z, r18
 	//while ( !(ADCSRA & (1<<ADIF)) ) {;} //wait for ADC to stop
 	if(reference == VREF_EXT_AVCC) {ADMUX = ( (ADMUX & 0b00111111) | (1<<REFS0) ); } //sets ADMUX to b01xxxxxx
-  9e:	81 11       	cpse	r24, r1
-  a0:	07 c0       	rjmp	.+14     	; 0xb0 <adc_select_vref+0x1c>
-  a2:	ec e7       	ldi	r30, 0x7C	; 124
-  a4:	f0 e0       	ldi	r31, 0x00	; 0
-  a6:	80 81       	ld	r24, Z
-  a8:	8f 73       	andi	r24, 0x3F	; 63
-  aa:	80 64       	ori	r24, 0x40	; 64
-  ac:	80 83       	st	Z, r24
-  ae:	07 c0       	rjmp	.+14     	; 0xbe <adc_select_vref+0x2a>
+  b2:	89 81       	ldd	r24, Y+1	; 0x01
+  b4:	88 23       	and	r24, r24
+  b6:	51 f4       	brne	.+20     	; 0xcc <adc_select_vref+0x38>
+  b8:	8c e7       	ldi	r24, 0x7C	; 124
+  ba:	90 e0       	ldi	r25, 0x00	; 0
+  bc:	2c e7       	ldi	r18, 0x7C	; 124
+  be:	30 e0       	ldi	r19, 0x00	; 0
+  c0:	f9 01       	movw	r30, r18
+  c2:	20 81       	ld	r18, Z
+  c4:	2f 73       	andi	r18, 0x3F	; 63
+  c6:	20 64       	ori	r18, 0x40	; 64
+  c8:	fc 01       	movw	r30, r24
+  ca:	20 83       	st	Z, r18
 	if(reference == VREF_INT_2V56) {ADMUX |= ( (1<<REFS0) | (1<<REFS1) ); } //sets ADMUX to b11xxxxxx
-  b0:	81 30       	cpi	r24, 0x01	; 1
-  b2:	29 f4       	brne	.+10     	; 0xbe <adc_select_vref+0x2a>
-  b4:	ec e7       	ldi	r30, 0x7C	; 124
-  b6:	f0 e0       	ldi	r31, 0x00	; 0
-  b8:	80 81       	ld	r24, Z
-  ba:	80 6c       	ori	r24, 0xC0	; 192
-  bc:	80 83       	st	Z, r24
-	ADCSRA |= (1<<ADSC); //enable free running mode
-  be:	ea e7       	ldi	r30, 0x7A	; 122
-  c0:	f0 e0       	ldi	r31, 0x00	; 0
-  c2:	80 81       	ld	r24, Z
-  c4:	80 64       	ori	r24, 0x40	; 64
-  c6:	80 83       	st	Z, r24
-  c8:	08 95       	ret
+  cc:	89 81       	ldd	r24, Y+1	; 0x01
+  ce:	81 30       	cpi	r24, 0x01	; 1
+  d0:	49 f4       	brne	.+18     	; 0xe4 <adc_select_vref+0x50>
+  d2:	8c e7       	ldi	r24, 0x7C	; 124
+  d4:	90 e0       	ldi	r25, 0x00	; 0
+  d6:	2c e7       	ldi	r18, 0x7C	; 124
+  d8:	30 e0       	ldi	r19, 0x00	; 0
+  da:	f9 01       	movw	r30, r18
+  dc:	20 81       	ld	r18, Z
+  de:	20 6c       	ori	r18, 0xC0	; 192
+  e0:	fc 01       	movw	r30, r24
+  e2:	20 83       	st	Z, r18
+	//ADCSRA |= (1<<ADSC); //enable free running mode
+}
+  e4:	00 00       	nop
+  e6:	0f 90       	pop	r0
+  e8:	df 91       	pop	r29
+  ea:	cf 91       	pop	r28
+  ec:	08 95       	ret
 
-000000ca <adc_select_channel>:
+000000ee <adc_select_channel>:
 
 
 void adc_select_channel(uint8_t channel)
 {
+  ee:	cf 93       	push	r28
+  f0:	df 93       	push	r29
+  f2:	1f 92       	push	r1
+  f4:	cd b7       	in	r28, 0x3d	; 61
+  f6:	de b7       	in	r29, 0x3e	; 62
+  f8:	89 83       	std	Y+1, r24	; 0x01
 	//"The user is advised not to write new channel selection values during Free Running mode"
 	ADCSRA &= ~(1<<ADSC); //disable free running mode
-  ca:	ea e7       	ldi	r30, 0x7A	; 122
-  cc:	f0 e0       	ldi	r31, 0x00	; 0
-  ce:	90 81       	ld	r25, Z
-  d0:	9f 7b       	andi	r25, 0xBF	; 191
-  d2:	90 83       	st	Z, r25
-	while ( !(ADCSRA & (1<<ADIF)) ) {;} //wait for ADC to stop
-  d4:	90 81       	ld	r25, Z
-  d6:	94 ff       	sbrs	r25, 4
-  d8:	fd cf       	rjmp	.-6      	; 0xd4 <adc_select_channel+0xa>
-	if(channel == ADC_CHANNEL_goalRPM) {ADMUX = ( (ADMUX & 0b1100000) | 0b00000101 ); } //ADC5 (single ended)
-  da:	81 11       	cpse	r24, r1
-  dc:	06 c0       	rjmp	.+12     	; 0xea <adc_select_channel+0x20>
-  de:	ec e7       	ldi	r30, 0x7C	; 124
-  e0:	f0 e0       	ldi	r31, 0x00	; 0
-  e2:	80 81       	ld	r24, Z
-  e4:	80 76       	andi	r24, 0x60	; 96
-  e6:	85 60       	ori	r24, 0x05	; 5
-  e8:	80 83       	st	Z, r24
+  fa:	8a e7       	ldi	r24, 0x7A	; 122
+  fc:	90 e0       	ldi	r25, 0x00	; 0
+  fe:	2a e7       	ldi	r18, 0x7A	; 122
+ 100:	30 e0       	ldi	r19, 0x00	; 0
+ 102:	f9 01       	movw	r30, r18
+ 104:	20 81       	ld	r18, Z
+ 106:	2f 7b       	andi	r18, 0xBF	; 191
+ 108:	fc 01       	movw	r30, r24
+ 10a:	20 83       	st	Z, r18
+	//while ( !(ADCSRA & (1<<ADIF)) ) {;} //wait for ADC to stop
+	if(     channel == ADC_CHANNEL_goalRPM) {ADMUX = ( (ADMUX & 0b11100000) | 0b00000101 ); } //ADC5 (single ended)
+ 10c:	89 81       	ldd	r24, Y+1	; 0x01
+ 10e:	88 23       	and	r24, r24
+ 110:	59 f4       	brne	.+22     	; 0x128 <adc_select_channel+0x3a>
+ 112:	8c e7       	ldi	r24, 0x7C	; 124
+ 114:	90 e0       	ldi	r25, 0x00	; 0
+ 116:	2c e7       	ldi	r18, 0x7C	; 124
+ 118:	30 e0       	ldi	r19, 0x00	; 0
+ 11a:	f9 01       	movw	r30, r18
+ 11c:	20 81       	ld	r18, Z
+ 11e:	20 7e       	andi	r18, 0xE0	; 224
+ 120:	25 60       	ori	r18, 0x05	; 5
+ 122:	fc 01       	movw	r30, r24
+ 124:	20 83       	st	Z, r18
+	else if(channel == ADC_CHANNEL_VCCDIV4) {ADMUX = ( (ADMUX & 0b11100000) | 0b00001100 ); } //VCC/4 (SE)
 	//JTS2do: add other channels here
-	ADCSRA |= (1<<ADSC); //enable free running mode
-  ea:	ea e7       	ldi	r30, 0x7A	; 122
-  ec:	f0 e0       	ldi	r31, 0x00	; 0
-  ee:	80 81       	ld	r24, Z
-  f0:	80 64       	ori	r24, 0x40	; 64
-  f2:	80 83       	st	Z, r24
-  f4:	08 95       	ret
-
-000000f6 <adc_init>:
+	//ADCSRA |= (1<<ADSC); //enable free running mode
 }
+ 126:	0d c0       	rjmp	.+26     	; 0x142 <adc_select_channel+0x54>
+{
+	//"The user is advised not to write new channel selection values during Free Running mode"
+	ADCSRA &= ~(1<<ADSC); //disable free running mode
+	//while ( !(ADCSRA & (1<<ADIF)) ) {;} //wait for ADC to stop
+	if(     channel == ADC_CHANNEL_goalRPM) {ADMUX = ( (ADMUX & 0b11100000) | 0b00000101 ); } //ADC5 (single ended)
+	else if(channel == ADC_CHANNEL_VCCDIV4) {ADMUX = ( (ADMUX & 0b11100000) | 0b00001100 ); } //VCC/4 (SE)
+ 128:	89 81       	ldd	r24, Y+1	; 0x01
+ 12a:	85 30       	cpi	r24, 0x05	; 5
+ 12c:	51 f4       	brne	.+20     	; 0x142 <adc_select_channel+0x54>
+ 12e:	8c e7       	ldi	r24, 0x7C	; 124
+ 130:	90 e0       	ldi	r25, 0x00	; 0
+ 132:	2c e7       	ldi	r18, 0x7C	; 124
+ 134:	30 e0       	ldi	r19, 0x00	; 0
+ 136:	f9 01       	movw	r30, r18
+ 138:	20 81       	ld	r18, Z
+ 13a:	20 7e       	andi	r18, 0xE0	; 224
+ 13c:	2c 60       	ori	r18, 0x0C	; 12
+ 13e:	fc 01       	movw	r30, r24
+ 140:	20 83       	st	Z, r18
+	//JTS2do: add other channels here
+	//ADCSRA |= (1<<ADSC); //enable free running mode
+}
+ 142:	00 00       	nop
+ 144:	0f 90       	pop	r0
+ 146:	df 91       	pop	r29
+ 148:	cf 91       	pop	r28
+ 14a:	08 95       	ret
+
+0000014c <adc_init>:
 
 
 void adc_init()
 {	
-  f6:	0f 93       	push	r16
-  f8:	1f 93       	push	r17
-  fa:	cf 93       	push	r28
-  fc:	df 93       	push	r29
-	DIDR0 = (1<<ADC5D);//JTS2do: disable digital logic on adc pins (to reduce power)(see DIDR0/DIDR1)
-  fe:	80 e2       	ldi	r24, 0x20	; 32
- 100:	80 93 7e 00 	sts	0x007E, r24	; 0x80007e <__TEXT_REGION_LENGTH__+0x7f007e>
+ 14c:	cf 93       	push	r28
+ 14e:	df 93       	push	r29
+ 150:	cd b7       	in	r28, 0x3d	; 61
+ 152:	de b7       	in	r29, 0x3e	; 62
+	DIDR0 = (1<<ADC5D);//disable digital logic on adc pin (to reduce power)(see DIDR0/DIDR1)
+ 154:	8e e7       	ldi	r24, 0x7E	; 126
+ 156:	90 e0       	ldi	r25, 0x00	; 0
+ 158:	20 e2       	ldi	r18, 0x20	; 32
+ 15a:	fc 01       	movw	r30, r24
+ 15c:	20 83       	st	Z, r18
 	PRR &= ~(1<<PRADC); //enable system clock to ADC.  This is default value, but just making sure ADC is on
- 104:	e4 e6       	ldi	r30, 0x64	; 100
- 106:	f0 e0       	ldi	r31, 0x00	; 0
- 108:	80 81       	ld	r24, Z
- 10a:	8e 7f       	andi	r24, 0xFE	; 254
- 10c:	80 83       	st	Z, r24
+ 15e:	84 e6       	ldi	r24, 0x64	; 100
+ 160:	90 e0       	ldi	r25, 0x00	; 0
+ 162:	24 e6       	ldi	r18, 0x64	; 100
+ 164:	30 e0       	ldi	r19, 0x00	; 0
+ 166:	f9 01       	movw	r30, r18
+ 168:	20 81       	ld	r18, Z
+ 16a:	2e 7f       	andi	r18, 0xFE	; 254
+ 16c:	fc 01       	movw	r30, r24
+ 16e:	20 83       	st	Z, r18
 	ADC_goalRPM_PORT &= ~(1<<ADC_goalRPM_BIT); //disable goalRPM pullup resistor
- 10e:	2a 98       	cbi	0x05, 2	; 5
+ 170:	85 e2       	ldi	r24, 0x25	; 37
+ 172:	90 e0       	ldi	r25, 0x00	; 0
+ 174:	25 e2       	ldi	r18, 0x25	; 37
+ 176:	30 e0       	ldi	r19, 0x00	; 0
+ 178:	f9 01       	movw	r30, r18
+ 17a:	20 81       	ld	r18, Z
+ 17c:	2b 7f       	andi	r18, 0xFB	; 251
+ 17e:	fc 01       	movw	r30, r24
+ 180:	20 83       	st	Z, r18
 
-	ADCSRA = 0; //reset to default valuess
- 110:	ca e7       	ldi	r28, 0x7A	; 122
- 112:	d0 e0       	ldi	r29, 0x00	; 0
- 114:	18 82       	st	Y, r1
-	ADCSRA |= 0b00000110; //ADPS: sets ADC clock to 16E6/64 = 250 kHz (max anecdotal supported is clock = 2 MHz).  Conversion takes 13 clock cycles, so ~19 kS/s.
- 116:	88 81       	ld	r24, Y
- 118:	86 60       	ori	r24, 0x06	; 6
- 11a:	88 83       	st	Y, r24
+	ADCSRA = 0; //reset to default values
+ 182:	8a e7       	ldi	r24, 0x7A	; 122
+ 184:	90 e0       	ldi	r25, 0x00	; 0
+ 186:	fc 01       	movw	r30, r24
+ 188:	10 82       	st	Z, r1
+	ADCSRA |= (1<<ADEN); //enable ADC subsystem (but doesn't actually start)
+ 18a:	8a e7       	ldi	r24, 0x7A	; 122
+ 18c:	90 e0       	ldi	r25, 0x00	; 0
+ 18e:	2a e7       	ldi	r18, 0x7A	; 122
+ 190:	30 e0       	ldi	r19, 0x00	; 0
+ 192:	f9 01       	movw	r30, r18
+ 194:	20 81       	ld	r18, Z
+ 196:	20 68       	ori	r18, 0x80	; 128
+ 198:	fc 01       	movw	r30, r24
+ 19a:	20 83       	st	Z, r18
+	ADCSRA |= 0b00000110; //ADPS: sets ADC clock to 16E6/64 = 250 kHz (max anecdotal supported is clock = 2 MHz).  Conversion takes 16 clock cycles, so ~15 kS/s.
+ 19c:	8a e7       	ldi	r24, 0x7A	; 122
+ 19e:	90 e0       	ldi	r25, 0x00	; 0
+ 1a0:	2a e7       	ldi	r18, 0x7A	; 122
+ 1a2:	30 e0       	ldi	r19, 0x00	; 0
+ 1a4:	f9 01       	movw	r30, r18
+ 1a6:	20 81       	ld	r18, Z
+ 1a8:	26 60       	ori	r18, 0x06	; 6
+ 1aa:	fc 01       	movw	r30, r24
+ 1ac:	20 83       	st	Z, r18
 	ADCSRA |= (1<<ADATE); //auto-trigger enable... ADC is just always digitizing.  When we want a value, we just grab the last one acquired
- 11c:	88 81       	ld	r24, Y
- 11e:	80 62       	ori	r24, 0x20	; 32
- 120:	88 83       	st	Y, r24
+ 1ae:	8a e7       	ldi	r24, 0x7A	; 122
+ 1b0:	90 e0       	ldi	r25, 0x00	; 0
+ 1b2:	2a e7       	ldi	r18, 0x7A	; 122
+ 1b4:	30 e0       	ldi	r19, 0x00	; 0
+ 1b6:	f9 01       	movw	r30, r18
+ 1b8:	20 81       	ld	r18, Z
+ 1ba:	20 62       	ori	r18, 0x20	; 32
+ 1bc:	fc 01       	movw	r30, r24
+ 1be:	20 83       	st	Z, r18
 		
 	ADCSRB = 0; //reset to default values
- 122:	eb e7       	ldi	r30, 0x7B	; 123
- 124:	f0 e0       	ldi	r31, 0x00	; 0
- 126:	10 82       	st	Z, r1
-	//ADCSRB |= (1<<ADHSM) //uncomment to enable high speed mode.  max ADC rate with this line commented out is 200 kHz 
+ 1c0:	8b e7       	ldi	r24, 0x7B	; 123
+ 1c2:	90 e0       	ldi	r25, 0x00	; 0
+ 1c4:	fc 01       	movw	r30, r24
+ 1c6:	10 82       	st	Z, r1
+	ADCSRB |= (1<<ADHSM); //uncomment to enable high speed mode.  max ADC rate with this line commented out is 200 kHz 
+ 1c8:	8b e7       	ldi	r24, 0x7B	; 123
+ 1ca:	90 e0       	ldi	r25, 0x00	; 0
+ 1cc:	2b e7       	ldi	r18, 0x7B	; 123
+ 1ce:	30 e0       	ldi	r19, 0x00	; 0
+ 1d0:	f9 01       	movw	r30, r18
+ 1d2:	20 81       	ld	r18, Z
+ 1d4:	20 68       	ori	r18, 0x80	; 128
+ 1d6:	fc 01       	movw	r30, r24
+ 1d8:	20 83       	st	Z, r18
 	ADCSRB |= (1<<AREFEN); //connect analog reference to external AREF pin (with capacitor)
- 128:	80 81       	ld	r24, Z
- 12a:	80 62       	ori	r24, 0x20	; 32
- 12c:	80 83       	st	Z, r24
+ 1da:	8b e7       	ldi	r24, 0x7B	; 123
+ 1dc:	90 e0       	ldi	r25, 0x00	; 0
+ 1de:	2b e7       	ldi	r18, 0x7B	; 123
+ 1e0:	30 e0       	ldi	r19, 0x00	; 0
+ 1e2:	f9 01       	movw	r30, r18
+ 1e4:	20 81       	ld	r18, Z
+ 1e6:	20 62       	ori	r18, 0x20	; 32
+ 1e8:	fc 01       	movw	r30, r24
+ 1ea:	20 83       	st	Z, r18
 	//ADCSRB 3:0 sets auto-trigger source selection bits 0b0000 is "free running mode", which we're using for now
 
 	
 	ADMUX = 0; //reset 
- 12e:	0c e7       	ldi	r16, 0x7C	; 124
- 130:	10 e0       	ldi	r17, 0x00	; 0
- 132:	f8 01       	movw	r30, r16
- 134:	10 82       	st	Z, r1
+ 1ec:	8c e7       	ldi	r24, 0x7C	; 124
+ 1ee:	90 e0       	ldi	r25, 0x00	; 0
+ 1f0:	fc 01       	movw	r30, r24
+ 1f2:	10 82       	st	Z, r1
 	adc_select_vref(VREF_EXT_AVCC);  //modifies ADMUX, so needs to happen after "ADMUX=0;"
- 136:	80 e0       	ldi	r24, 0x00	; 0
- 138:	0e 94 4a 00 	call	0x94	; 0x94 <adc_select_vref>
+ 1f4:	80 e0       	ldi	r24, 0x00	; 0
+ 1f6:	0e 94 4a 00 	call	0x94	; 0x94 <adc_select_vref>
+	adc_select_channel(ADC_CHANNEL_goalRPM); // "always select a channel before starting the first conversion"
+ 1fa:	80 e0       	ldi	r24, 0x00	; 0
+ 1fc:	0e 94 77 00 	call	0xee	; 0xee <adc_select_channel>
 	ADMUX |= (1<<ADLAR); //left adjust ADC result, so that upper 8 bits are in ADCH
- 13c:	f8 01       	movw	r30, r16
- 13e:	80 81       	ld	r24, Z
- 140:	80 62       	ori	r24, 0x20	; 32
- 142:	80 83       	st	Z, r24
+ 200:	8c e7       	ldi	r24, 0x7C	; 124
+ 202:	90 e0       	ldi	r25, 0x00	; 0
+ 204:	2c e7       	ldi	r18, 0x7C	; 124
+ 206:	30 e0       	ldi	r19, 0x00	; 0
+ 208:	f9 01       	movw	r30, r18
+ 20a:	20 81       	ld	r18, Z
+ 20c:	20 62       	ori	r18, 0x20	; 32
+ 20e:	fc 01       	movw	r30, r24
+ 210:	20 83       	st	Z, r18
 
-	ADCSRA |= (1<<ADEN); //enable ADC (but doesn't actually start)
- 144:	88 81       	ld	r24, Y
- 146:	80 68       	ori	r24, 0x80	; 128
- 148:	88 83       	st	Y, r24
+
 	ADCSRA |= (1<<ADSC); //start ADC conversion (since we're free running, we only need to set bit once)
- 14a:	88 81       	ld	r24, Y
- 14c:	80 64       	ori	r24, 0x40	; 64
- 14e:	88 83       	st	Y, r24
+ 212:	8a e7       	ldi	r24, 0x7A	; 122
+ 214:	90 e0       	ldi	r25, 0x00	; 0
+ 216:	2a e7       	ldi	r18, 0x7A	; 122
+ 218:	30 e0       	ldi	r19, 0x00	; 0
+ 21a:	f9 01       	movw	r30, r18
+ 21c:	20 81       	ld	r18, Z
+ 21e:	20 64       	ori	r18, 0x40	; 64
+ 220:	fc 01       	movw	r30, r24
+ 222:	20 83       	st	Z, r18
 }
- 150:	df 91       	pop	r29
- 152:	cf 91       	pop	r28
- 154:	1f 91       	pop	r17
- 156:	0f 91       	pop	r16
- 158:	08 95       	ret
+ 224:	00 00       	nop
+ 226:	df 91       	pop	r29
+ 228:	cf 91       	pop	r28
+ 22a:	08 95       	ret
 
-0000015a <atmel_start_init>:
- 15a:	0e 94 56 01 	call	0x2ac	; 0x2ac <system_init>
- 15e:	08 95       	ret
+0000022c <adc_read_latest>:
 
-00000160 <phase_init>:
+//returns the latest measurement (8 bits for now)
+uint8_t adc_read_latest()
+{
+ 22c:	cf 93       	push	r28
+ 22e:	df 93       	push	r29
+ 230:	1f 92       	push	r1
+ 232:	cd b7       	in	r28, 0x3d	; 61
+ 234:	de b7       	in	r29, 0x3e	; 62
+	uint8_t adc_result = 0;
+ 236:	19 82       	std	Y+1, r1	; 0x01
+	adc_result = ADCH; //high byte ADC result
+ 238:	89 e7       	ldi	r24, 0x79	; 121
+ 23a:	90 e0       	ldi	r25, 0x00	; 0
+ 23c:	fc 01       	movw	r30, r24
+ 23e:	80 81       	ld	r24, Z
+ 240:	89 83       	std	Y+1, r24	; 0x01
+	return adc_result; //only 8 MSBs returned (2 LSBs in ADCL not read).  Search ADLAR to enable 10b (and note this requires two register reads, etc)
+ 242:	89 81       	ldd	r24, Y+1	; 0x01
+ 244:	0f 90       	pop	r0
+ 246:	df 91       	pop	r29
+ 248:	cf 91       	pop	r28
+ 24a:	08 95       	ret
+
+0000024c <atmel_start_init>:
+
+/**
+ * Initializes MCU, drivers and middleware in the project
+ **/
+void atmel_start_init(void)
+{
+ 24c:	cf 93       	push	r28
+ 24e:	df 93       	push	r29
+ 250:	cd b7       	in	r28, 0x3d	; 61
+ 252:	de b7       	in	r29, 0x3e	; 62
+	system_init();
+ 254:	0e 94 90 04 	call	0x920	; 0x920 <system_init>
 }
+ 258:	00 00       	nop
+ 25a:	df 91       	pop	r29
+ 25c:	cf 91       	pop	r28
+ 25e:	08 95       	ret
+
+00000260 <hall_init>:
+#define FET_PORTC_MASK (1<<FET_B_HIGH_BIT)
+#define FET_PORTD_MASK (1<<FET_A_HIGH_BIT)
+
+
+void hall_init()
+{
+ 260:	cf 93       	push	r28
+ 262:	df 93       	push	r29
+ 264:	cd b7       	in	r28, 0x3d	; 61
+ 266:	de b7       	in	r29, 0x3e	; 62
+	//need to set pins to input, no pullup (this is default behavior, so ignoring for now)
+}
+ 268:	00 00       	nop
+ 26a:	df 91       	pop	r29
+ 26c:	cf 91       	pop	r28
+ 26e:	08 95       	ret
+
+00000270 <phase_init>:
 
 void phase_init()
 {
+ 270:	cf 93       	push	r28
+ 272:	df 93       	push	r29
+ 274:	cd b7       	in	r28, 0x3d	; 61
+ 276:	de b7       	in	r29, 0x3e	; 62
 	//Pull enable pin high
 	BLDC_ENABLE_DDR |= BLDC_ENABLE_MASK; //configure as output
- 160:	24 9a       	sbi	0x04, 4	; 4
+ 278:	84 e2       	ldi	r24, 0x24	; 36
+ 27a:	90 e0       	ldi	r25, 0x00	; 0
+ 27c:	24 e2       	ldi	r18, 0x24	; 36
+ 27e:	30 e0       	ldi	r19, 0x00	; 0
+ 280:	f9 01       	movw	r30, r18
+ 282:	20 81       	ld	r18, Z
+ 284:	20 61       	ori	r18, 0x10	; 16
+ 286:	fc 01       	movw	r30, r24
+ 288:	20 83       	st	Z, r18
 	BLDC_ENABLE_PORT |= BLDC_ENABLE_MASK; //set pin high
- 162:	2c 9a       	sbi	0x05, 4	; 5
+ 28a:	85 e2       	ldi	r24, 0x25	; 37
+ 28c:	90 e0       	ldi	r25, 0x00	; 0
+ 28e:	25 e2       	ldi	r18, 0x25	; 37
+ 290:	30 e0       	ldi	r19, 0x00	; 0
+ 292:	f9 01       	movw	r30, r18
+ 294:	20 81       	ld	r18, Z
+ 296:	20 61       	ori	r18, 0x10	; 16
+ 298:	fc 01       	movw	r30, r24
+ 29a:	20 83       	st	Z, r18
 	
 	//configure phases as output
 	DDRB |= FET_PORTB_MASK;
- 164:	84 b1       	in	r24, 0x04	; 4
- 166:	83 6c       	ori	r24, 0xC3	; 195
- 168:	84 b9       	out	0x04, r24	; 4
+ 29c:	84 e2       	ldi	r24, 0x24	; 36
+ 29e:	90 e0       	ldi	r25, 0x00	; 0
+ 2a0:	24 e2       	ldi	r18, 0x24	; 36
+ 2a2:	30 e0       	ldi	r19, 0x00	; 0
+ 2a4:	f9 01       	movw	r30, r18
+ 2a6:	20 81       	ld	r18, Z
+ 2a8:	23 6c       	ori	r18, 0xC3	; 195
+ 2aa:	fc 01       	movw	r30, r24
+ 2ac:	20 83       	st	Z, r18
 	DDRC |= FET_PORTC_MASK;
- 16a:	38 9a       	sbi	0x07, 0	; 7
+ 2ae:	87 e2       	ldi	r24, 0x27	; 39
+ 2b0:	90 e0       	ldi	r25, 0x00	; 0
+ 2b2:	27 e2       	ldi	r18, 0x27	; 39
+ 2b4:	30 e0       	ldi	r19, 0x00	; 0
+ 2b6:	f9 01       	movw	r30, r18
+ 2b8:	20 81       	ld	r18, Z
+ 2ba:	21 60       	ori	r18, 0x01	; 1
+ 2bc:	fc 01       	movw	r30, r24
+ 2be:	20 83       	st	Z, r18
 	DDRD |= FET_PORTD_MASK;
- 16c:	50 9a       	sbi	0x0a, 0	; 10
+ 2c0:	8a e2       	ldi	r24, 0x2A	; 42
+ 2c2:	90 e0       	ldi	r25, 0x00	; 0
+ 2c4:	2a e2       	ldi	r18, 0x2A	; 42
+ 2c6:	30 e0       	ldi	r19, 0x00	; 0
+ 2c8:	f9 01       	movw	r30, r18
+ 2ca:	20 81       	ld	r18, Z
+ 2cc:	21 60       	ori	r18, 0x01	; 1
+ 2ce:	fc 01       	movw	r30, r24
+ 2d0:	20 83       	st	Z, r18
 	
 	//set pins low
 	PORTB &= ~(FET_PORTB_MASK);
- 16e:	85 b1       	in	r24, 0x05	; 5
- 170:	8c 73       	andi	r24, 0x3C	; 60
- 172:	85 b9       	out	0x05, r24	; 5
+ 2d2:	85 e2       	ldi	r24, 0x25	; 37
+ 2d4:	90 e0       	ldi	r25, 0x00	; 0
+ 2d6:	25 e2       	ldi	r18, 0x25	; 37
+ 2d8:	30 e0       	ldi	r19, 0x00	; 0
+ 2da:	f9 01       	movw	r30, r18
+ 2dc:	20 81       	ld	r18, Z
+ 2de:	2c 73       	andi	r18, 0x3C	; 60
+ 2e0:	fc 01       	movw	r30, r24
+ 2e2:	20 83       	st	Z, r18
 	PORTC &= ~(FET_PORTB_MASK);
- 174:	88 b1       	in	r24, 0x08	; 8
- 176:	8c 73       	andi	r24, 0x3C	; 60
- 178:	88 b9       	out	0x08, r24	; 8
+ 2e4:	88 e2       	ldi	r24, 0x28	; 40
+ 2e6:	90 e0       	ldi	r25, 0x00	; 0
+ 2e8:	28 e2       	ldi	r18, 0x28	; 40
+ 2ea:	30 e0       	ldi	r19, 0x00	; 0
+ 2ec:	f9 01       	movw	r30, r18
+ 2ee:	20 81       	ld	r18, Z
+ 2f0:	2c 73       	andi	r18, 0x3C	; 60
+ 2f2:	fc 01       	movw	r30, r24
+ 2f4:	20 83       	st	Z, r18
 	PORTD &= ~(FET_PORTB_MASK);
- 17a:	8b b1       	in	r24, 0x0b	; 11
- 17c:	8c 73       	andi	r24, 0x3C	; 60
- 17e:	8b b9       	out	0x0b, r24	; 11
+ 2f6:	8b e2       	ldi	r24, 0x2B	; 43
+ 2f8:	90 e0       	ldi	r25, 0x00	; 0
+ 2fa:	2b e2       	ldi	r18, 0x2B	; 43
+ 2fc:	30 e0       	ldi	r19, 0x00	; 0
+ 2fe:	f9 01       	movw	r30, r18
+ 300:	20 81       	ld	r18, Z
+ 302:	2c 73       	andi	r18, 0x3C	; 60
+ 304:	fc 01       	movw	r30, r24
+ 306:	20 83       	st	Z, r18
 	
 	//debug (X1LIMIT)
 	DDRD |= (1<<3); //debug set to output
- 180:	53 9a       	sbi	0x0a, 3	; 10
+ 308:	8a e2       	ldi	r24, 0x2A	; 42
+ 30a:	90 e0       	ldi	r25, 0x00	; 0
+ 30c:	2a e2       	ldi	r18, 0x2A	; 42
+ 30e:	30 e0       	ldi	r19, 0x00	; 0
+ 310:	f9 01       	movw	r30, r18
+ 312:	20 81       	ld	r18, Z
+ 314:	28 60       	ori	r18, 0x08	; 8
+ 316:	fc 01       	movw	r30, r24
+ 318:	20 83       	st	Z, r18
 	PORTD |= (1<<3); //debug set X1LIMIT (PD3) low (so we can toggle when errors)
- 182:	5b 9a       	sbi	0x0b, 3	; 11
- 184:	08 95       	ret
-
-00000186 <get_hall_logic>:
-
-uint8_t get_hall_logic()
-{
-	
-	uint8_t temp = 0; //reset state to zero
-	if ( (Hall_A_PIN & Hall_A_MASK) ) { temp |= (1<<HALL_A_LOGIC_BIT); }
- 186:	49 9b       	sbis	0x09, 1	; 9
- 188:	02 c0       	rjmp	.+4      	; 0x18e <get_hall_logic+0x8>
- 18a:	84 e0       	ldi	r24, 0x04	; 4
- 18c:	01 c0       	rjmp	.+2      	; 0x190 <get_hall_logic+0xa>
+ 31a:	8b e2       	ldi	r24, 0x2B	; 43
+ 31c:	90 e0       	ldi	r25, 0x00	; 0
+ 31e:	2b e2       	ldi	r18, 0x2B	; 43
+ 320:	30 e0       	ldi	r19, 0x00	; 0
+ 322:	f9 01       	movw	r30, r18
+ 324:	20 81       	ld	r18, Z
+ 326:	28 60       	ori	r18, 0x08	; 8
+ 328:	fc 01       	movw	r30, r24
+ 32a:	20 83       	st	Z, r18
 }
+ 32c:	00 00       	nop
+ 32e:	df 91       	pop	r29
+ 330:	cf 91       	pop	r28
+ 332:	08 95       	ret
+
+00000334 <get_hall_logic>:
 
 uint8_t get_hall_logic()
 {
+ 334:	cf 93       	push	r28
+ 336:	df 93       	push	r29
+ 338:	1f 92       	push	r1
+ 33a:	cd b7       	in	r28, 0x3d	; 61
+ 33c:	de b7       	in	r29, 0x3e	; 62
 	
 	uint8_t temp = 0; //reset state to zero
- 18e:	80 e0       	ldi	r24, 0x00	; 0
+ 33e:	19 82       	std	Y+1, r1	; 0x01
 	if ( (Hall_A_PIN & Hall_A_MASK) ) { temp |= (1<<HALL_A_LOGIC_BIT); }
+ 340:	89 e2       	ldi	r24, 0x29	; 41
+ 342:	90 e0       	ldi	r25, 0x00	; 0
+ 344:	fc 01       	movw	r30, r24
+ 346:	80 81       	ld	r24, Z
+ 348:	88 2f       	mov	r24, r24
+ 34a:	90 e0       	ldi	r25, 0x00	; 0
+ 34c:	82 70       	andi	r24, 0x02	; 2
+ 34e:	99 27       	eor	r25, r25
+ 350:	89 2b       	or	r24, r25
+ 352:	19 f0       	breq	.+6      	; 0x35a <get_hall_logic+0x26>
+ 354:	89 81       	ldd	r24, Y+1	; 0x01
+ 356:	84 60       	ori	r24, 0x04	; 4
+ 358:	89 83       	std	Y+1, r24	; 0x01
 	if ( (Hall_B_PIN & Hall_B_MASK) ) { temp |= (1<<HALL_B_LOGIC_BIT); }
- 190:	31 99       	sbic	0x06, 1	; 6
- 192:	82 60       	ori	r24, 0x02	; 2
+ 35a:	86 e2       	ldi	r24, 0x26	; 38
+ 35c:	90 e0       	ldi	r25, 0x00	; 0
+ 35e:	fc 01       	movw	r30, r24
+ 360:	80 81       	ld	r24, Z
+ 362:	88 2f       	mov	r24, r24
+ 364:	90 e0       	ldi	r25, 0x00	; 0
+ 366:	82 70       	andi	r24, 0x02	; 2
+ 368:	99 27       	eor	r25, r25
+ 36a:	89 2b       	or	r24, r25
+ 36c:	19 f0       	breq	.+6      	; 0x374 <get_hall_logic+0x40>
+ 36e:	89 81       	ldd	r24, Y+1	; 0x01
+ 370:	82 60       	ori	r24, 0x02	; 2
+ 372:	89 83       	std	Y+1, r24	; 0x01
 	if ( (Hall_C_PIN & Hall_C_MASK) ) { temp |= (1<<HALL_C_LOGIC_BIT); }
- 194:	4a 99       	sbic	0x09, 2	; 9
- 196:	81 60       	ori	r24, 0x01	; 1
+ 374:	89 e2       	ldi	r24, 0x29	; 41
+ 376:	90 e0       	ldi	r25, 0x00	; 0
+ 378:	fc 01       	movw	r30, r24
+ 37a:	80 81       	ld	r24, Z
+ 37c:	88 2f       	mov	r24, r24
+ 37e:	90 e0       	ldi	r25, 0x00	; 0
+ 380:	84 70       	andi	r24, 0x04	; 4
+ 382:	99 27       	eor	r25, r25
+ 384:	89 2b       	or	r24, r25
+ 386:	19 f0       	breq	.+6      	; 0x38e <get_hall_logic+0x5a>
+ 388:	89 81       	ldd	r24, Y+1	; 0x01
+ 38a:	81 60       	ori	r24, 0x01	; 1
+ 38c:	89 83       	std	Y+1, r24	; 0x01
 	return temp;
+ 38e:	89 81       	ldd	r24, Y+1	; 0x01
 }
- 198:	08 95       	ret
+ 390:	0f 90       	pop	r0
+ 392:	df 91       	pop	r29
+ 394:	cf 91       	pop	r28
+ 396:	08 95       	ret
 
-0000019a <set_phase>:
+00000398 <set_phase>:
 
 
 void set_phase(char phase, char set_output_to)
 {
+ 398:	cf 93       	push	r28
+ 39a:	df 93       	push	r29
+ 39c:	00 d0       	rcall	.+0      	; 0x39e <set_phase+0x6>
+ 39e:	cd b7       	in	r28, 0x3d	; 61
+ 3a0:	de b7       	in	r29, 0x3e	; 62
+ 3a2:	89 83       	std	Y+1, r24	; 0x01
+ 3a4:	6a 83       	std	Y+2, r22	; 0x02
 	switch (phase) {
- 19a:	82 34       	cpi	r24, 0x42	; 66
- 19c:	99 f0       	breq	.+38     	; 0x1c4 <set_phase+0x2a>
- 19e:	83 34       	cpi	r24, 0x43	; 67
- 1a0:	01 f1       	breq	.+64     	; 0x1e2 <set_phase+0x48>
- 1a2:	81 34       	cpi	r24, 0x41	; 65
- 1a4:	61 f5       	brne	.+88     	; 0x1fe <set_phase+0x64>
+ 3a6:	89 81       	ldd	r24, Y+1	; 0x01
+ 3a8:	88 2f       	mov	r24, r24
+ 3aa:	90 e0       	ldi	r25, 0x00	; 0
+ 3ac:	82 34       	cpi	r24, 0x42	; 66
+ 3ae:	91 05       	cpc	r25, r1
+ 3b0:	09 f4       	brne	.+2      	; 0x3b4 <set_phase+0x1c>
+ 3b2:	4f c0       	rjmp	.+158    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+ 3b4:	83 34       	cpi	r24, 0x43	; 67
+ 3b6:	91 05       	cpc	r25, r1
+ 3b8:	09 f4       	brne	.+2      	; 0x3bc <set_phase+0x24>
+ 3ba:	92 c0       	rjmp	.+292    	; 0x4e0 <__LOCK_REGION_LENGTH__+0xe0>
+ 3bc:	81 34       	cpi	r24, 0x41	; 65
+ 3be:	91 05       	cpc	r25, r1
+ 3c0:	09 f0       	breq	.+2      	; 0x3c4 <set_phase+0x2c>
+					break;
+			}				
+			break;
+		
+		default:
+			break;
+ 3c2:	d5 c0       	rjmp	.+426    	; 0x56e <__LOCK_REGION_LENGTH__+0x16e>
+void set_phase(char phase, char set_output_to)
+{
+	switch (phase) {
 		case 'A':
 			//PIND |= (1<<3);			
 			switch (set_output_to) {
- 1a6:	6c 34       	cpi	r22, 0x4C	; 76
- 1a8:	39 f0       	breq	.+14     	; 0x1b8 <set_phase+0x1e>
- 1aa:	6a 35       	cpi	r22, 0x5A	; 90
- 1ac:	41 f0       	breq	.+16     	; 0x1be <set_phase+0x24>
- 1ae:	68 34       	cpi	r22, 0x48	; 72
- 1b0:	31 f5       	brne	.+76     	; 0x1fe <set_phase+0x64>
-				case 'H':
-					FET_A_LOW_PORT &= ~(1<<FET_A_LOW_BIT);//turn low FET off
- 1b2:	2f 98       	cbi	0x05, 7	; 5
-					FET_A_HIGH_PORT |= (1<<FET_A_HIGH_BIT);//turn high FET on
- 1b4:	58 9a       	sbi	0x0b, 0	; 11
-					break;
- 1b6:	08 95       	ret
-				case 'L':
-					FET_A_HIGH_PORT &= ~(1<<FET_A_HIGH_BIT);//turn high FET off
- 1b8:	58 98       	cbi	0x0b, 0	; 11
-					FET_A_LOW_PORT |= (1<<FET_A_LOW_BIT);//turn low FET on
- 1ba:	2f 9a       	sbi	0x05, 7	; 5
-					break;
- 1bc:	08 95       	ret
+ 3c4:	8a 81       	ldd	r24, Y+2	; 0x02
+ 3c6:	88 2f       	mov	r24, r24
+ 3c8:	90 e0       	ldi	r25, 0x00	; 0
+ 3ca:	8c 34       	cpi	r24, 0x4C	; 76
+ 3cc:	91 05       	cpc	r25, r1
+ 3ce:	d1 f0       	breq	.+52     	; 0x404 <__LOCK_REGION_LENGTH__+0x4>
+ 3d0:	8a 35       	cpi	r24, 0x5A	; 90
+ 3d2:	91 05       	cpc	r25, r1
+ 3d4:	51 f1       	breq	.+84     	; 0x42a <__LOCK_REGION_LENGTH__+0x2a>
+ 3d6:	88 34       	cpi	r24, 0x48	; 72
+ 3d8:	91 05       	cpc	r25, r1
+ 3da:	09 f0       	breq	.+2      	; 0x3de <set_phase+0x46>
 				case 'Z':
 					FET_A_HIGH_PORT &= ~(1<<FET_A_HIGH_BIT);//turn both FETs off
- 1be:	58 98       	cbi	0x0b, 0	; 11
 					FET_A_LOW_PORT &= ~(1<<FET_A_LOW_BIT);
- 1c0:	2f 98       	cbi	0x05, 7	; 5
 					break;
- 1c2:	08 95       	ret
+				default: 
+					break;
+ 3dc:	39 c0       	rjmp	.+114    	; 0x450 <__LOCK_REGION_LENGTH__+0x50>
+	switch (phase) {
+		case 'A':
+			//PIND |= (1<<3);			
+			switch (set_output_to) {
+				case 'H':
+					FET_A_LOW_PORT &= ~(1<<FET_A_LOW_BIT);//turn low FET off
+ 3de:	85 e2       	ldi	r24, 0x25	; 37
+ 3e0:	90 e0       	ldi	r25, 0x00	; 0
+ 3e2:	25 e2       	ldi	r18, 0x25	; 37
+ 3e4:	30 e0       	ldi	r19, 0x00	; 0
+ 3e6:	f9 01       	movw	r30, r18
+ 3e8:	20 81       	ld	r18, Z
+ 3ea:	2f 77       	andi	r18, 0x7F	; 127
+ 3ec:	fc 01       	movw	r30, r24
+ 3ee:	20 83       	st	Z, r18
+					FET_A_HIGH_PORT |= (1<<FET_A_HIGH_BIT);//turn high FET on
+ 3f0:	8b e2       	ldi	r24, 0x2B	; 43
+ 3f2:	90 e0       	ldi	r25, 0x00	; 0
+ 3f4:	2b e2       	ldi	r18, 0x2B	; 43
+ 3f6:	30 e0       	ldi	r19, 0x00	; 0
+ 3f8:	f9 01       	movw	r30, r18
+ 3fa:	20 81       	ld	r18, Z
+ 3fc:	21 60       	ori	r18, 0x01	; 1
+ 3fe:	fc 01       	movw	r30, r24
+ 400:	20 83       	st	Z, r18
+					break;
+ 402:	26 c0       	rjmp	.+76     	; 0x450 <__LOCK_REGION_LENGTH__+0x50>
+				case 'L':
+					FET_A_HIGH_PORT &= ~(1<<FET_A_HIGH_BIT);//turn high FET off
+ 404:	8b e2       	ldi	r24, 0x2B	; 43
+ 406:	90 e0       	ldi	r25, 0x00	; 0
+ 408:	2b e2       	ldi	r18, 0x2B	; 43
+ 40a:	30 e0       	ldi	r19, 0x00	; 0
+ 40c:	f9 01       	movw	r30, r18
+ 40e:	20 81       	ld	r18, Z
+ 410:	2e 7f       	andi	r18, 0xFE	; 254
+ 412:	fc 01       	movw	r30, r24
+ 414:	20 83       	st	Z, r18
+					FET_A_LOW_PORT |= (1<<FET_A_LOW_BIT);//turn low FET on
+ 416:	85 e2       	ldi	r24, 0x25	; 37
+ 418:	90 e0       	ldi	r25, 0x00	; 0
+ 41a:	25 e2       	ldi	r18, 0x25	; 37
+ 41c:	30 e0       	ldi	r19, 0x00	; 0
+ 41e:	f9 01       	movw	r30, r18
+ 420:	20 81       	ld	r18, Z
+ 422:	20 68       	ori	r18, 0x80	; 128
+ 424:	fc 01       	movw	r30, r24
+ 426:	20 83       	st	Z, r18
+					break;
+ 428:	13 c0       	rjmp	.+38     	; 0x450 <__LOCK_REGION_LENGTH__+0x50>
+				case 'Z':
+					FET_A_HIGH_PORT &= ~(1<<FET_A_HIGH_BIT);//turn both FETs off
+ 42a:	8b e2       	ldi	r24, 0x2B	; 43
+ 42c:	90 e0       	ldi	r25, 0x00	; 0
+ 42e:	2b e2       	ldi	r18, 0x2B	; 43
+ 430:	30 e0       	ldi	r19, 0x00	; 0
+ 432:	f9 01       	movw	r30, r18
+ 434:	20 81       	ld	r18, Z
+ 436:	2e 7f       	andi	r18, 0xFE	; 254
+ 438:	fc 01       	movw	r30, r24
+ 43a:	20 83       	st	Z, r18
+					FET_A_LOW_PORT &= ~(1<<FET_A_LOW_BIT);
+ 43c:	85 e2       	ldi	r24, 0x25	; 37
+ 43e:	90 e0       	ldi	r25, 0x00	; 0
+ 440:	25 e2       	ldi	r18, 0x25	; 37
+ 442:	30 e0       	ldi	r19, 0x00	; 0
+ 444:	f9 01       	movw	r30, r18
+ 446:	20 81       	ld	r18, Z
+ 448:	2f 77       	andi	r18, 0x7F	; 127
+ 44a:	fc 01       	movw	r30, r24
+ 44c:	20 83       	st	Z, r18
+					break;
+ 44e:	00 00       	nop
+				default: 
 					break;
 			}
+			break;
+ 450:	8e c0       	rjmp	.+284    	; 0x56e <__LOCK_REGION_LENGTH__+0x16e>
+			
+		case 'B':
+			switch (set_output_to) {
+ 452:	8a 81       	ldd	r24, Y+2	; 0x02
+ 454:	88 2f       	mov	r24, r24
+ 456:	90 e0       	ldi	r25, 0x00	; 0
+ 458:	8c 34       	cpi	r24, 0x4C	; 76
+ 45a:	91 05       	cpc	r25, r1
+ 45c:	d1 f0       	breq	.+52     	; 0x492 <__LOCK_REGION_LENGTH__+0x92>
+ 45e:	8a 35       	cpi	r24, 0x5A	; 90
+ 460:	91 05       	cpc	r25, r1
+ 462:	51 f1       	breq	.+84     	; 0x4b8 <__LOCK_REGION_LENGTH__+0xb8>
+ 464:	88 34       	cpi	r24, 0x48	; 72
+ 466:	91 05       	cpc	r25, r1
+ 468:	09 f0       	breq	.+2      	; 0x46c <__LOCK_REGION_LENGTH__+0x6c>
+				case 'Z':
+					FET_B_HIGH_PORT &= ~(1<<FET_B_HIGH_BIT);//turn both FETs off
+					FET_B_LOW_PORT &= ~(1<<FET_B_LOW_BIT);
+					break;
+				default: 
+					break;
+ 46a:	39 c0       	rjmp	.+114    	; 0x4de <__LOCK_REGION_LENGTH__+0xde>
 			break;
 			
 		case 'B':
 			switch (set_output_to) {
- 1c4:	6c 34       	cpi	r22, 0x4C	; 76
- 1c6:	39 f0       	breq	.+14     	; 0x1d6 <set_phase+0x3c>
- 1c8:	6a 35       	cpi	r22, 0x5A	; 90
- 1ca:	41 f0       	breq	.+16     	; 0x1dc <set_phase+0x42>
- 1cc:	68 34       	cpi	r22, 0x48	; 72
- 1ce:	b9 f4       	brne	.+46     	; 0x1fe <set_phase+0x64>
 				case 'H':
 					FET_B_LOW_PORT &= ~(1<<FET_B_LOW_BIT);//turn low FET off
- 1d0:	2e 98       	cbi	0x05, 6	; 5
+ 46c:	85 e2       	ldi	r24, 0x25	; 37
+ 46e:	90 e0       	ldi	r25, 0x00	; 0
+ 470:	25 e2       	ldi	r18, 0x25	; 37
+ 472:	30 e0       	ldi	r19, 0x00	; 0
+ 474:	f9 01       	movw	r30, r18
+ 476:	20 81       	ld	r18, Z
+ 478:	2f 7b       	andi	r18, 0xBF	; 191
+ 47a:	fc 01       	movw	r30, r24
+ 47c:	20 83       	st	Z, r18
 					FET_B_HIGH_PORT |= (1<<FET_B_HIGH_BIT);//turn high FET on
- 1d2:	40 9a       	sbi	0x08, 0	; 8
+ 47e:	88 e2       	ldi	r24, 0x28	; 40
+ 480:	90 e0       	ldi	r25, 0x00	; 0
+ 482:	28 e2       	ldi	r18, 0x28	; 40
+ 484:	30 e0       	ldi	r19, 0x00	; 0
+ 486:	f9 01       	movw	r30, r18
+ 488:	20 81       	ld	r18, Z
+ 48a:	21 60       	ori	r18, 0x01	; 1
+ 48c:	fc 01       	movw	r30, r24
+ 48e:	20 83       	st	Z, r18
 					break;
- 1d4:	08 95       	ret
+ 490:	26 c0       	rjmp	.+76     	; 0x4de <__LOCK_REGION_LENGTH__+0xde>
 				case 'L':
 					FET_B_HIGH_PORT &= ~(1<<FET_B_HIGH_BIT);//turn high FET off
- 1d6:	40 98       	cbi	0x08, 0	; 8
+ 492:	88 e2       	ldi	r24, 0x28	; 40
+ 494:	90 e0       	ldi	r25, 0x00	; 0
+ 496:	28 e2       	ldi	r18, 0x28	; 40
+ 498:	30 e0       	ldi	r19, 0x00	; 0
+ 49a:	f9 01       	movw	r30, r18
+ 49c:	20 81       	ld	r18, Z
+ 49e:	2e 7f       	andi	r18, 0xFE	; 254
+ 4a0:	fc 01       	movw	r30, r24
+ 4a2:	20 83       	st	Z, r18
 					FET_B_LOW_PORT |= (1<<FET_B_LOW_BIT);//turn low FET on
- 1d8:	2e 9a       	sbi	0x05, 6	; 5
+ 4a4:	85 e2       	ldi	r24, 0x25	; 37
+ 4a6:	90 e0       	ldi	r25, 0x00	; 0
+ 4a8:	25 e2       	ldi	r18, 0x25	; 37
+ 4aa:	30 e0       	ldi	r19, 0x00	; 0
+ 4ac:	f9 01       	movw	r30, r18
+ 4ae:	20 81       	ld	r18, Z
+ 4b0:	20 64       	ori	r18, 0x40	; 64
+ 4b2:	fc 01       	movw	r30, r24
+ 4b4:	20 83       	st	Z, r18
 					break;
- 1da:	08 95       	ret
+ 4b6:	13 c0       	rjmp	.+38     	; 0x4de <__LOCK_REGION_LENGTH__+0xde>
 				case 'Z':
 					FET_B_HIGH_PORT &= ~(1<<FET_B_HIGH_BIT);//turn both FETs off
- 1dc:	40 98       	cbi	0x08, 0	; 8
+ 4b8:	88 e2       	ldi	r24, 0x28	; 40
+ 4ba:	90 e0       	ldi	r25, 0x00	; 0
+ 4bc:	28 e2       	ldi	r18, 0x28	; 40
+ 4be:	30 e0       	ldi	r19, 0x00	; 0
+ 4c0:	f9 01       	movw	r30, r18
+ 4c2:	20 81       	ld	r18, Z
+ 4c4:	2e 7f       	andi	r18, 0xFE	; 254
+ 4c6:	fc 01       	movw	r30, r24
+ 4c8:	20 83       	st	Z, r18
 					FET_B_LOW_PORT &= ~(1<<FET_B_LOW_BIT);
- 1de:	2e 98       	cbi	0x05, 6	; 5
+ 4ca:	85 e2       	ldi	r24, 0x25	; 37
+ 4cc:	90 e0       	ldi	r25, 0x00	; 0
+ 4ce:	25 e2       	ldi	r18, 0x25	; 37
+ 4d0:	30 e0       	ldi	r19, 0x00	; 0
+ 4d2:	f9 01       	movw	r30, r18
+ 4d4:	20 81       	ld	r18, Z
+ 4d6:	2f 7b       	andi	r18, 0xBF	; 191
+ 4d8:	fc 01       	movw	r30, r24
+ 4da:	20 83       	st	Z, r18
 					break;
- 1e0:	08 95       	ret
+ 4dc:	00 00       	nop
+				default: 
 					break;
 			}			
+			break;
+ 4de:	47 c0       	rjmp	.+142    	; 0x56e <__LOCK_REGION_LENGTH__+0x16e>
+			
+		case 'C':			
+			switch (set_output_to) {
+ 4e0:	8a 81       	ldd	r24, Y+2	; 0x02
+ 4e2:	88 2f       	mov	r24, r24
+ 4e4:	90 e0       	ldi	r25, 0x00	; 0
+ 4e6:	8c 34       	cpi	r24, 0x4C	; 76
+ 4e8:	91 05       	cpc	r25, r1
+ 4ea:	d1 f0       	breq	.+52     	; 0x520 <__LOCK_REGION_LENGTH__+0x120>
+ 4ec:	8a 35       	cpi	r24, 0x5A	; 90
+ 4ee:	91 05       	cpc	r25, r1
+ 4f0:	51 f1       	breq	.+84     	; 0x546 <__LOCK_REGION_LENGTH__+0x146>
+ 4f2:	88 34       	cpi	r24, 0x48	; 72
+ 4f4:	91 05       	cpc	r25, r1
+ 4f6:	09 f0       	breq	.+2      	; 0x4fa <__LOCK_REGION_LENGTH__+0xfa>
+				case 'Z':
+					FET_C_HIGH_PORT &= ~(1<<FET_C_HIGH_BIT);//turn both FETs off
+					FET_C_LOW_PORT &= ~(1<<FET_C_LOW_BIT);
+					break;
+				default: 
+					break;
+ 4f8:	39 c0       	rjmp	.+114    	; 0x56c <__LOCK_REGION_LENGTH__+0x16c>
 			break;
 			
 		case 'C':			
 			switch (set_output_to) {
- 1e2:	6c 34       	cpi	r22, 0x4C	; 76
- 1e4:	39 f0       	breq	.+14     	; 0x1f4 <set_phase+0x5a>
- 1e6:	6a 35       	cpi	r22, 0x5A	; 90
- 1e8:	41 f0       	breq	.+16     	; 0x1fa <set_phase+0x60>
- 1ea:	68 34       	cpi	r22, 0x48	; 72
- 1ec:	41 f4       	brne	.+16     	; 0x1fe <set_phase+0x64>
 				case 'H':
 					FET_C_LOW_PORT &= ~(1<<FET_C_LOW_BIT);//turn low FET off
- 1ee:	29 98       	cbi	0x05, 1	; 5
+ 4fa:	85 e2       	ldi	r24, 0x25	; 37
+ 4fc:	90 e0       	ldi	r25, 0x00	; 0
+ 4fe:	25 e2       	ldi	r18, 0x25	; 37
+ 500:	30 e0       	ldi	r19, 0x00	; 0
+ 502:	f9 01       	movw	r30, r18
+ 504:	20 81       	ld	r18, Z
+ 506:	2d 7f       	andi	r18, 0xFD	; 253
+ 508:	fc 01       	movw	r30, r24
+ 50a:	20 83       	st	Z, r18
 					FET_C_HIGH_PORT |= (1<<FET_C_HIGH_BIT);//turn high FET on
- 1f0:	28 9a       	sbi	0x05, 0	; 5
+ 50c:	85 e2       	ldi	r24, 0x25	; 37
+ 50e:	90 e0       	ldi	r25, 0x00	; 0
+ 510:	25 e2       	ldi	r18, 0x25	; 37
+ 512:	30 e0       	ldi	r19, 0x00	; 0
+ 514:	f9 01       	movw	r30, r18
+ 516:	20 81       	ld	r18, Z
+ 518:	21 60       	ori	r18, 0x01	; 1
+ 51a:	fc 01       	movw	r30, r24
+ 51c:	20 83       	st	Z, r18
 					break;
- 1f2:	08 95       	ret
+ 51e:	26 c0       	rjmp	.+76     	; 0x56c <__LOCK_REGION_LENGTH__+0x16c>
 				case 'L':
 					FET_C_HIGH_PORT &= ~(1<<FET_C_HIGH_BIT);//turn high FET off
- 1f4:	28 98       	cbi	0x05, 0	; 5
+ 520:	85 e2       	ldi	r24, 0x25	; 37
+ 522:	90 e0       	ldi	r25, 0x00	; 0
+ 524:	25 e2       	ldi	r18, 0x25	; 37
+ 526:	30 e0       	ldi	r19, 0x00	; 0
+ 528:	f9 01       	movw	r30, r18
+ 52a:	20 81       	ld	r18, Z
+ 52c:	2e 7f       	andi	r18, 0xFE	; 254
+ 52e:	fc 01       	movw	r30, r24
+ 530:	20 83       	st	Z, r18
 					FET_C_LOW_PORT |= (1<<FET_C_LOW_BIT);//turn low FET on
- 1f6:	29 9a       	sbi	0x05, 1	; 5
+ 532:	85 e2       	ldi	r24, 0x25	; 37
+ 534:	90 e0       	ldi	r25, 0x00	; 0
+ 536:	25 e2       	ldi	r18, 0x25	; 37
+ 538:	30 e0       	ldi	r19, 0x00	; 0
+ 53a:	f9 01       	movw	r30, r18
+ 53c:	20 81       	ld	r18, Z
+ 53e:	22 60       	ori	r18, 0x02	; 2
+ 540:	fc 01       	movw	r30, r24
+ 542:	20 83       	st	Z, r18
 					break;
- 1f8:	08 95       	ret
+ 544:	13 c0       	rjmp	.+38     	; 0x56c <__LOCK_REGION_LENGTH__+0x16c>
 				case 'Z':
 					FET_C_HIGH_PORT &= ~(1<<FET_C_HIGH_BIT);//turn both FETs off
- 1fa:	28 98       	cbi	0x05, 0	; 5
+ 546:	85 e2       	ldi	r24, 0x25	; 37
+ 548:	90 e0       	ldi	r25, 0x00	; 0
+ 54a:	25 e2       	ldi	r18, 0x25	; 37
+ 54c:	30 e0       	ldi	r19, 0x00	; 0
+ 54e:	f9 01       	movw	r30, r18
+ 550:	20 81       	ld	r18, Z
+ 552:	2e 7f       	andi	r18, 0xFE	; 254
+ 554:	fc 01       	movw	r30, r24
+ 556:	20 83       	st	Z, r18
 					FET_C_LOW_PORT &= ~(1<<FET_C_LOW_BIT);
- 1fc:	29 98       	cbi	0x05, 1	; 5
- 1fe:	08 95       	ret
+ 558:	85 e2       	ldi	r24, 0x25	; 37
+ 55a:	90 e0       	ldi	r25, 0x00	; 0
+ 55c:	25 e2       	ldi	r18, 0x25	; 37
+ 55e:	30 e0       	ldi	r19, 0x00	; 0
+ 560:	f9 01       	movw	r30, r18
+ 562:	20 81       	ld	r18, Z
+ 564:	2d 7f       	andi	r18, 0xFD	; 253
+ 566:	fc 01       	movw	r30, r24
+ 568:	20 83       	st	Z, r18
+					break;
+ 56a:	00 00       	nop
+				default: 
+					break;
+			}				
+			break;
+ 56c:	00 00       	nop
+		default:
+			break;
+	}
 
-00000200 <set_all_phases>:
 
 }
+ 56e:	00 00       	nop
+ 570:	0f 90       	pop	r0
+ 572:	0f 90       	pop	r0
+ 574:	df 91       	pop	r29
+ 576:	cf 91       	pop	r28
+ 578:	08 95       	ret
+
+0000057a <set_all_phases>:
 
 
 void set_all_phases(char stateA, char stateB, char stateC)
 {
- 200:	cf 93       	push	r28
- 202:	df 93       	push	r29
- 204:	d6 2f       	mov	r29, r22
- 206:	c4 2f       	mov	r28, r20
+ 57a:	cf 93       	push	r28
+ 57c:	df 93       	push	r29
+ 57e:	00 d0       	rcall	.+0      	; 0x580 <set_all_phases+0x6>
+ 580:	1f 92       	push	r1
+ 582:	cd b7       	in	r28, 0x3d	; 61
+ 584:	de b7       	in	r29, 0x3e	; 62
+ 586:	89 83       	std	Y+1, r24	; 0x01
+ 588:	6a 83       	std	Y+2, r22	; 0x02
+ 58a:	4b 83       	std	Y+3, r20	; 0x03
 	set_phase('A',stateA);
- 208:	68 2f       	mov	r22, r24
- 20a:	81 e4       	ldi	r24, 0x41	; 65
- 20c:	0e 94 cd 00 	call	0x19a	; 0x19a <set_phase>
+ 58c:	69 81       	ldd	r22, Y+1	; 0x01
+ 58e:	81 e4       	ldi	r24, 0x41	; 65
+ 590:	0e 94 cc 01 	call	0x398	; 0x398 <set_phase>
 	set_phase('B',stateB);
- 210:	6d 2f       	mov	r22, r29
- 212:	82 e4       	ldi	r24, 0x42	; 66
- 214:	0e 94 cd 00 	call	0x19a	; 0x19a <set_phase>
+ 594:	6a 81       	ldd	r22, Y+2	; 0x02
+ 596:	82 e4       	ldi	r24, 0x42	; 66
+ 598:	0e 94 cc 01 	call	0x398	; 0x398 <set_phase>
 	set_phase('C',stateC);
- 218:	6c 2f       	mov	r22, r28
- 21a:	83 e4       	ldi	r24, 0x43	; 67
- 21c:	0e 94 cd 00 	call	0x19a	; 0x19a <set_phase>
+ 59c:	6b 81       	ldd	r22, Y+3	; 0x03
+ 59e:	83 e4       	ldi	r24, 0x43	; 67
+ 5a0:	0e 94 cc 01 	call	0x398	; 0x398 <set_phase>
 }
- 220:	df 91       	pop	r29
- 222:	cf 91       	pop	r28
- 224:	08 95       	ret
+ 5a4:	00 00       	nop
+ 5a6:	0f 90       	pop	r0
+ 5a8:	0f 90       	pop	r0
+ 5aa:	0f 90       	pop	r0
+ 5ac:	df 91       	pop	r29
+ 5ae:	cf 91       	pop	r28
+ 5b0:	08 95       	ret
 
-00000226 <main>:
+000005b2 <main>:
 
 
 int main(void)
 {
+ 5b2:	cf 93       	push	r28
+ 5b4:	df 93       	push	r29
+ 5b6:	00 d0       	rcall	.+0      	; 0x5b8 <main+0x6>
+ 5b8:	cd b7       	in	r28, 0x3d	; 61
+ 5ba:	de b7       	in	r29, 0x3e	; 62
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
- 226:	0e 94 ad 00 	call	0x15a	; 0x15a <atmel_start_init>
+ 5bc:	0e 94 26 01 	call	0x24c	; 0x24c <atmel_start_init>
 	hall_init();
+ 5c0:	0e 94 30 01 	call	0x260	; 0x260 <hall_init>
 	phase_init();
- 22a:	0e 94 b0 00 	call	0x160	; 0x160 <phase_init>
+ 5c4:	0e 94 38 01 	call	0x270	; 0x270 <phase_init>
 	adc_init();
- 22e:	0e 94 7b 00 	call	0xf6	; 0xf6 <adc_init>
+ 5c8:	0e 94 a6 00 	call	0x14c	; 0x14c <adc_init>
 	
-	adc_select_channel(ADC_CHANNEL_goalRPM);
- 232:	80 e0       	ldi	r24, 0x00	; 0
- 234:	0e 94 65 00 	call	0xca	; 0xca <adc_select_channel>
+//	adc_select_channel(ADC_CHANNEL_goalRPM);
 
-	/* Replace with your application code */
 	while (1) {
-		//if( (adc_read() != 0) ) { //~1.25 volts (Vresult / Vref *256)
+		uint8_t ai_result = adc_read_latest();
+ 5cc:	0e 94 16 01 	call	0x22c	; 0x22c <adc_read_latest>
+ 5d0:	89 83       	std	Y+1, r24	; 0x01
+		volatile uint8_t test_test = ai_result;
+ 5d2:	89 81       	ldd	r24, Y+1	; 0x01
+ 5d4:	8a 83       	std	Y+2, r24	; 0x02
+		if( (ai_result != 0) ) { //~1.25 volts (Vresult / Vref *256)
+ 5d6:	89 81       	ldd	r24, Y+1	; 0x01
+ 5d8:	88 23       	and	r24, r24
+ 5da:	09 f4       	brne	.+2      	; 0x5de <main+0x2c>
+ 5dc:	44 c0       	rjmp	.+136    	; 0x666 <main+0xb4>
 			switch ( get_hall_logic() ) {
- 238:	0e 94 c3 00 	call	0x186	; 0x186 <get_hall_logic>
- 23c:	83 30       	cpi	r24, 0x03	; 3
- 23e:	c1 f0       	breq	.+48     	; 0x270 <main+0x4a>
- 240:	28 f4       	brcc	.+10     	; 0x24c <main+0x26>
- 242:	81 30       	cpi	r24, 0x01	; 1
- 244:	49 f0       	breq	.+18     	; 0x258 <main+0x32>
- 246:	82 30       	cpi	r24, 0x02	; 2
- 248:	69 f0       	breq	.+26     	; 0x264 <main+0x3e>
- 24a:	2a c0       	rjmp	.+84     	; 0x2a0 <main+0x7a>
- 24c:	85 30       	cpi	r24, 0x05	; 5
- 24e:	e1 f0       	breq	.+56     	; 0x288 <main+0x62>
- 250:	a8 f0       	brcs	.+42     	; 0x27c <main+0x56>
- 252:	86 30       	cpi	r24, 0x06	; 6
- 254:	f9 f0       	breq	.+62     	; 0x294 <main+0x6e>
- 256:	24 c0       	rjmp	.+72     	; 0x2a0 <main+0x7a>
+ 5de:	0e 94 9a 01 	call	0x334	; 0x334 <get_hall_logic>
+ 5e2:	88 2f       	mov	r24, r24
+ 5e4:	90 e0       	ldi	r25, 0x00	; 0
+ 5e6:	83 30       	cpi	r24, 0x03	; 3
+ 5e8:	91 05       	cpc	r25, r1
+ 5ea:	f1 f0       	breq	.+60     	; 0x628 <main+0x76>
+ 5ec:	84 30       	cpi	r24, 0x04	; 4
+ 5ee:	91 05       	cpc	r25, r1
+ 5f0:	34 f4       	brge	.+12     	; 0x5fe <main+0x4c>
+ 5f2:	81 30       	cpi	r24, 0x01	; 1
+ 5f4:	91 05       	cpc	r25, r1
+ 5f6:	61 f0       	breq	.+24     	; 0x610 <main+0x5e>
+ 5f8:	02 97       	sbiw	r24, 0x02	; 2
+ 5fa:	81 f0       	breq	.+32     	; 0x61c <main+0x6a>
+ 5fc:	2d c0       	rjmp	.+90     	; 0x658 <main+0xa6>
+ 5fe:	85 30       	cpi	r24, 0x05	; 5
+ 600:	91 05       	cpc	r25, r1
+ 602:	f1 f0       	breq	.+60     	; 0x640 <main+0x8e>
+ 604:	85 30       	cpi	r24, 0x05	; 5
+ 606:	91 05       	cpc	r25, r1
+ 608:	ac f0       	brlt	.+42     	; 0x634 <main+0x82>
+ 60a:	06 97       	sbiw	r24, 0x06	; 6
+ 60c:	f9 f0       	breq	.+62     	; 0x64c <main+0x9a>
+ 60e:	24 c0       	rjmp	.+72     	; 0x658 <main+0xa6>
 				case 1: set_all_phases('H','L','Z'); break;
- 258:	4a e5       	ldi	r20, 0x5A	; 90
- 25a:	6c e4       	ldi	r22, 0x4C	; 76
- 25c:	88 e4       	ldi	r24, 0x48	; 72
- 25e:	0e 94 00 01 	call	0x200	; 0x200 <set_all_phases>
- 262:	ea cf       	rjmp	.-44     	; 0x238 <main+0x12>
+ 610:	4a e5       	ldi	r20, 0x5A	; 90
+ 612:	6c e4       	ldi	r22, 0x4C	; 76
+ 614:	88 e4       	ldi	r24, 0x48	; 72
+ 616:	0e 94 bd 02 	call	0x57a	; 0x57a <set_all_phases>
+ 61a:	2e c0       	rjmp	.+92     	; 0x678 <main+0xc6>
 				case 2: set_all_phases('L','Z','H'); break;
- 264:	48 e4       	ldi	r20, 0x48	; 72
- 266:	6a e5       	ldi	r22, 0x5A	; 90
- 268:	8c e4       	ldi	r24, 0x4C	; 76
- 26a:	0e 94 00 01 	call	0x200	; 0x200 <set_all_phases>
- 26e:	e4 cf       	rjmp	.-56     	; 0x238 <main+0x12>
+ 61c:	48 e4       	ldi	r20, 0x48	; 72
+ 61e:	6a e5       	ldi	r22, 0x5A	; 90
+ 620:	8c e4       	ldi	r24, 0x4C	; 76
+ 622:	0e 94 bd 02 	call	0x57a	; 0x57a <set_all_phases>
+ 626:	28 c0       	rjmp	.+80     	; 0x678 <main+0xc6>
 				case 3: set_all_phases('Z','L','H'); break;
- 270:	48 e4       	ldi	r20, 0x48	; 72
- 272:	6c e4       	ldi	r22, 0x4C	; 76
- 274:	8a e5       	ldi	r24, 0x5A	; 90
- 276:	0e 94 00 01 	call	0x200	; 0x200 <set_all_phases>
- 27a:	de cf       	rjmp	.-68     	; 0x238 <main+0x12>
+ 628:	48 e4       	ldi	r20, 0x48	; 72
+ 62a:	6c e4       	ldi	r22, 0x4C	; 76
+ 62c:	8a e5       	ldi	r24, 0x5A	; 90
+ 62e:	0e 94 bd 02 	call	0x57a	; 0x57a <set_all_phases>
+ 632:	22 c0       	rjmp	.+68     	; 0x678 <main+0xc6>
 				case 4: set_all_phases('Z','H','L'); break;
- 27c:	4c e4       	ldi	r20, 0x4C	; 76
- 27e:	68 e4       	ldi	r22, 0x48	; 72
- 280:	8a e5       	ldi	r24, 0x5A	; 90
- 282:	0e 94 00 01 	call	0x200	; 0x200 <set_all_phases>
- 286:	d8 cf       	rjmp	.-80     	; 0x238 <main+0x12>
+ 634:	4c e4       	ldi	r20, 0x4C	; 76
+ 636:	68 e4       	ldi	r22, 0x48	; 72
+ 638:	8a e5       	ldi	r24, 0x5A	; 90
+ 63a:	0e 94 bd 02 	call	0x57a	; 0x57a <set_all_phases>
+ 63e:	1c c0       	rjmp	.+56     	; 0x678 <main+0xc6>
 				case 5: set_all_phases('H','Z','L'); break;
- 288:	4c e4       	ldi	r20, 0x4C	; 76
- 28a:	6a e5       	ldi	r22, 0x5A	; 90
- 28c:	88 e4       	ldi	r24, 0x48	; 72
- 28e:	0e 94 00 01 	call	0x200	; 0x200 <set_all_phases>
- 292:	d2 cf       	rjmp	.-92     	; 0x238 <main+0x12>
+ 640:	4c e4       	ldi	r20, 0x4C	; 76
+ 642:	6a e5       	ldi	r22, 0x5A	; 90
+ 644:	88 e4       	ldi	r24, 0x48	; 72
+ 646:	0e 94 bd 02 	call	0x57a	; 0x57a <set_all_phases>
+ 64a:	16 c0       	rjmp	.+44     	; 0x678 <main+0xc6>
 				case 6: set_all_phases('L','H','Z'); break;
- 294:	4a e5       	ldi	r20, 0x5A	; 90
- 296:	68 e4       	ldi	r22, 0x48	; 72
- 298:	8c e4       	ldi	r24, 0x4C	; 76
- 29a:	0e 94 00 01 	call	0x200	; 0x200 <set_all_phases>
- 29e:	cc cf       	rjmp	.-104    	; 0x238 <main+0x12>
+ 64c:	4a e5       	ldi	r20, 0x5A	; 90
+ 64e:	68 e4       	ldi	r22, 0x48	; 72
+ 650:	8c e4       	ldi	r24, 0x4C	; 76
+ 652:	0e 94 bd 02 	call	0x57a	; 0x57a <set_all_phases>
+ 656:	10 c0       	rjmp	.+32     	; 0x678 <main+0xc6>
 				case 0: //fall through
 				case 7: // fall through 0b000 & 0b111 are invalid hall states
 				default:
 					set_all_phases('Z','Z','Z');
- 2a0:	4a e5       	ldi	r20, 0x5A	; 90
- 2a2:	6a e5       	ldi	r22, 0x5A	; 90
- 2a4:	8a e5       	ldi	r24, 0x5A	; 90
- 2a6:	0e 94 00 01 	call	0x200	; 0x200 <set_all_phases>
+ 658:	4a e5       	ldi	r20, 0x5A	; 90
+ 65a:	6a e5       	ldi	r22, 0x5A	; 90
+ 65c:	8a e5       	ldi	r24, 0x5A	; 90
+ 65e:	0e 94 bd 02 	call	0x57a	; 0x57a <set_all_phases>
 					break;
- 2aa:	c6 cf       	rjmp	.-116    	; 0x238 <main+0x12>
+ 662:	00 00       	nop
+ 664:	09 c0       	rjmp	.+18     	; 0x678 <main+0xc6>
+			//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
+			}
+		} else { PIND |= (1<<3); } //debug }		
+ 666:	89 e2       	ldi	r24, 0x29	; 41
+ 668:	90 e0       	ldi	r25, 0x00	; 0
+ 66a:	29 e2       	ldi	r18, 0x29	; 41
+ 66c:	30 e0       	ldi	r19, 0x00	; 0
+ 66e:	f9 01       	movw	r30, r18
+ 670:	20 81       	ld	r18, Z
+ 672:	28 60       	ori	r18, 0x08	; 8
+ 674:	fc 01       	movw	r30, r24
+ 676:	20 83       	st	Z, r18
+	}
+ 678:	a9 cf       	rjmp	.-174    	; 0x5cc <main+0x1a>
 
-000002ac <system_init>:
- 2ac:	8f e7       	ldi	r24, 0x7F	; 127
- 2ae:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <__TEXT_REGION_LENGTH__+0x7f0064>
- 2b2:	84 b1       	in	r24, 0x04	; 4
- 2b4:	14 b8       	out	0x04, r1	; 4
- 2b6:	85 b1       	in	r24, 0x05	; 5
- 2b8:	8f ef       	ldi	r24, 0xFF	; 255
- 2ba:	85 b9       	out	0x05, r24	; 5
- 2bc:	97 b1       	in	r25, 0x07	; 7
- 2be:	17 b8       	out	0x07, r1	; 7
- 2c0:	98 b1       	in	r25, 0x08	; 8
- 2c2:	88 b9       	out	0x08, r24	; 8
- 2c4:	9a b1       	in	r25, 0x0a	; 10
- 2c6:	1a b8       	out	0x0a, r1	; 10
- 2c8:	9b b1       	in	r25, 0x0b	; 11
- 2ca:	8b b9       	out	0x0b, r24	; 11
- 2cc:	8d b1       	in	r24, 0x0d	; 13
- 2ce:	88 7f       	andi	r24, 0xF8	; 248
- 2d0:	8d b9       	out	0x0d, r24	; 13
- 2d2:	8e b1       	in	r24, 0x0e	; 14
- 2d4:	87 60       	ori	r24, 0x07	; 7
- 2d6:	8e b9       	out	0x0e, r24	; 14
- 2d8:	40 e0       	ldi	r20, 0x00	; 0
- 2da:	60 e8       	ldi	r22, 0x80	; 128
- 2dc:	81 e6       	ldi	r24, 0x61	; 97
- 2de:	90 e0       	ldi	r25, 0x00	; 0
- 2e0:	0e 94 75 01 	call	0x2ea	; 0x2ea <protected_write_io>
- 2e4:	13 be       	out	0x33, r1	; 51
- 2e6:	15 be       	out	0x35, r1	; 53
- 2e8:	08 95       	ret
+0000067a <PORTB_set_port_dir>:
+ *                      PORT_DIR_OUT = Data direction out
+ *                      PORT_DIR_OFF = Disables the pin
+ *                      (low power state)
+ */
+static inline void PORTB_set_port_dir(const uint8_t mask, const enum port_dir direction)
+{
+ 67a:	cf 93       	push	r28
+ 67c:	df 93       	push	r29
+ 67e:	00 d0       	rcall	.+0      	; 0x680 <PORTB_set_port_dir+0x6>
+ 680:	cd b7       	in	r28, 0x3d	; 61
+ 682:	de b7       	in	r29, 0x3e	; 62
+ 684:	89 83       	std	Y+1, r24	; 0x01
+ 686:	6a 83       	std	Y+2, r22	; 0x02
+	switch (direction) {
+ 688:	8a 81       	ldd	r24, Y+2	; 0x02
+ 68a:	88 2f       	mov	r24, r24
+ 68c:	90 e0       	ldi	r25, 0x00	; 0
+ 68e:	81 30       	cpi	r24, 0x01	; 1
+ 690:	91 05       	cpc	r25, r1
+ 692:	99 f0       	breq	.+38     	; 0x6ba <PORTB_set_port_dir+0x40>
+ 694:	82 30       	cpi	r24, 0x02	; 2
+ 696:	91 05       	cpc	r25, r1
+ 698:	d9 f0       	breq	.+54     	; 0x6d0 <PORTB_set_port_dir+0x56>
+ 69a:	89 2b       	or	r24, r25
+ 69c:	09 f0       	breq	.+2      	; 0x6a0 <PORTB_set_port_dir+0x26>
+		DDRB &= ~mask;
 
-000002ea <protected_write_io>:
- 2ea:	2f b7       	in	r18, 0x3f	; 63
- 2ec:	f8 94       	cli
- 2ee:	fc 01       	movw	r30, r24
- 2f0:	60 83       	st	Z, r22
- 2f2:	40 83       	st	Z, r20
- 2f4:	2f bf       	out	0x3f, r18	; 63
- 2f6:	08 95       	ret
+		PORTB |= mask;
+		break;
+	default:
+		break;
+ 69e:	2f c0       	rjmp	.+94     	; 0x6fe <PORTB_set_port_dir+0x84>
+ */
+static inline void PORTB_set_port_dir(const uint8_t mask, const enum port_dir direction)
+{
+	switch (direction) {
+	case PORT_DIR_IN:
+		DDRB &= ~mask;
+ 6a0:	84 e2       	ldi	r24, 0x24	; 36
+ 6a2:	90 e0       	ldi	r25, 0x00	; 0
+ 6a4:	24 e2       	ldi	r18, 0x24	; 36
+ 6a6:	30 e0       	ldi	r19, 0x00	; 0
+ 6a8:	f9 01       	movw	r30, r18
+ 6aa:	20 81       	ld	r18, Z
+ 6ac:	32 2f       	mov	r19, r18
+ 6ae:	29 81       	ldd	r18, Y+1	; 0x01
+ 6b0:	20 95       	com	r18
+ 6b2:	23 23       	and	r18, r19
+ 6b4:	fc 01       	movw	r30, r24
+ 6b6:	20 83       	st	Z, r18
+		break;
+ 6b8:	22 c0       	rjmp	.+68     	; 0x6fe <PORTB_set_port_dir+0x84>
+	case PORT_DIR_OUT:
+		DDRB |= mask;
+ 6ba:	84 e2       	ldi	r24, 0x24	; 36
+ 6bc:	90 e0       	ldi	r25, 0x00	; 0
+ 6be:	24 e2       	ldi	r18, 0x24	; 36
+ 6c0:	30 e0       	ldi	r19, 0x00	; 0
+ 6c2:	f9 01       	movw	r30, r18
+ 6c4:	30 81       	ld	r19, Z
+ 6c6:	29 81       	ldd	r18, Y+1	; 0x01
+ 6c8:	23 2b       	or	r18, r19
+ 6ca:	fc 01       	movw	r30, r24
+ 6cc:	20 83       	st	Z, r18
+		break;
+ 6ce:	17 c0       	rjmp	.+46     	; 0x6fe <PORTB_set_port_dir+0x84>
+	case PORT_DIR_OFF:
+		DDRB &= ~mask;
+ 6d0:	84 e2       	ldi	r24, 0x24	; 36
+ 6d2:	90 e0       	ldi	r25, 0x00	; 0
+ 6d4:	24 e2       	ldi	r18, 0x24	; 36
+ 6d6:	30 e0       	ldi	r19, 0x00	; 0
+ 6d8:	f9 01       	movw	r30, r18
+ 6da:	20 81       	ld	r18, Z
+ 6dc:	32 2f       	mov	r19, r18
+ 6de:	29 81       	ldd	r18, Y+1	; 0x01
+ 6e0:	20 95       	com	r18
+ 6e2:	23 23       	and	r18, r19
+ 6e4:	fc 01       	movw	r30, r24
+ 6e6:	20 83       	st	Z, r18
 
-000002f8 <_exit>:
- 2f8:	f8 94       	cli
+		PORTB |= mask;
+ 6e8:	85 e2       	ldi	r24, 0x25	; 37
+ 6ea:	90 e0       	ldi	r25, 0x00	; 0
+ 6ec:	25 e2       	ldi	r18, 0x25	; 37
+ 6ee:	30 e0       	ldi	r19, 0x00	; 0
+ 6f0:	f9 01       	movw	r30, r18
+ 6f2:	30 81       	ld	r19, Z
+ 6f4:	29 81       	ldd	r18, Y+1	; 0x01
+ 6f6:	23 2b       	or	r18, r19
+ 6f8:	fc 01       	movw	r30, r24
+ 6fa:	20 83       	st	Z, r18
+		break;
+ 6fc:	00 00       	nop
+	default:
+		break;
+	}
+}
+ 6fe:	00 00       	nop
+ 700:	0f 90       	pop	r0
+ 702:	0f 90       	pop	r0
+ 704:	df 91       	pop	r29
+ 706:	cf 91       	pop	r28
+ 708:	08 95       	ret
 
-000002fa <__stop_program>:
- 2fa:	ff cf       	rjmp	.-2      	; 0x2fa <__stop_program>
+0000070a <PORTC_set_port_dir>:
+ *                      PORT_DIR_OUT = Data direction out
+ *                      PORT_DIR_OFF = Disables the pin
+ *                      (low power state)
+ */
+static inline void PORTC_set_port_dir(const uint8_t mask, const enum port_dir direction)
+{
+ 70a:	cf 93       	push	r28
+ 70c:	df 93       	push	r29
+ 70e:	00 d0       	rcall	.+0      	; 0x710 <PORTC_set_port_dir+0x6>
+ 710:	cd b7       	in	r28, 0x3d	; 61
+ 712:	de b7       	in	r29, 0x3e	; 62
+ 714:	89 83       	std	Y+1, r24	; 0x01
+ 716:	6a 83       	std	Y+2, r22	; 0x02
+	switch (direction) {
+ 718:	8a 81       	ldd	r24, Y+2	; 0x02
+ 71a:	88 2f       	mov	r24, r24
+ 71c:	90 e0       	ldi	r25, 0x00	; 0
+ 71e:	81 30       	cpi	r24, 0x01	; 1
+ 720:	91 05       	cpc	r25, r1
+ 722:	99 f0       	breq	.+38     	; 0x74a <PORTC_set_port_dir+0x40>
+ 724:	82 30       	cpi	r24, 0x02	; 2
+ 726:	91 05       	cpc	r25, r1
+ 728:	d9 f0       	breq	.+54     	; 0x760 <PORTC_set_port_dir+0x56>
+ 72a:	89 2b       	or	r24, r25
+ 72c:	09 f0       	breq	.+2      	; 0x730 <PORTC_set_port_dir+0x26>
+		DDRC &= ~mask;
+
+		PORTC |= mask;
+		break;
+	default:
+		break;
+ 72e:	2f c0       	rjmp	.+94     	; 0x78e <PORTC_set_port_dir+0x84>
+ */
+static inline void PORTC_set_port_dir(const uint8_t mask, const enum port_dir direction)
+{
+	switch (direction) {
+	case PORT_DIR_IN:
+		DDRC &= ~mask;
+ 730:	87 e2       	ldi	r24, 0x27	; 39
+ 732:	90 e0       	ldi	r25, 0x00	; 0
+ 734:	27 e2       	ldi	r18, 0x27	; 39
+ 736:	30 e0       	ldi	r19, 0x00	; 0
+ 738:	f9 01       	movw	r30, r18
+ 73a:	20 81       	ld	r18, Z
+ 73c:	32 2f       	mov	r19, r18
+ 73e:	29 81       	ldd	r18, Y+1	; 0x01
+ 740:	20 95       	com	r18
+ 742:	23 23       	and	r18, r19
+ 744:	fc 01       	movw	r30, r24
+ 746:	20 83       	st	Z, r18
+		break;
+ 748:	22 c0       	rjmp	.+68     	; 0x78e <PORTC_set_port_dir+0x84>
+	case PORT_DIR_OUT:
+		DDRC |= mask;
+ 74a:	87 e2       	ldi	r24, 0x27	; 39
+ 74c:	90 e0       	ldi	r25, 0x00	; 0
+ 74e:	27 e2       	ldi	r18, 0x27	; 39
+ 750:	30 e0       	ldi	r19, 0x00	; 0
+ 752:	f9 01       	movw	r30, r18
+ 754:	30 81       	ld	r19, Z
+ 756:	29 81       	ldd	r18, Y+1	; 0x01
+ 758:	23 2b       	or	r18, r19
+ 75a:	fc 01       	movw	r30, r24
+ 75c:	20 83       	st	Z, r18
+		break;
+ 75e:	17 c0       	rjmp	.+46     	; 0x78e <PORTC_set_port_dir+0x84>
+	case PORT_DIR_OFF:
+		DDRC &= ~mask;
+ 760:	87 e2       	ldi	r24, 0x27	; 39
+ 762:	90 e0       	ldi	r25, 0x00	; 0
+ 764:	27 e2       	ldi	r18, 0x27	; 39
+ 766:	30 e0       	ldi	r19, 0x00	; 0
+ 768:	f9 01       	movw	r30, r18
+ 76a:	20 81       	ld	r18, Z
+ 76c:	32 2f       	mov	r19, r18
+ 76e:	29 81       	ldd	r18, Y+1	; 0x01
+ 770:	20 95       	com	r18
+ 772:	23 23       	and	r18, r19
+ 774:	fc 01       	movw	r30, r24
+ 776:	20 83       	st	Z, r18
+
+		PORTC |= mask;
+ 778:	88 e2       	ldi	r24, 0x28	; 40
+ 77a:	90 e0       	ldi	r25, 0x00	; 0
+ 77c:	28 e2       	ldi	r18, 0x28	; 40
+ 77e:	30 e0       	ldi	r19, 0x00	; 0
+ 780:	f9 01       	movw	r30, r18
+ 782:	30 81       	ld	r19, Z
+ 784:	29 81       	ldd	r18, Y+1	; 0x01
+ 786:	23 2b       	or	r18, r19
+ 788:	fc 01       	movw	r30, r24
+ 78a:	20 83       	st	Z, r18
+		break;
+ 78c:	00 00       	nop
+	default:
+		break;
+	}
+}
+ 78e:	00 00       	nop
+ 790:	0f 90       	pop	r0
+ 792:	0f 90       	pop	r0
+ 794:	df 91       	pop	r29
+ 796:	cf 91       	pop	r28
+ 798:	08 95       	ret
+
+0000079a <PORTD_set_port_dir>:
+ *                      PORT_DIR_OUT = Data direction out
+ *                      PORT_DIR_OFF = Disables the pin
+ *                      (low power state)
+ */
+static inline void PORTD_set_port_dir(const uint8_t mask, const enum port_dir direction)
+{
+ 79a:	cf 93       	push	r28
+ 79c:	df 93       	push	r29
+ 79e:	00 d0       	rcall	.+0      	; 0x7a0 <PORTD_set_port_dir+0x6>
+ 7a0:	cd b7       	in	r28, 0x3d	; 61
+ 7a2:	de b7       	in	r29, 0x3e	; 62
+ 7a4:	89 83       	std	Y+1, r24	; 0x01
+ 7a6:	6a 83       	std	Y+2, r22	; 0x02
+	switch (direction) {
+ 7a8:	8a 81       	ldd	r24, Y+2	; 0x02
+ 7aa:	88 2f       	mov	r24, r24
+ 7ac:	90 e0       	ldi	r25, 0x00	; 0
+ 7ae:	81 30       	cpi	r24, 0x01	; 1
+ 7b0:	91 05       	cpc	r25, r1
+ 7b2:	99 f0       	breq	.+38     	; 0x7da <PORTD_set_port_dir+0x40>
+ 7b4:	82 30       	cpi	r24, 0x02	; 2
+ 7b6:	91 05       	cpc	r25, r1
+ 7b8:	d9 f0       	breq	.+54     	; 0x7f0 <PORTD_set_port_dir+0x56>
+ 7ba:	89 2b       	or	r24, r25
+ 7bc:	09 f0       	breq	.+2      	; 0x7c0 <PORTD_set_port_dir+0x26>
+		DDRD &= ~mask;
+
+		PORTD |= mask;
+		break;
+	default:
+		break;
+ 7be:	2f c0       	rjmp	.+94     	; 0x81e <__EEPROM_REGION_LENGTH__+0x1e>
+ */
+static inline void PORTD_set_port_dir(const uint8_t mask, const enum port_dir direction)
+{
+	switch (direction) {
+	case PORT_DIR_IN:
+		DDRD &= ~mask;
+ 7c0:	8a e2       	ldi	r24, 0x2A	; 42
+ 7c2:	90 e0       	ldi	r25, 0x00	; 0
+ 7c4:	2a e2       	ldi	r18, 0x2A	; 42
+ 7c6:	30 e0       	ldi	r19, 0x00	; 0
+ 7c8:	f9 01       	movw	r30, r18
+ 7ca:	20 81       	ld	r18, Z
+ 7cc:	32 2f       	mov	r19, r18
+ 7ce:	29 81       	ldd	r18, Y+1	; 0x01
+ 7d0:	20 95       	com	r18
+ 7d2:	23 23       	and	r18, r19
+ 7d4:	fc 01       	movw	r30, r24
+ 7d6:	20 83       	st	Z, r18
+		break;
+ 7d8:	22 c0       	rjmp	.+68     	; 0x81e <__EEPROM_REGION_LENGTH__+0x1e>
+	case PORT_DIR_OUT:
+		DDRD |= mask;
+ 7da:	8a e2       	ldi	r24, 0x2A	; 42
+ 7dc:	90 e0       	ldi	r25, 0x00	; 0
+ 7de:	2a e2       	ldi	r18, 0x2A	; 42
+ 7e0:	30 e0       	ldi	r19, 0x00	; 0
+ 7e2:	f9 01       	movw	r30, r18
+ 7e4:	30 81       	ld	r19, Z
+ 7e6:	29 81       	ldd	r18, Y+1	; 0x01
+ 7e8:	23 2b       	or	r18, r19
+ 7ea:	fc 01       	movw	r30, r24
+ 7ec:	20 83       	st	Z, r18
+		break;
+ 7ee:	17 c0       	rjmp	.+46     	; 0x81e <__EEPROM_REGION_LENGTH__+0x1e>
+	case PORT_DIR_OFF:
+		DDRD &= ~mask;
+ 7f0:	8a e2       	ldi	r24, 0x2A	; 42
+ 7f2:	90 e0       	ldi	r25, 0x00	; 0
+ 7f4:	2a e2       	ldi	r18, 0x2A	; 42
+ 7f6:	30 e0       	ldi	r19, 0x00	; 0
+ 7f8:	f9 01       	movw	r30, r18
+ 7fa:	20 81       	ld	r18, Z
+ 7fc:	32 2f       	mov	r19, r18
+ 7fe:	29 81       	ldd	r18, Y+1	; 0x01
+ 800:	20 95       	com	r18
+ 802:	23 23       	and	r18, r19
+ 804:	fc 01       	movw	r30, r24
+ 806:	20 83       	st	Z, r18
+
+		PORTD |= mask;
+ 808:	8b e2       	ldi	r24, 0x2B	; 43
+ 80a:	90 e0       	ldi	r25, 0x00	; 0
+ 80c:	2b e2       	ldi	r18, 0x2B	; 43
+ 80e:	30 e0       	ldi	r19, 0x00	; 0
+ 810:	f9 01       	movw	r30, r18
+ 812:	30 81       	ld	r19, Z
+ 814:	29 81       	ldd	r18, Y+1	; 0x01
+ 816:	23 2b       	or	r18, r19
+ 818:	fc 01       	movw	r30, r24
+ 81a:	20 83       	st	Z, r18
+		break;
+ 81c:	00 00       	nop
+	default:
+		break;
+	}
+}
+ 81e:	00 00       	nop
+ 820:	0f 90       	pop	r0
+ 822:	0f 90       	pop	r0
+ 824:	df 91       	pop	r29
+ 826:	cf 91       	pop	r28
+ 828:	08 95       	ret
+
+0000082a <PORTE_set_port_dir>:
+ *                      PORT_DIR_OUT = Data direction out
+ *                      PORT_DIR_OFF = Disables the pin
+ *                      (low power state)
+ */
+static inline void PORTE_set_port_dir(const uint8_t mask, const enum port_dir direction)
+{
+ 82a:	cf 93       	push	r28
+ 82c:	df 93       	push	r29
+ 82e:	00 d0       	rcall	.+0      	; 0x830 <PORTE_set_port_dir+0x6>
+ 830:	cd b7       	in	r28, 0x3d	; 61
+ 832:	de b7       	in	r29, 0x3e	; 62
+ 834:	89 83       	std	Y+1, r24	; 0x01
+ 836:	6a 83       	std	Y+2, r22	; 0x02
+	switch (direction) {
+ 838:	8a 81       	ldd	r24, Y+2	; 0x02
+ 83a:	88 2f       	mov	r24, r24
+ 83c:	90 e0       	ldi	r25, 0x00	; 0
+ 83e:	81 30       	cpi	r24, 0x01	; 1
+ 840:	91 05       	cpc	r25, r1
+ 842:	99 f0       	breq	.+38     	; 0x86a <PORTE_set_port_dir+0x40>
+ 844:	82 30       	cpi	r24, 0x02	; 2
+ 846:	91 05       	cpc	r25, r1
+ 848:	d9 f0       	breq	.+54     	; 0x880 <PORTE_set_port_dir+0x56>
+ 84a:	89 2b       	or	r24, r25
+ 84c:	09 f0       	breq	.+2      	; 0x850 <PORTE_set_port_dir+0x26>
+		DDRE &= ~mask;
+
+		PORTE |= mask;
+		break;
+	default:
+		break;
+ 84e:	2f c0       	rjmp	.+94     	; 0x8ae <PORTE_set_port_dir+0x84>
+ */
+static inline void PORTE_set_port_dir(const uint8_t mask, const enum port_dir direction)
+{
+	switch (direction) {
+	case PORT_DIR_IN:
+		DDRE &= ~mask;
+ 850:	8d e2       	ldi	r24, 0x2D	; 45
+ 852:	90 e0       	ldi	r25, 0x00	; 0
+ 854:	2d e2       	ldi	r18, 0x2D	; 45
+ 856:	30 e0       	ldi	r19, 0x00	; 0
+ 858:	f9 01       	movw	r30, r18
+ 85a:	20 81       	ld	r18, Z
+ 85c:	32 2f       	mov	r19, r18
+ 85e:	29 81       	ldd	r18, Y+1	; 0x01
+ 860:	20 95       	com	r18
+ 862:	23 23       	and	r18, r19
+ 864:	fc 01       	movw	r30, r24
+ 866:	20 83       	st	Z, r18
+		break;
+ 868:	22 c0       	rjmp	.+68     	; 0x8ae <PORTE_set_port_dir+0x84>
+	case PORT_DIR_OUT:
+		DDRE |= mask;
+ 86a:	8d e2       	ldi	r24, 0x2D	; 45
+ 86c:	90 e0       	ldi	r25, 0x00	; 0
+ 86e:	2d e2       	ldi	r18, 0x2D	; 45
+ 870:	30 e0       	ldi	r19, 0x00	; 0
+ 872:	f9 01       	movw	r30, r18
+ 874:	30 81       	ld	r19, Z
+ 876:	29 81       	ldd	r18, Y+1	; 0x01
+ 878:	23 2b       	or	r18, r19
+ 87a:	fc 01       	movw	r30, r24
+ 87c:	20 83       	st	Z, r18
+		break;
+ 87e:	17 c0       	rjmp	.+46     	; 0x8ae <PORTE_set_port_dir+0x84>
+	case PORT_DIR_OFF:
+		DDRE &= ~mask;
+ 880:	8d e2       	ldi	r24, 0x2D	; 45
+ 882:	90 e0       	ldi	r25, 0x00	; 0
+ 884:	2d e2       	ldi	r18, 0x2D	; 45
+ 886:	30 e0       	ldi	r19, 0x00	; 0
+ 888:	f9 01       	movw	r30, r18
+ 88a:	20 81       	ld	r18, Z
+ 88c:	32 2f       	mov	r19, r18
+ 88e:	29 81       	ldd	r18, Y+1	; 0x01
+ 890:	20 95       	com	r18
+ 892:	23 23       	and	r18, r19
+ 894:	fc 01       	movw	r30, r24
+ 896:	20 83       	st	Z, r18
+
+		PORTE |= mask;
+ 898:	8e e2       	ldi	r24, 0x2E	; 46
+ 89a:	90 e0       	ldi	r25, 0x00	; 0
+ 89c:	2e e2       	ldi	r18, 0x2E	; 46
+ 89e:	30 e0       	ldi	r19, 0x00	; 0
+ 8a0:	f9 01       	movw	r30, r18
+ 8a2:	30 81       	ld	r19, Z
+ 8a4:	29 81       	ldd	r18, Y+1	; 0x01
+ 8a6:	23 2b       	or	r18, r19
+ 8a8:	fc 01       	movw	r30, r24
+ 8aa:	20 83       	st	Z, r18
+		break;
+ 8ac:	00 00       	nop
+	default:
+		break;
+	}
+}
+ 8ae:	00 00       	nop
+ 8b0:	0f 90       	pop	r0
+ 8b2:	0f 90       	pop	r0
+ 8b4:	df 91       	pop	r29
+ 8b6:	cf 91       	pop	r28
+ 8b8:	08 95       	ret
+
+000008ba <sysctrl_init>:
+ * \param[in] hw The pointer to hardware instance
+ *
+ * \return Initialization status.
+ */
+static inline int8_t sysctrl_init()
+{
+ 8ba:	cf 93       	push	r28
+ 8bc:	df 93       	push	r29
+ 8be:	cd b7       	in	r28, 0x3d	; 61
+ 8c0:	de b7       	in	r29, 0x3e	; 62
+	/* Set up system clock prescaler according to configuration */
+	protected_write_io((void *)&CLKPR, 1 << CLKPCE, (0 << CLKPS3) | (0 << CLKPS2) | (0 << CLKPS1) | (0 << CLKPS0));
+ 8c2:	40 e0       	ldi	r20, 0x00	; 0
+ 8c4:	60 e8       	ldi	r22, 0x80	; 128
+ 8c6:	81 e6       	ldi	r24, 0x61	; 97
+ 8c8:	90 e0       	ldi	r25, 0x00	; 0
+ 8ca:	0e 94 9c 04 	call	0x938	; 0x938 <protected_write_io>
+
+	SMCR = (0 << SM2) | (0 << SM1) | (0 << SM0) | // Idle
+ 8ce:	83 e5       	ldi	r24, 0x53	; 83
+ 8d0:	90 e0       	ldi	r25, 0x00	; 0
+ 8d2:	fc 01       	movw	r30, r24
+ 8d4:	10 82       	st	Z, r1
+	       (0 << SE);
+
+	MCUCR = (0 << PUD);
+ 8d6:	85 e5       	ldi	r24, 0x55	; 85
+ 8d8:	90 e0       	ldi	r25, 0x00	; 0
+ 8da:	fc 01       	movw	r30, r24
+ 8dc:	10 82       	st	Z, r1
+
+	return 0;
+ 8de:	80 e0       	ldi	r24, 0x00	; 0
+}
+ 8e0:	df 91       	pop	r29
+ 8e2:	cf 91       	pop	r28
+ 8e4:	08 95       	ret
+
+000008e6 <mcu_init>:
+#define MCU_RESET_CAUSE_EXT (1 << EXTRF)
+#define MCU_RESET_CAUSE_BOR (1 << BORF)
+#define MCU_RESET_CAUSE_WDT (1 << WDRF)
+
+static inline void mcu_init(void)
+{
+ 8e6:	cf 93       	push	r28
+ 8e8:	df 93       	push	r29
+ 8ea:	cd b7       	in	r28, 0x3d	; 61
+ 8ec:	de b7       	in	r29, 0x3e	; 62
+	/* On AVR devices all peripherals are enabled from power on reset, this
+	 * disables all peripherals to save power. Driver shall enable
+	 * peripheral if used */
+
+	PRR = (1 << PRSPI) | (1 << PRTIM0) | (1 << PRCAN) | (1 << PRTIM1) | (1 << PRLIN) | (1 << PRPSC) | (1 << PRADC);
+ 8ee:	84 e6       	ldi	r24, 0x64	; 100
+ 8f0:	90 e0       	ldi	r25, 0x00	; 0
+ 8f2:	2f e7       	ldi	r18, 0x7F	; 127
+ 8f4:	fc 01       	movw	r30, r24
+ 8f6:	20 83       	st	Z, r18
+
+	/* Set all pins to low power mode */
+	PORTB_set_port_dir(0xff, PORT_DIR_OFF);
+ 8f8:	62 e0       	ldi	r22, 0x02	; 2
+ 8fa:	8f ef       	ldi	r24, 0xFF	; 255
+ 8fc:	0e 94 3d 03 	call	0x67a	; 0x67a <PORTB_set_port_dir>
+	PORTC_set_port_dir(0xff, PORT_DIR_OFF);
+ 900:	62 e0       	ldi	r22, 0x02	; 2
+ 902:	8f ef       	ldi	r24, 0xFF	; 255
+ 904:	0e 94 85 03 	call	0x70a	; 0x70a <PORTC_set_port_dir>
+	PORTD_set_port_dir(0xff, PORT_DIR_OFF);
+ 908:	62 e0       	ldi	r22, 0x02	; 2
+ 90a:	8f ef       	ldi	r24, 0xFF	; 255
+ 90c:	0e 94 cd 03 	call	0x79a	; 0x79a <PORTD_set_port_dir>
+	PORTE_set_port_dir(0x07, PORT_DIR_OFF);
+ 910:	62 e0       	ldi	r22, 0x02	; 2
+ 912:	87 e0       	ldi	r24, 0x07	; 7
+ 914:	0e 94 15 04 	call	0x82a	; 0x82a <PORTE_set_port_dir>
+}
+ 918:	00 00       	nop
+ 91a:	df 91       	pop	r29
+ 91c:	cf 91       	pop	r28
+ 91e:	08 95       	ret
+
+00000920 <system_init>:
+
+/**
+ * \brief System initialization
+ */
+void system_init()
+{
+ 920:	cf 93       	push	r28
+ 922:	df 93       	push	r29
+ 924:	cd b7       	in	r28, 0x3d	; 61
+ 926:	de b7       	in	r29, 0x3e	; 62
+	mcu_init();
+ 928:	0e 94 73 04 	call	0x8e6	; 0x8e6 <mcu_init>
+
+	sysctrl_init();
+ 92c:	0e 94 5d 04 	call	0x8ba	; 0x8ba <sysctrl_init>
+}
+ 930:	00 00       	nop
+ 932:	df 91       	pop	r29
+ 934:	cf 91       	pop	r28
+ 936:	08 95       	ret
+
+00000938 <protected_write_io>:
+#if defined(__GNUC__)
+	/*
+	 * We need to disable interrupts globally before the protected
+	 * sequence. In order to do that we must save SREG first.
+	 */
+	in      r18,    _SFR_IO_ADDR(SREG)
+ 938:	2f b7       	in	r18, 0x3f	; 63
+	cli
+ 93a:	f8 94       	cli
+  
+#ifdef RAMPZ
+	out     _SFR_IO_ADDR(RAMPZ), r1         // Clear bits 23:16 of Z
+#endif
+	movw    r30, r24                // Load addr into Z
+ 93c:	fc 01       	movw	r30, r24
+	st      Z, r22                  // Write protection bit to I/O register
+ 93e:	60 83       	st	Z, r22
+	st      Z, r20                  // Write value to I/O register
+ 940:	40 83       	st	Z, r20
+	out     _SFR_IO_ADDR(SREG), r18
+ 942:	2f bf       	out	0x3f, r18	; 63
+
+	ret                             // Return to caller
+ 944:	08 95       	ret
+
+00000946 <_exit>:
+ 946:	f8 94       	cli
+
+00000948 <__stop_program>:
+ 948:	ff cf       	rjmp	.-2      	; 0x948 <__stop_program>
