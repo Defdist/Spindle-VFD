@@ -73,8 +73,13 @@ void timer0_init()
 {
 	PRR &= ~(1<<PRTIM0);//enable timer
 	TCCR0A = 0b10000010; //set to clear on compare
-	TCCR0B = 0b00000101; //divide 16E6/1024 = 15.6 kHz
-	OCR0A = 127; //maximum timer value to count up to (before reset); counter continuously counts up from zero to this value
+	//TCCR0B = 0b00000101; //divide 16E6/1024 = 15.6 kHz clock, counter resets @   117  Hz
+	//TCCR0B = 0b00000100; //divide 16E6/0256 = 62.5 kHz clock, counter resets @   488  Hz
+	//TCCR0B = 0b00000011; //divide 16E6/0064 = 250. kHz clock, counter resets @  1.95 kHz
+	TCCR0B = 0b00000010; //divide 16E6/0008 = 02.0 MHz clock, counter resets @ 15.63 kHz
+	//TCCR0B = 0b00000001; //divide 16E6/0001 = 16.0 MHz clock, counter resets @   125 kHz
+	
+	OCR0A = 127; //maximum timer value to count up to (before reset); counter continuously counts up from zero to this value 
 }
 
 void phase_init()
@@ -112,8 +117,7 @@ uint8_t get_hall_logic()
 void set_phase(char phase, char set_output_to)
 {
 	switch (phase) {
-		case 'A':
-			//PIND |= (1<<3);			
+		case 'A':			
 			switch (set_output_to) {
 				case 'H':
 					FET_A_LOW_PORT &= ~(1<<FET_A_LOW_BIT);//turn low FET off
@@ -200,10 +204,13 @@ int main(void)
 	while (1) {
 		uint8_t ai_result = adc_read_latest();
 		uint8_t count_latest = TCNT0;
+		
 		if( count_latest > ai_result ) { //if free-running counter value is greater than arduino wants, turn off all FETs
 			set_all_phases('Z','Z','Z'); //replicate GG2 behavior
 		
 		} else { //always true when 'S8000' sent, true half the time when 'S4000', never true when 'S0'
+			
+			//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
 			switch ( get_hall_logic() ) {
 				case 1: set_all_phases('H','L','Z'); break;
 				case 2: set_all_phases('L','Z','H'); break;
@@ -216,7 +223,7 @@ int main(void)
 				default:
 					set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
 					break;
-			//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
+			
 			}
 		}
 	}

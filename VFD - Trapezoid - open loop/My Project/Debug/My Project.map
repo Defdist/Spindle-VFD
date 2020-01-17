@@ -1,12 +1,12 @@
 Archive member included to satisfy reference by file (symbol)
 
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o (exit)
+                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o (exit)
 
 Discarded input sections
 
- .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
- .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
+ .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
+ .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
  .text          0x00000000        0x0 adc.o
  .data          0x00000000        0x0 adc.o
  .bss           0x00000000        0x0 adc.o
@@ -26,6 +26,8 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
+ .text.hall_init
+                0x00000000        0x2 main.o
  .text          0x00000000        0x0 src/driver_init.o
  .data          0x00000000        0x0 src/driver_init.o
  .bss           0x00000000        0x0 src/driver_init.o
@@ -52,9 +54,9 @@ Discarded input sections
 Memory Configuration
 
 Name             Origin             Length             Attributes
-text             0x00000000         0x00010000         xr
-data             0x00800100         0x00001000         rw !x
-eeprom           0x00810000         0x00000800         rw !x
+text             0x00000000         0x00008000         xr
+data             0x00800100         0x00000800         rw !x
+eeprom           0x00810000         0x00000400         rw !x
 fuse             0x00820000         0x00000003         rw !x
 lock             0x00830000         0x00000400         rw !x
 signature        0x00840000         0x00000400         rw !x
@@ -64,7 +66,7 @@ user_signatures  0x00850000         0x00000400         rw !x
 Linker script and memory map
 
 Address of section .data set to 0x800100
-LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
 LOAD adc.o
 LOAD atmel_start.o
 LOAD driver_isr.o
@@ -78,13 +80,13 @@ START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a
-LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5\libatmega64m1.a
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5\libatmega32m1.a
 END GROUP
                 0x00000000                __TEXT_REGION_ORIGIN__ = DEFINED (__TEXT_REGION_ORIGIN__)?__TEXT_REGION_ORIGIN__:0x0
                 [0x00800100]                __DATA_REGION_ORIGIN__ = DEFINED (__DATA_REGION_ORIGIN__)?__DATA_REGION_ORIGIN__:0x800060
-                [0x00010000]                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x20000
-                [0x00001000]                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
-                [0x00000800]                __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
+                [0x00008000]                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x20000
+                [0x00000800]                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
+                [0x00000400]                __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
                 [0x00000003]                __FUSE_REGION_LENGTH__ = DEFINED (__FUSE_REGION_LENGTH__)?__FUSE_REGION_LENGTH__:0x400
                 0x00000400                __LOCK_REGION_LENGTH__ = DEFINED (__LOCK_REGION_LENGTH__)?__LOCK_REGION_LENGTH__:0x400
                 0x00000400                __SIGNATURE_REGION_LENGTH__ = DEFINED (__SIGNATURE_REGION_LENGTH__)?__SIGNATURE_REGION_LENGTH__:0x400
@@ -180,9 +182,9 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x98c
+.text           0x00000000      0x332
  *(.vectors)
- .vectors       0x00000000       0x7c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
+ .vectors       0x00000000       0x7c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
                 0x00000000                __vector_default
                 0x00000000                __vectors
  *(.vectors)
@@ -210,13 +212,13 @@ END GROUP
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x0000007c        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
+ .init0         0x0000007c        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
                 0x0000007c                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x0000007c        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
+ .init2         0x0000007c        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
  *(.init2)
  *(.init3)
  *(.init3)
@@ -231,10 +233,10 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000088        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
+ .init9         0x00000088        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
  *(.init9)
  *(.text)
- .text          0x00000090        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
+ .text          0x00000090        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
                 0x00000090                __vector_22
                 0x00000090                __vector_28
                 0x00000090                __vector_1
@@ -269,63 +271,48 @@ END GROUP
                 0x00000094                . = ALIGN (0x2)
  *(.text.*)
  .text.adc_select_vref
-                0x00000094       0x5a adc.o
+                0x00000094       0x2c adc.o
                 0x00000094                adc_select_vref
  .text.adc_select_channel
-                0x000000ee       0x5e adc.o
-                0x000000ee                adc_select_channel
+                0x000000c0       0x2e adc.o
+                0x000000c0                adc_select_channel
  .text.adc_init
-                0x0000014c       0xe0 adc.o
-                0x0000014c                adc_init
+                0x000000ee       0x70 adc.o
+                0x000000ee                adc_init
  .text.adc_read_latest
-                0x0000022c       0x20 adc.o
-                0x0000022c                adc_read_latest
+                0x0000015e        0x6 adc.o
+                0x0000015e                adc_read_latest
  .text.atmel_start_init
-                0x0000024c       0x14 atmel_start.o
-                0x0000024c                atmel_start_init
- .text.hall_init
-                0x00000260       0x10 main.o
-                0x00000260                hall_init
+                0x00000164        0x6 atmel_start.o
+                0x00000164                atmel_start_init
  .text.timer0_init
-                0x00000270       0x40 main.o
-                0x00000270                timer0_init
+                0x0000016a       0x18 main.o
+                0x0000016a                timer0_init
  .text.phase_init
-                0x000002b0       0xc4 main.o
-                0x000002b0                phase_init
+                0x00000182       0x26 main.o
+                0x00000182                phase_init
  .text.get_hall_logic
-                0x00000374       0x64 main.o
-                0x00000374                get_hall_logic
+                0x000001a8       0x14 main.o
+                0x000001a8                get_hall_logic
  .text.set_phase
-                0x000003d8      0x1e2 main.o
-                0x000003d8                set_phase
+                0x000001bc       0x66 main.o
+                0x000001bc                set_phase
  .text.set_all_phases
-                0x000005ba       0x38 main.o
-                0x000005ba                set_all_phases
- .text.main     0x000005f2       0xca main.o
-                0x000005f2                main
- .text.PORTB_set_port_dir
-                0x000006bc       0x90 src/driver_init.o
- .text.PORTC_set_port_dir
-                0x0000074c       0x90 src/driver_init.o
- .text.PORTD_set_port_dir
-                0x000007dc       0x90 src/driver_init.o
- .text.PORTE_set_port_dir
-                0x0000086c       0x90 src/driver_init.o
- .text.sysctrl_init
-                0x000008fc       0x2c src/driver_init.o
- .text.mcu_init
-                0x00000928       0x3a src/driver_init.o
+                0x00000222       0x26 main.o
+                0x00000222                set_all_phases
+ .text.main     0x00000248       0x9a main.o
+                0x00000248                main
  .text.system_init
-                0x00000962       0x18 src/driver_init.o
-                0x00000962                system_init
+                0x000002e2       0x3e src/driver_init.o
+                0x000002e2                system_init
  .text.protected_write_io
-                0x0000097a        0xe src/protected_io.o
-                0x0000097a                protected_write_io
-                0x00000988                . = ALIGN (0x2)
+                0x00000320        0xe src/protected_io.o
+                0x00000320                protected_write_io
+                0x0000032e                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000988        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x00000988                _exit
-                0x00000988                exit
+ .fini9         0x0000032e        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x0000032e                _exit
+                0x0000032e                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -344,11 +331,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000988        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000032e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000098c                _etext = .
+                0x00000332                _etext = .
 
-.data           0x00800100        0x0 load address 0x0000098c
+.data           0x00800100        0x0 load address 0x00000332
                 [!provide]                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -366,8 +353,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 [!provide]                PROVIDE (__bss_end, .)
-                0x0000098c                __data_load_start = LOADADDR (.data)
-                0x0000098c                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000332                __data_load_start = LOADADDR (.data)
+                0x00000332                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800100        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -424,7 +411,7 @@ END GROUP
 .note.gnu.avr.deviceinfo
                 0x00000000       0x40
  .note.gnu.avr.deviceinfo
-                0x00000000       0x40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
+                0x00000000       0x40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)
@@ -441,7 +428,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x118
+.debug_aranges  0x00000000       0xe8
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x38 adc.o
@@ -450,65 +437,64 @@ END GROUP
  .debug_aranges
                 0x00000058       0x50 main.o
  .debug_aranges
-                0x000000a8       0x50 src/driver_init.o
+                0x000000a8       0x20 src/driver_init.o
  .debug_aranges
-                0x000000f8       0x20 src/protected_io.o
+                0x000000c8       0x20 src/protected_io.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xfc5
+.debug_info     0x00000000     0x1245
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0xa40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
- .debug_info    0x00000a40       0xfc adc.o
- .debug_info    0x00000b3c       0x78 atmel_start.o
- .debug_info    0x00000bb4      0x1af main.o
- .debug_info    0x00000d63      0x1c9 src/driver_init.o
- .debug_info    0x00000f2c       0x99 src/protected_io.o
+ .debug_info    0x00000000      0xa40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
+ .debug_info    0x00000a40      0x126 adc.o
+ .debug_info    0x00000b66       0x93 atmel_start.o
+ .debug_info    0x00000bf9      0x360 main.o
+ .debug_info    0x00000f59      0x253 src/driver_init.o
+ .debug_info    0x000011ac       0x99 src/protected_io.o
 
-.debug_abbrev   0x00000000      0xc8b
+.debug_abbrev   0x00000000      0xd5b
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x9b2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
- .debug_abbrev  0x000009b2       0x9f adc.o
- .debug_abbrev  0x00000a51       0x44 atmel_start.o
- .debug_abbrev  0x00000a95       0xf6 main.o
- .debug_abbrev  0x00000b8b       0xec src/driver_init.o
- .debug_abbrev  0x00000c77       0x14 src/protected_io.o
+ .debug_abbrev  0x00000000      0x9b2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
+ .debug_abbrev  0x000009b2       0xc5 adc.o
+ .debug_abbrev  0x00000a77       0x63 atmel_start.o
+ .debug_abbrev  0x00000ada      0x14d main.o
+ .debug_abbrev  0x00000c27      0x120 src/driver_init.o
+ .debug_abbrev  0x00000d47       0x14 src/protected_io.o
 
-.debug_line     0x00000000      0x95f
+.debug_line     0x00000000      0x7b4
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x151 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
- .debug_line    0x00000151      0x1ac adc.o
- .debug_line    0x000002fd       0x4a atmel_start.o
- .debug_line    0x00000347      0x330 main.o
- .debug_line    0x00000677      0x281 src/driver_init.o
- .debug_line    0x000008f8       0x67 src/protected_io.o
+ .debug_line    0x00000000      0x151 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
+ .debug_line    0x00000151      0x188 adc.o
+ .debug_line    0x000002d9       0x60 atmel_start.o
+ .debug_line    0x00000339      0x2de main.o
+ .debug_line    0x00000617      0x136 src/driver_init.o
+ .debug_line    0x0000074d       0x67 src/protected_io.o
 
-.debug_frame    0x00000000      0x2b0
+.debug_frame    0x00000000      0x140
  *(.debug_frame)
- .debug_frame   0x00000000       0x94 adc.o
- .debug_frame   0x00000094       0x34 atmel_start.o
- .debug_frame   0x000000c8       0xf4 main.o
- .debug_frame   0x000001bc       0xf4 src/driver_init.o
+ .debug_frame   0x00000000       0x68 adc.o
+ .debug_frame   0x00000068       0x24 atmel_start.o
+ .debug_frame   0x0000008c       0x90 main.o
+ .debug_frame   0x0000011c       0x24 src/driver_init.o
 
-.debug_str      0x00000000      0x6e4
+.debug_str      0x00000000      0x6f7
  *(.debug_str)
- .debug_str     0x00000000      0x3d0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega64m1/avr5/crtatmega64m1.o
+ .debug_str     0x00000000      0x3d0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
  .debug_str     0x000003d0      0x19f adc.o
                                 0x1db (size before relaxing)
- .debug_str     0x0000056f       0x24 atmel_start.o
-                                0x193 (size before relaxing)
- .debug_str     0x00000593       0x99 main.o
-                                0x22b (size before relaxing)
- .debug_str     0x0000062c       0xb8 src/driver_init.o
-                                0x23f (size before relaxing)
+ .debug_str     0x0000056f       0x30 atmel_start.o
+                                0x19f (size before relaxing)
+ .debug_str     0x0000059f       0x99 main.o
+                                0x245 (size before relaxing)
+ .debug_str     0x00000638       0xbf src/driver_init.o
+                                0x252 (size before relaxing)
 
-.debug_loc      0x00000000      0x4f0
+.debug_loc      0x00000000      0x28d
  *(.debug_loc)
- .debug_loc     0x00000000      0x113 adc.o
- .debug_loc     0x00000113       0x3b atmel_start.o
- .debug_loc     0x0000014e      0x1d1 main.o
- .debug_loc     0x0000031f      0x1d1 src/driver_init.o
+ .debug_loc     0x00000000       0xdc adc.o
+ .debug_loc     0x000000dc      0x10e main.o
+ .debug_loc     0x000001ea       0xa3 src/driver_init.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -528,12 +514,12 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xb8
+.debug_ranges   0x00000000       0x88
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x28 adc.o
  .debug_ranges  0x00000028       0x10 atmel_start.o
  .debug_ranges  0x00000038       0x40 main.o
- .debug_ranges  0x00000078       0x40 src/driver_init.o
+ .debug_ranges  0x00000078       0x10 src/driver_init.o
 
 .debug_macro
  *(.debug_macro)
