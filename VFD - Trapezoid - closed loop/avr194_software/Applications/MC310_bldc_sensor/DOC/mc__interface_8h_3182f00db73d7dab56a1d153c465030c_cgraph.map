@@ -1,0 +1,5 @@
+<area shape="rect" href="$mc__drv_8c.html#4b4b083e0871dfd8d9f1b97ae9856d79" title="mc_init_HW" alt="" coords="159,5,252,32">
+<area shape="rect" href="$mc__interface_8c.html#81b3bb4a40f107863aaffcfbcf979faf" title="mc_set_measured_speed" alt="" coords="117,56,293,83">
+<area shape="rect" href="$mc__interface_8c.html#09c9d3557fdbc555c1fc80cf03fcd7db" title="mci_forward" alt="" coords="159,107,252,133">
+<area shape="rect" href="$mc__interface_8c.html#1dd7770694b33528149380dcb538d513" title="mci_set_ref_speed" alt="" coords="139,157,272,184">
+<area shape="rect" href="$mc__interface_8c.html#0942297e70dc80b093cc813773849f5f" title="mci_stop" alt="" coords="168,208,243,235">

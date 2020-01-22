@@ -182,7 +182,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x332
+.text           0x00000000      0x32e
  *(.vectors)
  .vectors       0x00000000       0x7c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
                 0x00000000                __vector_default
@@ -289,30 +289,30 @@ END GROUP
                 0x0000016a       0x18 main.o
                 0x0000016a                timer0_init
  .text.phase_init
-                0x00000182       0x26 main.o
+                0x00000182       0x22 main.o
                 0x00000182                phase_init
  .text.get_hall_logic
-                0x000001a8       0x14 main.o
-                0x000001a8                get_hall_logic
+                0x000001a4       0x14 main.o
+                0x000001a4                get_hall_logic
  .text.set_phase
-                0x000001bc       0x66 main.o
-                0x000001bc                set_phase
+                0x000001b8       0x66 main.o
+                0x000001b8                set_phase
  .text.set_all_phases
-                0x00000222       0x26 main.o
-                0x00000222                set_all_phases
- .text.main     0x00000248       0x9a main.o
-                0x00000248                main
+                0x0000021e       0x26 main.o
+                0x0000021e                set_all_phases
+ .text.main     0x00000244       0x9a main.o
+                0x00000244                main
  .text.system_init
-                0x000002e2       0x3e src/driver_init.o
-                0x000002e2                system_init
+                0x000002de       0x3e src/driver_init.o
+                0x000002de                system_init
  .text.protected_write_io
-                0x00000320        0xe src/protected_io.o
-                0x00000320                protected_write_io
-                0x0000032e                . = ALIGN (0x2)
+                0x0000031c        0xe src/protected_io.o
+                0x0000031c                protected_write_io
+                0x0000032a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000032e        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x0000032e                _exit
-                0x0000032e                exit
+ .fini9         0x0000032a        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x0000032a                _exit
+                0x0000032a                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -331,11 +331,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000032e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000032a        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000332                _etext = .
+                0x0000032e                _etext = .
 
-.data           0x00800100        0x0 load address 0x00000332
+.data           0x00800100        0x0 load address 0x0000032e
                 [!provide]                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -353,8 +353,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 [!provide]                PROVIDE (__bss_end, .)
-                0x00000332                __data_load_start = LOADADDR (.data)
-                0x00000332                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000032e                __data_load_start = LOADADDR (.data)
+                0x0000032e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800100        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -462,14 +462,14 @@ END GROUP
  .debug_abbrev  0x00000c27      0x120 src/driver_init.o
  .debug_abbrev  0x00000d47       0x14 src/protected_io.o
 
-.debug_line     0x00000000      0x7b4
+.debug_line     0x00000000      0x7a8
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x151 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
  .debug_line    0x00000151      0x188 adc.o
  .debug_line    0x000002d9       0x60 atmel_start.o
- .debug_line    0x00000339      0x2de main.o
- .debug_line    0x00000617      0x136 src/driver_init.o
- .debug_line    0x0000074d       0x67 src/protected_io.o
+ .debug_line    0x00000339      0x2d2 main.o
+ .debug_line    0x0000060b      0x136 src/driver_init.o
+ .debug_line    0x00000741       0x67 src/protected_io.o
 
 .debug_frame    0x00000000      0x140
  *(.debug_frame)

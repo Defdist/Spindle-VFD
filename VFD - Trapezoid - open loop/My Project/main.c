@@ -99,8 +99,8 @@ void phase_init()
 	PORTD &= ~(FET_PORTB_MASK);
 	
 	//debug (X1LIMIT)
-	DDRD |= (1<<3); //debug set to output
-	PORTD |= (1<<3); //debug set X1LIMIT (PD3) low (so we can toggle when errors)
+	//DDRD |= (1<<3); //debug set to output  This MUST BE DISABLED OR X LIMIT SWITCH WON'T WORK
+	//PORTD |= (1<<3); //debug set X1LIMIT (PD3) low (so we can toggle when errors)
 }
 
 uint8_t get_hall_logic()
