@@ -3,29 +3,29 @@ My Project.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000382  2**0
+  0 .data         00000000  00800100  00800100  00000406  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000032e  00000000  00000000  00000054  2**1
+  1 .text         000003b2  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000382  2**0
+  2 .comment      00000030  00000000  00000000  00000406  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000003b4  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000438  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 000000e8  00000000  00000000  000003f8  2**3
+  4 .debug_aranges 000000f0  00000000  00000000  00000478  2**3
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001245  00000000  00000000  000004e0  2**0
+  5 .debug_info   00001350  00000000  00000000  00000568  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000d5b  00000000  00000000  00001725  2**0
+  6 .debug_abbrev 00000d73  00000000  00000000  000018b8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000007a8  00000000  00000000  00002480  2**0
+  7 .debug_line   00000801  00000000  00000000  0000262b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000140  00000000  00000000  00002c28  2**2
+  8 .debug_frame  00000150  00000000  00000000  00002e2c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000006f7  00000000  00000000  00002d68  2**0
+  9 .debug_str    0000070e  00000000  00000000  00002f7c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000028d  00000000  00000000  0000345f  2**0
+ 10 .debug_loc    0000028d  00000000  00000000  0000368a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000088  00000000  00000000  000036ec  2**0
+ 11 .debug_ranges 00000090  00000000  00000000  00003917  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -70,8 +70,8 @@ Disassembly of section .text:
   82:	d8 e0       	ldi	r29, 0x08	; 8
   84:	de bf       	out	0x3e, r29	; 62
   86:	cd bf       	out	0x3d, r28	; 61
-  88:	0e 94 22 01 	call	0x244	; 0x244 <main>
-  8c:	0c 94 95 01 	jmp	0x32a	; 0x32a <_exit>
+  88:	0e 94 27 01 	call	0x24e	; 0x24e <main>
+  8c:	0c 94 d7 01 	jmp	0x3ae	; 0x3ae <_exit>
 
 00000090 <__bad_interrupt>:
   90:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -245,13 +245,13 @@ uint8_t adc_read_latest()
 void atmel_start_init(void)
 {
 	system_init();
- 164:	0e 94 6f 01 	call	0x2de	; 0x2de <system_init>
+ 164:	0e 94 b1 01 	call	0x362	; 0x362 <system_init>
  168:	08 95       	ret
 
 0000016a <timer0_init>:
-}
 
 //setup TC0 to continuously count from 0:127 with auto-reload
+//This is used to (poorly) control spindle speed
 void timer0_init()
 {
 	PRR &= ~(1<<PRTIM0);//enable timer
@@ -341,349 +341,430 @@ uint8_t get_hall_logic()
 }
  1b6:	08 95       	ret
 
-000001b8 <set_phase>:
+000001b8 <is_direction_clockwise>:
 
+uint8_t is_direction_clockwise()
+{
+	if ( BLDC_DIR_PIN & BLDC_DIR_MASK ) { return 1;}  //spin CW 
+ 1b8:	83 b1       	in	r24, 0x03	; 3
+	else { return 0; } //spin CCW
+}
+ 1ba:	83 fb       	bst	r24, 3
+ 1bc:	88 27       	eor	r24, r24
+ 1be:	80 f9       	bld	r24, 0
+ 1c0:	08 95       	ret
+
+000001c2 <set_phase>:
 
 void set_phase(char phase, char set_output_to)
 {
 	switch (phase) {
- 1b8:	82 34       	cpi	r24, 0x42	; 66
- 1ba:	99 f0       	breq	.+38     	; 0x1e2 <set_phase+0x2a>
- 1bc:	83 34       	cpi	r24, 0x43	; 67
- 1be:	01 f1       	breq	.+64     	; 0x200 <set_phase+0x48>
- 1c0:	81 34       	cpi	r24, 0x41	; 65
- 1c2:	61 f5       	brne	.+88     	; 0x21c <set_phase+0x64>
+ 1c2:	82 34       	cpi	r24, 0x42	; 66
+ 1c4:	99 f0       	breq	.+38     	; 0x1ec <set_phase+0x2a>
+ 1c6:	83 34       	cpi	r24, 0x43	; 67
+ 1c8:	01 f1       	breq	.+64     	; 0x20a <set_phase+0x48>
+ 1ca:	81 34       	cpi	r24, 0x41	; 65
+ 1cc:	61 f5       	brne	.+88     	; 0x226 <set_phase+0x64>
 		case 'A':			
 			switch (set_output_to) {
- 1c4:	6c 34       	cpi	r22, 0x4C	; 76
- 1c6:	39 f0       	breq	.+14     	; 0x1d6 <set_phase+0x1e>
- 1c8:	6a 35       	cpi	r22, 0x5A	; 90
- 1ca:	41 f0       	breq	.+16     	; 0x1dc <set_phase+0x24>
- 1cc:	68 34       	cpi	r22, 0x48	; 72
- 1ce:	31 f5       	brne	.+76     	; 0x21c <set_phase+0x64>
+ 1ce:	6c 34       	cpi	r22, 0x4C	; 76
+ 1d0:	39 f0       	breq	.+14     	; 0x1e0 <set_phase+0x1e>
+ 1d2:	6a 35       	cpi	r22, 0x5A	; 90
+ 1d4:	41 f0       	breq	.+16     	; 0x1e6 <set_phase+0x24>
+ 1d6:	68 34       	cpi	r22, 0x48	; 72
+ 1d8:	31 f5       	brne	.+76     	; 0x226 <set_phase+0x64>
 				case 'H':
 					FET_A_LOW_PORT &= ~(1<<FET_A_LOW_BIT);//turn low FET off
- 1d0:	2f 98       	cbi	0x05, 7	; 5
+ 1da:	2f 98       	cbi	0x05, 7	; 5
 					FET_A_HIGH_PORT |= (1<<FET_A_HIGH_BIT);//turn high FET on
- 1d2:	58 9a       	sbi	0x0b, 0	; 11
+ 1dc:	58 9a       	sbi	0x0b, 0	; 11
 					break;
- 1d4:	08 95       	ret
+ 1de:	08 95       	ret
 				case 'L':
 					FET_A_HIGH_PORT &= ~(1<<FET_A_HIGH_BIT);//turn high FET off
- 1d6:	58 98       	cbi	0x0b, 0	; 11
+ 1e0:	58 98       	cbi	0x0b, 0	; 11
 					FET_A_LOW_PORT |= (1<<FET_A_LOW_BIT);//turn low FET on
- 1d8:	2f 9a       	sbi	0x05, 7	; 5
+ 1e2:	2f 9a       	sbi	0x05, 7	; 5
 					break;
- 1da:	08 95       	ret
+ 1e4:	08 95       	ret
 				case 'Z':
 					FET_A_HIGH_PORT &= ~(1<<FET_A_HIGH_BIT);//turn both FETs off
- 1dc:	58 98       	cbi	0x0b, 0	; 11
+ 1e6:	58 98       	cbi	0x0b, 0	; 11
 					FET_A_LOW_PORT &= ~(1<<FET_A_LOW_BIT);
- 1de:	2f 98       	cbi	0x05, 7	; 5
+ 1e8:	2f 98       	cbi	0x05, 7	; 5
 					break;
- 1e0:	08 95       	ret
+ 1ea:	08 95       	ret
 					break;
 			}
 			break;
 			
 		case 'B':
 			switch (set_output_to) {
- 1e2:	6c 34       	cpi	r22, 0x4C	; 76
- 1e4:	39 f0       	breq	.+14     	; 0x1f4 <set_phase+0x3c>
- 1e6:	6a 35       	cpi	r22, 0x5A	; 90
- 1e8:	41 f0       	breq	.+16     	; 0x1fa <set_phase+0x42>
- 1ea:	68 34       	cpi	r22, 0x48	; 72
- 1ec:	b9 f4       	brne	.+46     	; 0x21c <set_phase+0x64>
+ 1ec:	6c 34       	cpi	r22, 0x4C	; 76
+ 1ee:	39 f0       	breq	.+14     	; 0x1fe <set_phase+0x3c>
+ 1f0:	6a 35       	cpi	r22, 0x5A	; 90
+ 1f2:	41 f0       	breq	.+16     	; 0x204 <set_phase+0x42>
+ 1f4:	68 34       	cpi	r22, 0x48	; 72
+ 1f6:	b9 f4       	brne	.+46     	; 0x226 <set_phase+0x64>
 				case 'H':
 					FET_B_LOW_PORT &= ~(1<<FET_B_LOW_BIT);//turn low FET off
- 1ee:	2e 98       	cbi	0x05, 6	; 5
+ 1f8:	2e 98       	cbi	0x05, 6	; 5
 					FET_B_HIGH_PORT |= (1<<FET_B_HIGH_BIT);//turn high FET on
- 1f0:	40 9a       	sbi	0x08, 0	; 8
+ 1fa:	40 9a       	sbi	0x08, 0	; 8
 					break;
- 1f2:	08 95       	ret
+ 1fc:	08 95       	ret
 				case 'L':
 					FET_B_HIGH_PORT &= ~(1<<FET_B_HIGH_BIT);//turn high FET off
- 1f4:	40 98       	cbi	0x08, 0	; 8
+ 1fe:	40 98       	cbi	0x08, 0	; 8
 					FET_B_LOW_PORT |= (1<<FET_B_LOW_BIT);//turn low FET on
- 1f6:	2e 9a       	sbi	0x05, 6	; 5
+ 200:	2e 9a       	sbi	0x05, 6	; 5
 					break;
- 1f8:	08 95       	ret
+ 202:	08 95       	ret
 				case 'Z':
 					FET_B_HIGH_PORT &= ~(1<<FET_B_HIGH_BIT);//turn both FETs off
- 1fa:	40 98       	cbi	0x08, 0	; 8
+ 204:	40 98       	cbi	0x08, 0	; 8
 					FET_B_LOW_PORT &= ~(1<<FET_B_LOW_BIT);
- 1fc:	2e 98       	cbi	0x05, 6	; 5
+ 206:	2e 98       	cbi	0x05, 6	; 5
 					break;
- 1fe:	08 95       	ret
+ 208:	08 95       	ret
 					break;
 			}			
 			break;
 			
 		case 'C':			
 			switch (set_output_to) {
- 200:	6c 34       	cpi	r22, 0x4C	; 76
- 202:	39 f0       	breq	.+14     	; 0x212 <set_phase+0x5a>
- 204:	6a 35       	cpi	r22, 0x5A	; 90
- 206:	41 f0       	breq	.+16     	; 0x218 <set_phase+0x60>
- 208:	68 34       	cpi	r22, 0x48	; 72
- 20a:	41 f4       	brne	.+16     	; 0x21c <set_phase+0x64>
+ 20a:	6c 34       	cpi	r22, 0x4C	; 76
+ 20c:	39 f0       	breq	.+14     	; 0x21c <set_phase+0x5a>
+ 20e:	6a 35       	cpi	r22, 0x5A	; 90
+ 210:	41 f0       	breq	.+16     	; 0x222 <set_phase+0x60>
+ 212:	68 34       	cpi	r22, 0x48	; 72
+ 214:	41 f4       	brne	.+16     	; 0x226 <set_phase+0x64>
 				case 'H':
 					FET_C_LOW_PORT &= ~(1<<FET_C_LOW_BIT);//turn low FET off
- 20c:	29 98       	cbi	0x05, 1	; 5
+ 216:	29 98       	cbi	0x05, 1	; 5
 					FET_C_HIGH_PORT |= (1<<FET_C_HIGH_BIT);//turn high FET on
- 20e:	28 9a       	sbi	0x05, 0	; 5
+ 218:	28 9a       	sbi	0x05, 0	; 5
 					break;
- 210:	08 95       	ret
+ 21a:	08 95       	ret
 				case 'L':
 					FET_C_HIGH_PORT &= ~(1<<FET_C_HIGH_BIT);//turn high FET off
- 212:	28 98       	cbi	0x05, 0	; 5
+ 21c:	28 98       	cbi	0x05, 0	; 5
 					FET_C_LOW_PORT |= (1<<FET_C_LOW_BIT);//turn low FET on
- 214:	29 9a       	sbi	0x05, 1	; 5
+ 21e:	29 9a       	sbi	0x05, 1	; 5
 					break;
- 216:	08 95       	ret
+ 220:	08 95       	ret
 				case 'Z':
 					FET_C_HIGH_PORT &= ~(1<<FET_C_HIGH_BIT);//turn both FETs off
- 218:	28 98       	cbi	0x05, 0	; 5
+ 222:	28 98       	cbi	0x05, 0	; 5
 					FET_C_LOW_PORT &= ~(1<<FET_C_LOW_BIT);
- 21a:	29 98       	cbi	0x05, 1	; 5
- 21c:	08 95       	ret
+ 224:	29 98       	cbi	0x05, 1	; 5
+ 226:	08 95       	ret
 
-0000021e <set_all_phases>:
+00000228 <set_all_phases>:
 
 }
 
 
 void set_all_phases(char stateA, char stateB, char stateC)
 {
- 21e:	cf 93       	push	r28
- 220:	df 93       	push	r29
- 222:	d6 2f       	mov	r29, r22
- 224:	c4 2f       	mov	r28, r20
+ 228:	cf 93       	push	r28
+ 22a:	df 93       	push	r29
+ 22c:	d6 2f       	mov	r29, r22
+ 22e:	c4 2f       	mov	r28, r20
 	set_phase('A',stateA);
- 226:	68 2f       	mov	r22, r24
- 228:	81 e4       	ldi	r24, 0x41	; 65
- 22a:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <set_phase>
+ 230:	68 2f       	mov	r22, r24
+ 232:	81 e4       	ldi	r24, 0x41	; 65
+ 234:	0e 94 e1 00 	call	0x1c2	; 0x1c2 <set_phase>
 	set_phase('B',stateB);
- 22e:	6d 2f       	mov	r22, r29
- 230:	82 e4       	ldi	r24, 0x42	; 66
- 232:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <set_phase>
+ 238:	6d 2f       	mov	r22, r29
+ 23a:	82 e4       	ldi	r24, 0x42	; 66
+ 23c:	0e 94 e1 00 	call	0x1c2	; 0x1c2 <set_phase>
 	set_phase('C',stateC);
- 236:	6c 2f       	mov	r22, r28
- 238:	83 e4       	ldi	r24, 0x43	; 67
- 23a:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <set_phase>
+ 240:	6c 2f       	mov	r22, r28
+ 242:	83 e4       	ldi	r24, 0x43	; 67
+ 244:	0e 94 e1 00 	call	0x1c2	; 0x1c2 <set_phase>
 }
- 23e:	df 91       	pop	r29
- 240:	cf 91       	pop	r28
- 242:	08 95       	ret
+ 248:	df 91       	pop	r29
+ 24a:	cf 91       	pop	r28
+ 24c:	08 95       	ret
 
-00000244 <main>:
+0000024e <main>:
 
 
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
- 244:	0e 94 b2 00 	call	0x164	; 0x164 <atmel_start_init>
+ 24e:	0e 94 b2 00 	call	0x164	; 0x164 <atmel_start_init>
 	hall_init();
 	phase_init();
- 248:	0e 94 c1 00 	call	0x182	; 0x182 <phase_init>
+ 252:	0e 94 c1 00 	call	0x182	; 0x182 <phase_init>
 	adc_init();
- 24c:	0e 94 77 00 	call	0xee	; 0xee <adc_init>
+ 256:	0e 94 77 00 	call	0xee	; 0xee <adc_init>
 	timer0_init();
- 250:	0e 94 b5 00 	call	0x16a	; 0x16a <timer0_init>
+ 25a:	0e 94 b5 00 	call	0x16a	; 0x16a <timer0_init>
 	
 //	adc_select_channel(ADC_CHANNEL_goalRPM);
 
 	while (1) {
 		uint8_t ai_result = adc_read_latest();
- 254:	0e 94 af 00 	call	0x15e	; 0x15e <adc_read_latest>
+ 25e:	0e 94 af 00 	call	0x15e	; 0x15e <adc_read_latest>
 		uint8_t count_latest = TCNT0;
- 258:	96 b5       	in	r25, 0x26	; 38
+ 262:	96 b5       	in	r25, 0x26	; 38
 		
-		if( count_latest > ai_result ) { //if free-running counter value is greater than arduino wants, turn off all FETs
- 25a:	89 17       	cp	r24, r25
- 25c:	30 f4       	brcc	.+12     	; 0x26a <main+0x26>
+		//ai_result = lookup_PWM[ai_result]; //LUT to spoof GG2 spindle RPM behavior 
+		
+		if( count_latest > ai_result ) { //if free-running counter value is greater than arduino PWM output, turn off all FETs
+ 264:	89 17       	cp	r24, r25
+ 266:	30 f4       	brcc	.+12     	; 0x274 <main+0x26>
 			set_all_phases('Z','Z','Z'); //replicate GG2 behavior
- 25e:	4a e5       	ldi	r20, 0x5A	; 90
- 260:	6a e5       	ldi	r22, 0x5A	; 90
- 262:	8a e5       	ldi	r24, 0x5A	; 90
- 264:	0e 94 0f 01 	call	0x21e	; 0x21e <set_all_phases>
- 268:	f5 cf       	rjmp	.-22     	; 0x254 <main+0x10>
+ 268:	4a e5       	ldi	r20, 0x5A	; 90
+ 26a:	6a e5       	ldi	r22, 0x5A	; 90
+ 26c:	8a e5       	ldi	r24, 0x5A	; 90
+ 26e:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 272:	f5 cf       	rjmp	.-22     	; 0x25e <main+0x10>
 		
 		} else { //always true when 'S8000' sent, true half the time when 'S4000', never true when 'S0'
-			
-			//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
-			switch ( get_hall_logic() ) {
- 26a:	0e 94 d2 00 	call	0x1a4	; 0x1a4 <get_hall_logic>
- 26e:	83 30       	cpi	r24, 0x03	; 3
- 270:	c1 f0       	breq	.+48     	; 0x2a2 <main+0x5e>
- 272:	28 f4       	brcc	.+10     	; 0x27e <main+0x3a>
- 274:	81 30       	cpi	r24, 0x01	; 1
- 276:	49 f0       	breq	.+18     	; 0x28a <main+0x46>
- 278:	82 30       	cpi	r24, 0x02	; 2
- 27a:	69 f0       	breq	.+26     	; 0x296 <main+0x52>
- 27c:	2a c0       	rjmp	.+84     	; 0x2d2 <main+0x8e>
- 27e:	85 30       	cpi	r24, 0x05	; 5
- 280:	e1 f0       	breq	.+56     	; 0x2ba <main+0x76>
- 282:	a8 f0       	brcs	.+42     	; 0x2ae <main+0x6a>
- 284:	86 30       	cpi	r24, 0x06	; 6
- 286:	f9 f0       	breq	.+62     	; 0x2c6 <main+0x82>
- 288:	24 c0       	rjmp	.+72     	; 0x2d2 <main+0x8e>
-				case 1: set_all_phases('H','L','Z'); break;
- 28a:	4a e5       	ldi	r20, 0x5A	; 90
- 28c:	6c e4       	ldi	r22, 0x4C	; 76
- 28e:	88 e4       	ldi	r24, 0x48	; 72
- 290:	0e 94 0f 01 	call	0x21e	; 0x21e <set_all_phases>
- 294:	df cf       	rjmp	.-66     	; 0x254 <main+0x10>
-				case 2: set_all_phases('L','Z','H'); break;
- 296:	48 e4       	ldi	r20, 0x48	; 72
- 298:	6a e5       	ldi	r22, 0x5A	; 90
- 29a:	8c e4       	ldi	r24, 0x4C	; 76
- 29c:	0e 94 0f 01 	call	0x21e	; 0x21e <set_all_phases>
- 2a0:	d9 cf       	rjmp	.-78     	; 0x254 <main+0x10>
-				case 3: set_all_phases('Z','L','H'); break;
- 2a2:	48 e4       	ldi	r20, 0x48	; 72
- 2a4:	6c e4       	ldi	r22, 0x4C	; 76
- 2a6:	8a e5       	ldi	r24, 0x5A	; 90
- 2a8:	0e 94 0f 01 	call	0x21e	; 0x21e <set_all_phases>
- 2ac:	d3 cf       	rjmp	.-90     	; 0x254 <main+0x10>
-				case 4: set_all_phases('Z','H','L'); break;
- 2ae:	4c e4       	ldi	r20, 0x4C	; 76
- 2b0:	68 e4       	ldi	r22, 0x48	; 72
- 2b2:	8a e5       	ldi	r24, 0x5A	; 90
- 2b4:	0e 94 0f 01 	call	0x21e	; 0x21e <set_all_phases>
- 2b8:	cd cf       	rjmp	.-102    	; 0x254 <main+0x10>
-				case 5: set_all_phases('H','Z','L'); break;
- 2ba:	4c e4       	ldi	r20, 0x4C	; 76
- 2bc:	6a e5       	ldi	r22, 0x5A	; 90
- 2be:	88 e4       	ldi	r24, 0x48	; 72
- 2c0:	0e 94 0f 01 	call	0x21e	; 0x21e <set_all_phases>
- 2c4:	c7 cf       	rjmp	.-114    	; 0x254 <main+0x10>
-				case 6: set_all_phases('L','H','Z'); break;
- 2c6:	4a e5       	ldi	r20, 0x5A	; 90
- 2c8:	68 e4       	ldi	r22, 0x48	; 72
- 2ca:	8c e4       	ldi	r24, 0x4C	; 76
- 2cc:	0e 94 0f 01 	call	0x21e	; 0x21e <set_all_phases>
- 2d0:	c1 cf       	rjmp	.-126    	; 0x254 <main+0x10>
-				case 0: //fall through
-				case 7: // fall through 0b000 & 0b111 are invalid hall states
-				default:
-					set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
- 2d2:	4a e5       	ldi	r20, 0x5A	; 90
- 2d4:	6a e5       	ldi	r22, 0x5A	; 90
- 2d6:	8a e5       	ldi	r24, 0x5A	; 90
- 2d8:	0e 94 0f 01 	call	0x21e	; 0x21e <set_all_phases>
-					break;
- 2dc:	bb cf       	rjmp	.-138    	; 0x254 <main+0x10>
+			if( is_direction_clockwise() == 0 ) //spin CCW
+ 274:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <is_direction_clockwise>
+ 278:	81 11       	cpse	r24, r1
+ 27a:	39 c0       	rjmp	.+114    	; 0x2ee <main+0xa0>
+			{
+				//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
+				switch ( get_hall_logic() ) {
+ 27c:	0e 94 d2 00 	call	0x1a4	; 0x1a4 <get_hall_logic>
+ 280:	83 30       	cpi	r24, 0x03	; 3
+ 282:	e9 f0       	breq	.+58     	; 0x2be <main+0x70>
+ 284:	28 f4       	brcc	.+10     	; 0x290 <main+0x42>
+ 286:	81 30       	cpi	r24, 0x01	; 1
+ 288:	31 f1       	breq	.+76     	; 0x2d6 <main+0x88>
+ 28a:	82 30       	cpi	r24, 0x02	; 2
+ 28c:	f1 f0       	breq	.+60     	; 0x2ca <main+0x7c>
+ 28e:	29 c0       	rjmp	.+82     	; 0x2e2 <main+0x94>
+ 290:	85 30       	cpi	r24, 0x05	; 5
+ 292:	49 f0       	breq	.+18     	; 0x2a6 <main+0x58>
+ 294:	70 f0       	brcs	.+28     	; 0x2b2 <main+0x64>
+ 296:	86 30       	cpi	r24, 0x06	; 6
+ 298:	21 f5       	brne	.+72     	; 0x2e2 <main+0x94>
+					case 6: set_all_phases('H','L','Z'); break;
+ 29a:	4a e5       	ldi	r20, 0x5A	; 90
+ 29c:	6c e4       	ldi	r22, 0x4C	; 76
+ 29e:	88 e4       	ldi	r24, 0x48	; 72
+ 2a0:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 2a4:	dc cf       	rjmp	.-72     	; 0x25e <main+0x10>
+					case 5: set_all_phases('L','Z','H'); break;
+ 2a6:	48 e4       	ldi	r20, 0x48	; 72
+ 2a8:	6a e5       	ldi	r22, 0x5A	; 90
+ 2aa:	8c e4       	ldi	r24, 0x4C	; 76
+ 2ac:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 2b0:	d6 cf       	rjmp	.-84     	; 0x25e <main+0x10>
+					case 4: set_all_phases('Z','L','H'); break;
+ 2b2:	48 e4       	ldi	r20, 0x48	; 72
+ 2b4:	6c e4       	ldi	r22, 0x4C	; 76
+ 2b6:	8a e5       	ldi	r24, 0x5A	; 90
+ 2b8:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 2bc:	d0 cf       	rjmp	.-96     	; 0x25e <main+0x10>
+					case 3: set_all_phases('Z','H','L'); break;
+ 2be:	4c e4       	ldi	r20, 0x4C	; 76
+ 2c0:	68 e4       	ldi	r22, 0x48	; 72
+ 2c2:	8a e5       	ldi	r24, 0x5A	; 90
+ 2c4:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 2c8:	ca cf       	rjmp	.-108    	; 0x25e <main+0x10>
+					case 2: set_all_phases('H','Z','L'); break;
+ 2ca:	4c e4       	ldi	r20, 0x4C	; 76
+ 2cc:	6a e5       	ldi	r22, 0x5A	; 90
+ 2ce:	88 e4       	ldi	r24, 0x48	; 72
+ 2d0:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 2d4:	c4 cf       	rjmp	.-120    	; 0x25e <main+0x10>
+					case 1: set_all_phases('L','H','Z'); break;
+ 2d6:	4a e5       	ldi	r20, 0x5A	; 90
+ 2d8:	68 e4       	ldi	r22, 0x48	; 72
+ 2da:	8c e4       	ldi	r24, 0x4C	; 76
+ 2dc:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 2e0:	be cf       	rjmp	.-132    	; 0x25e <main+0x10>
+					case 0: //fall through
+					case 7: // fall through 0b000 & 0b111 are invalid hall states
+					default:
+						set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
+ 2e2:	4a e5       	ldi	r20, 0x5A	; 90
+ 2e4:	6a e5       	ldi	r22, 0x5A	; 90
+ 2e6:	8a e5       	ldi	r24, 0x5A	; 90
+ 2e8:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+						break;
+ 2ec:	b8 cf       	rjmp	.-144    	; 0x25e <main+0x10>
+				}		
+			} else { //spin CW
+				switch ( get_hall_logic() ) {
+ 2ee:	0e 94 d2 00 	call	0x1a4	; 0x1a4 <get_hall_logic>
+ 2f2:	83 30       	cpi	r24, 0x03	; 3
+ 2f4:	c1 f0       	breq	.+48     	; 0x326 <main+0xd8>
+ 2f6:	28 f4       	brcc	.+10     	; 0x302 <main+0xb4>
+ 2f8:	81 30       	cpi	r24, 0x01	; 1
+ 2fa:	49 f0       	breq	.+18     	; 0x30e <main+0xc0>
+ 2fc:	82 30       	cpi	r24, 0x02	; 2
+ 2fe:	69 f0       	breq	.+26     	; 0x31a <main+0xcc>
+ 300:	2a c0       	rjmp	.+84     	; 0x356 <main+0x108>
+ 302:	85 30       	cpi	r24, 0x05	; 5
+ 304:	e1 f0       	breq	.+56     	; 0x33e <main+0xf0>
+ 306:	a8 f0       	brcs	.+42     	; 0x332 <main+0xe4>
+ 308:	86 30       	cpi	r24, 0x06	; 6
+ 30a:	f9 f0       	breq	.+62     	; 0x34a <main+0xfc>
+ 30c:	24 c0       	rjmp	.+72     	; 0x356 <main+0x108>
+					case 1: set_all_phases('H','L','Z'); break;
+ 30e:	4a e5       	ldi	r20, 0x5A	; 90
+ 310:	6c e4       	ldi	r22, 0x4C	; 76
+ 312:	88 e4       	ldi	r24, 0x48	; 72
+ 314:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 318:	a2 cf       	rjmp	.-188    	; 0x25e <main+0x10>
+					case 2: set_all_phases('L','Z','H'); break;
+ 31a:	48 e4       	ldi	r20, 0x48	; 72
+ 31c:	6a e5       	ldi	r22, 0x5A	; 90
+ 31e:	8c e4       	ldi	r24, 0x4C	; 76
+ 320:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 324:	9c cf       	rjmp	.-200    	; 0x25e <main+0x10>
+					case 3: set_all_phases('Z','L','H'); break;
+ 326:	48 e4       	ldi	r20, 0x48	; 72
+ 328:	6c e4       	ldi	r22, 0x4C	; 76
+ 32a:	8a e5       	ldi	r24, 0x5A	; 90
+ 32c:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 330:	96 cf       	rjmp	.-212    	; 0x25e <main+0x10>
+					case 4: set_all_phases('Z','H','L'); break;
+ 332:	4c e4       	ldi	r20, 0x4C	; 76
+ 334:	68 e4       	ldi	r22, 0x48	; 72
+ 336:	8a e5       	ldi	r24, 0x5A	; 90
+ 338:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 33c:	90 cf       	rjmp	.-224    	; 0x25e <main+0x10>
+					case 5: set_all_phases('H','Z','L'); break;
+ 33e:	4c e4       	ldi	r20, 0x4C	; 76
+ 340:	6a e5       	ldi	r22, 0x5A	; 90
+ 342:	88 e4       	ldi	r24, 0x48	; 72
+ 344:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 348:	8a cf       	rjmp	.-236    	; 0x25e <main+0x10>
+					case 6: set_all_phases('L','H','Z'); break;
+ 34a:	4a e5       	ldi	r20, 0x5A	; 90
+ 34c:	68 e4       	ldi	r22, 0x48	; 72
+ 34e:	8c e4       	ldi	r24, 0x4C	; 76
+ 350:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+ 354:	84 cf       	rjmp	.-248    	; 0x25e <main+0x10>
+					case 0: //fall through
+					case 7: // fall through 0b000 & 0b111 are invalid hall states
+					default:
+						set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
+ 356:	4a e5       	ldi	r20, 0x5A	; 90
+ 358:	6a e5       	ldi	r22, 0x5A	; 90
+ 35a:	8a e5       	ldi	r24, 0x5A	; 90
+ 35c:	0e 94 14 01 	call	0x228	; 0x228 <set_all_phases>
+						break;
+ 360:	7e cf       	rjmp	.-260    	; 0x25e <main+0x10>
 
-000002de <system_init>:
+00000362 <system_init>:
 {
 	/* On AVR devices all peripherals are enabled from power on reset, this
 	 * disables all peripherals to save power. Driver shall enable
 	 * peripheral if used */
 
 	PRR = (1 << PRSPI) | (1 << PRTIM0) | (1 << PRCAN) | (1 << PRTIM1) | (1 << PRLIN) | (1 << PRPSC) | (1 << PRADC);
- 2de:	8f e7       	ldi	r24, 0x7F	; 127
- 2e0:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <__TEXT_REGION_LENGTH__+0x7f8064>
+ 362:	8f e7       	ldi	r24, 0x7F	; 127
+ 364:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <__TEXT_REGION_LENGTH__+0x7f8064>
 		break;
 	case PORT_DIR_OUT:
 		DDRB |= mask;
 		break;
 	case PORT_DIR_OFF:
 		DDRB &= ~mask;
- 2e4:	84 b1       	in	r24, 0x04	; 4
- 2e6:	14 b8       	out	0x04, r1	; 4
+ 368:	84 b1       	in	r24, 0x04	; 4
+ 36a:	14 b8       	out	0x04, r1	; 4
 
 		PORTB |= mask;
- 2e8:	85 b1       	in	r24, 0x05	; 5
- 2ea:	8f ef       	ldi	r24, 0xFF	; 255
- 2ec:	85 b9       	out	0x05, r24	; 5
+ 36c:	85 b1       	in	r24, 0x05	; 5
+ 36e:	8f ef       	ldi	r24, 0xFF	; 255
+ 370:	85 b9       	out	0x05, r24	; 5
 		break;
 	case PORT_DIR_OUT:
 		DDRC |= mask;
 		break;
 	case PORT_DIR_OFF:
 		DDRC &= ~mask;
- 2ee:	97 b1       	in	r25, 0x07	; 7
- 2f0:	17 b8       	out	0x07, r1	; 7
+ 372:	97 b1       	in	r25, 0x07	; 7
+ 374:	17 b8       	out	0x07, r1	; 7
 
 		PORTC |= mask;
- 2f2:	98 b1       	in	r25, 0x08	; 8
- 2f4:	88 b9       	out	0x08, r24	; 8
+ 376:	98 b1       	in	r25, 0x08	; 8
+ 378:	88 b9       	out	0x08, r24	; 8
 		break;
 	case PORT_DIR_OUT:
 		DDRD |= mask;
 		break;
 	case PORT_DIR_OFF:
 		DDRD &= ~mask;
- 2f6:	9a b1       	in	r25, 0x0a	; 10
- 2f8:	1a b8       	out	0x0a, r1	; 10
+ 37a:	9a b1       	in	r25, 0x0a	; 10
+ 37c:	1a b8       	out	0x0a, r1	; 10
 
 		PORTD |= mask;
- 2fa:	9b b1       	in	r25, 0x0b	; 11
- 2fc:	8b b9       	out	0x0b, r24	; 11
+ 37e:	9b b1       	in	r25, 0x0b	; 11
+ 380:	8b b9       	out	0x0b, r24	; 11
 		break;
 	case PORT_DIR_OUT:
 		DDRE |= mask;
 		break;
 	case PORT_DIR_OFF:
 		DDRE &= ~mask;
- 2fe:	8d b1       	in	r24, 0x0d	; 13
- 300:	88 7f       	andi	r24, 0xF8	; 248
- 302:	8d b9       	out	0x0d, r24	; 13
+ 382:	8d b1       	in	r24, 0x0d	; 13
+ 384:	88 7f       	andi	r24, 0xF8	; 248
+ 386:	8d b9       	out	0x0d, r24	; 13
 
 		PORTE |= mask;
- 304:	8e b1       	in	r24, 0x0e	; 14
- 306:	87 60       	ori	r24, 0x07	; 7
- 308:	8e b9       	out	0x0e, r24	; 14
+ 388:	8e b1       	in	r24, 0x0e	; 14
+ 38a:	87 60       	ori	r24, 0x07	; 7
+ 38c:	8e b9       	out	0x0e, r24	; 14
  * \return Initialization status.
  */
 static inline int8_t sysctrl_init()
 {
 	/* Set up system clock prescaler according to configuration */
 	protected_write_io((void *)&CLKPR, 1 << CLKPCE, (0 << CLKPS3) | (0 << CLKPS2) | (0 << CLKPS1) | (0 << CLKPS0));
- 30a:	40 e0       	ldi	r20, 0x00	; 0
- 30c:	60 e8       	ldi	r22, 0x80	; 128
- 30e:	81 e6       	ldi	r24, 0x61	; 97
- 310:	90 e0       	ldi	r25, 0x00	; 0
- 312:	0e 94 8e 01 	call	0x31c	; 0x31c <protected_write_io>
+ 38e:	40 e0       	ldi	r20, 0x00	; 0
+ 390:	60 e8       	ldi	r22, 0x80	; 128
+ 392:	81 e6       	ldi	r24, 0x61	; 97
+ 394:	90 e0       	ldi	r25, 0x00	; 0
+ 396:	0e 94 d0 01 	call	0x3a0	; 0x3a0 <protected_write_io>
 
 	SMCR = (0 << SM2) | (0 << SM1) | (0 << SM0) | // Idle
- 316:	13 be       	out	0x33, r1	; 51
+ 39a:	13 be       	out	0x33, r1	; 51
 	       (0 << SE);
 
 	MCUCR = (0 << PUD);
- 318:	15 be       	out	0x35, r1	; 53
- 31a:	08 95       	ret
+ 39c:	15 be       	out	0x35, r1	; 53
+ 39e:	08 95       	ret
 
-0000031c <protected_write_io>:
+000003a0 <protected_write_io>:
 #if defined(__GNUC__)
 	/*
 	 * We need to disable interrupts globally before the protected
 	 * sequence. In order to do that we must save SREG first.
 	 */
 	in      r18,    _SFR_IO_ADDR(SREG)
- 31c:	2f b7       	in	r18, 0x3f	; 63
+ 3a0:	2f b7       	in	r18, 0x3f	; 63
 	cli
- 31e:	f8 94       	cli
+ 3a2:	f8 94       	cli
   
 #ifdef RAMPZ
 	out     _SFR_IO_ADDR(RAMPZ), r1         // Clear bits 23:16 of Z
 #endif
 	movw    r30, r24                // Load addr into Z
- 320:	fc 01       	movw	r30, r24
+ 3a4:	fc 01       	movw	r30, r24
 	st      Z, r22                  // Write protection bit to I/O register
- 322:	60 83       	st	Z, r22
+ 3a6:	60 83       	st	Z, r22
 	st      Z, r20                  // Write value to I/O register
- 324:	40 83       	st	Z, r20
+ 3a8:	40 83       	st	Z, r20
 	out     _SFR_IO_ADDR(SREG), r18
- 326:	2f bf       	out	0x3f, r18	; 63
+ 3aa:	2f bf       	out	0x3f, r18	; 63
 
 	ret                             // Return to caller
- 328:	08 95       	ret
+ 3ac:	08 95       	ret
 
-0000032a <_exit>:
- 32a:	f8 94       	cli
+000003ae <_exit>:
+ 3ae:	f8 94       	cli
 
-0000032c <__stop_program>:
- 32c:	ff cf       	rjmp	.-2      	; 0x32c <__stop_program>
+000003b0 <__stop_program>:
+ 3b0:	ff cf       	rjmp	.-2      	; 0x3b0 <__stop_program>

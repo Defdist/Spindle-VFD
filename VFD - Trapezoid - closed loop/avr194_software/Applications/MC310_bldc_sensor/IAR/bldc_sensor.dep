@@ -67,10 +67,6 @@
             <name>$PROJ_DIR$\..\ascii.c</name>
             <outputs>
                 <tool>
-                    <name>ICCAVR</name>
-                    <file> 34</file>
-                </tool>
-                <tool>
                     <name>BICOMP</name>
                     <file> 8</file>
                 </tool>
@@ -85,10 +81,6 @@
         <file>
             <name>$PROJ_DIR$\..\main.c</name>
             <outputs>
-                <tool>
-                    <name>ICCAVR</name>
-                    <file> 21</file>
-                </tool>
                 <tool>
                     <name>BICOMP</name>
                     <file> 38</file>
@@ -105,10 +97,6 @@
             <name>$PROJ_DIR$\..\mc_control.c</name>
             <outputs>
                 <tool>
-                    <name>ICCAVR</name>
-                    <file> 30</file>
-                </tool>
-                <tool>
                     <name>BICOMP</name>
                     <file> 32</file>
                 </tool>
@@ -123,10 +111,6 @@
         <file>
             <name>$PROJ_DIR$\..\mc_drv.c</name>
             <outputs>
-                <tool>
-                    <name>ICCAVR</name>
-                    <file> 23</file>
-                </tool>
                 <tool>
                     <name>BICOMP</name>
                     <file> 26</file>
@@ -143,10 +127,6 @@
             <name>$PROJ_DIR$\..\mc_interface.c</name>
             <outputs>
                 <tool>
-                    <name>ICCAVR</name>
-                    <file> 12</file>
-                </tool>
-                <tool>
                     <name>BICOMP</name>
                     <file> 40</file>
                 </tool>
@@ -162,10 +142,6 @@
             <name>$PROJ_DIR$\..\uart\uart_lib.c</name>
             <outputs>
                 <tool>
-                    <name>ICCAVR</name>
-                    <file> 39</file>
-                </tool>
-                <tool>
                     <name>BICOMP</name>
                     <file> 14</file>
                 </tool>
@@ -180,10 +156,6 @@
         <file>
             <name>$PROJ_DIR$\..\ushell_task.c</name>
             <outputs>
-                <tool>
-                    <name>ICCAVR</name>
-                    <file> 13</file>
-                </tool>
                 <tool>
                     <name>BICOMP</name>
                     <file> 35</file>

@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR\settings\bldc_sensor.Debug.general.xcl" --backend -f "C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR\settings\bldc_sensor.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR\settings\bldc_sensor.Debug.general.xcl" --backend -f "C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR\settings\bldc_sensor.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR\settings\bldc_sensor.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR\settings\bldc_sensor.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR\settings\bldc_sensor.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR\settings\bldc_sensor.Debug.driver.xcl" 
 
 @echo off 
 :end

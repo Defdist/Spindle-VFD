@@ -8,6 +8,12 @@
 #define BLDC_ENABLE_BIT 4 //PB4
 #define BLDC_ENABLE_MASK (1<<BLDC_ENABLE_BIT)
 
+#define BLDC_DIR_PORT PORTB
+#define BLDC_DIR_DDR DDRB
+#define BLDC_DIR_PIN PINB
+#define BLDC_DIR_BIT 3 //PB3
+#define BLDC_DIR_MASK (1<<BLDC_DIR_BIT)
+
 #define Hall_A_PORT PORTD
 #define Hall_A_DDR DDRD
 #define Hall_A_PIN PIND
@@ -63,12 +69,34 @@
 #define FET_PORTD_MASK (1<<FET_A_HIGH_BIT)
 
 
+/*
+static const __flash uint8_t lookup_PWM[256] = {  //hacky LUT for open loop speed similar to GG2.  STFP!
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,153,
+153,154,154,154,155,155,156,156,157,157,158,158,159,159,160,160,
+161,161,162,162,162,163,163,164,164,165,165,166,166,167,167,168,
+168,169,169,169,170,170,171,171,172,172,173,173,174,174,175,175,
+176,176,177,177,177,178,178,179,179,180,180,181,181,182,182,183,
+183,184,184,185,185,185,186,186,187,187,188,188,189,189,190,190,
+191,191,192,192,193,193,193,194,194,195,195,196,196,197,197,198,
+198,199,199,200,200,201,201,201,202,202,203,203,204,204,205,205,
+206,206,207,207,208,208,209,209,209,210,210,211,211,212,212,213,
+213,214,214,215,215,216,216,216,217,217,218,218,219,219,220,220,
+221,221,222,222,223,223,224,224,224,225,225,226,226,227,227,228,
+228,229,229,230,230,231,231,232,232,232,233,233,234,234,235,235,
+236,236,237,237,238,238,239,239,240,240,240,241,241,242,242,243,
+243,244,244,245,245,246,246,247,247,248,248,248,249,249,250,250,
+251,251,252,252,253,253,254,254,255,255,255,255,255,255,255,255
+};
+*/
+
 void hall_init()
 {
 	//need to set pins to input, no pullup (this is default behavior, so ignoring for now)
 }
 
 //setup TC0 to continuously count from 0:127 with auto-reload
+//This is used to (poorly) control spindle speed
 void timer0_init()
 {
 	PRR &= ~(1<<PRTIM0);//enable timer
@@ -113,6 +141,11 @@ uint8_t get_hall_logic()
 	return temp;
 }
 
+uint8_t is_direction_clockwise()
+{
+	if ( BLDC_DIR_PIN & BLDC_DIR_MASK ) { return 1;}  //spin CW 
+	else { return 0; } //spin CCW
+}
 
 void set_phase(char phase, char set_output_to)
 {
@@ -205,25 +238,42 @@ int main(void)
 		uint8_t ai_result = adc_read_latest();
 		uint8_t count_latest = TCNT0;
 		
-		if( count_latest > ai_result ) { //if free-running counter value is greater than arduino wants, turn off all FETs
+		//ai_result = lookup_PWM[ai_result]; //LUT to spoof GG2 spindle RPM behavior 
+		
+		if( count_latest > ai_result ) { //if free-running counter value is greater than arduino PWM output, turn off all FETs
 			set_all_phases('Z','Z','Z'); //replicate GG2 behavior
 		
 		} else { //always true when 'S8000' sent, true half the time when 'S4000', never true when 'S0'
-			
-			//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
-			switch ( get_hall_logic() ) {
-				case 1: set_all_phases('H','L','Z'); break;
-				case 2: set_all_phases('L','Z','H'); break;
-				case 3: set_all_phases('Z','L','H'); break;
-				case 4: set_all_phases('Z','H','L'); break;
-				case 5: set_all_phases('H','Z','L'); break;
-				case 6: set_all_phases('L','H','Z'); break;
-				case 0: //fall through
-				case 7: // fall through 0b000 & 0b111 are invalid hall states
-				default:
-					set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
-					break;
-			
+			if( is_direction_clockwise() == 0 ) //spin CCW
+			{
+				//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
+				switch ( get_hall_logic() ) {
+					case 6: set_all_phases('H','L','Z'); break;
+					case 5: set_all_phases('L','Z','H'); break;
+					case 4: set_all_phases('Z','L','H'); break;
+					case 3: set_all_phases('Z','H','L'); break;
+					case 2: set_all_phases('H','Z','L'); break;
+					case 1: set_all_phases('L','H','Z'); break;
+					case 0: //fall through
+					case 7: // fall through 0b000 & 0b111 are invalid hall states
+					default:
+						set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
+						break;
+				}		
+			} else { //spin CW
+				switch ( get_hall_logic() ) {
+					case 1: set_all_phases('H','L','Z'); break;
+					case 2: set_all_phases('L','Z','H'); break;
+					case 3: set_all_phases('Z','L','H'); break;
+					case 4: set_all_phases('Z','H','L'); break;
+					case 5: set_all_phases('H','Z','L'); break;
+					case 6: set_all_phases('L','H','Z'); break;
+					case 0: //fall through
+					case 7: // fall through 0b000 & 0b111 are invalid hall states
+					default:
+						set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
+						break;
+				}
 			}
 		}
 	}
