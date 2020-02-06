@@ -13,19 +13,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .debug_aranges 000000f0  00000000  00000000  00000478  2**3
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001350  00000000  00000000  00000568  2**0
+  5 .debug_info   0000133d  00000000  00000000  00000568  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000d73  00000000  00000000  000018b8  2**0
+  6 .debug_abbrev 00000d5b  00000000  00000000  000018a5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000801  00000000  00000000  0000262b  2**0
+  7 .debug_line   00000801  00000000  00000000  00002600  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000150  00000000  00000000  00002e2c  2**2
+  8 .debug_frame  00000150  00000000  00000000  00002e04  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000070e  00000000  00000000  00002f7c  2**0
+  9 .debug_str    0000070e  00000000  00000000  00002f54  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000028d  00000000  00000000  0000368a  2**0
+ 10 .debug_loc    0000028d  00000000  00000000  00003662  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000090  00000000  00000000  00003917  2**0
+ 11 .debug_ranges 00000090  00000000  00000000  000038ef  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -489,7 +489,7 @@ void set_all_phases(char stateA, char stateB, char stateC)
  24c:	08 95       	ret
 
 0000024e <main>:
-
+*/
 
 int main(void)
 {
@@ -503,6 +503,7 @@ int main(void)
  256:	0e 94 77 00 	call	0xee	; 0xee <adc_init>
 	timer0_init();
  25a:	0e 94 b5 00 	call	0x16a	; 0x16a <timer0_init>
+
 	
 //	adc_select_channel(ADC_CHANNEL_goalRPM);
 
@@ -512,7 +513,7 @@ int main(void)
 		uint8_t count_latest = TCNT0;
  262:	96 b5       	in	r25, 0x26	; 38
 		
-		//ai_result = lookup_PWM[ai_result]; //LUT to spoof GG2 spindle RPM behavior 
+		//ai_result = scale_adc_pwm(ai_result); //LUT to spoof GG2 spindle RPM behavior 
 		
 		if( count_latest > ai_result ) { //if free-running counter value is greater than arduino PWM output, turn off all FETs
  264:	89 17       	cp	r24, r25

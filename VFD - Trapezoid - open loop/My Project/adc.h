@@ -33,4 +33,4 @@ void adc_select_vref(uint8_t reference);
 void adc_select_channel(uint8_t channel);
 
 //returns 8b ADC measurement
-uint8_t adc_read();
+uint8_t adc_read_latest();
