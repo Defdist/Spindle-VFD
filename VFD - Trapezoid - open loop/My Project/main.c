@@ -2,6 +2,12 @@
 //#include "avr\iom64m1.h"
 #include <adc.h>
 
+FUSES = { //set 32M1's fuses.  //Requires avr/io.h
+	.low      = 0xFF,
+	.high     = 0xD7,
+	.extended = 0xFF
+};
+
 #define BLDC_ENABLE_PORT PORTB
 #define BLDC_ENABLE_DDR DDRB
 #define BLDC_ENABLE_PIN PINB
@@ -189,8 +195,6 @@ void set_phase(char phase, char set_output_to)
 		default:
 			break;
 	}
-
-
 }
 
 
@@ -201,33 +205,34 @@ void set_all_phases(char stateA, char stateB, char stateC)
 	set_phase('C',stateC);
 }
 
-
-/* This doesn't work... not sure why
 uint8_t scale_adc_pwm(uint8_t raw_adc_value)
 {
-	static const uint8_t lookup_PWM[256] = {  //hacky LUT for open loop speed similar to GG2.  STFP!
-		  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-		  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,153,
-		153,154,154,154,155,155,156,156,157,157,158,158,159,159,160,160,
-		161,161,162,162,162,163,163,164,164,165,165,166,166,167,167,168,
-		168,169,169,169,170,170,171,171,172,172,173,173,174,174,175,175,
-		176,176,177,177,177,178,178,179,179,180,180,181,181,182,182,183,
-		183,184,184,185,185,185,186,186,187,187,188,188,189,189,190,190,
-		191,191,192,192,193,193,193,194,194,195,195,196,196,197,197,198,
-		198,199,199,200,200,201,201,201,202,202,203,203,204,204,205,205,
-		206,206,207,207,208,208,209,209,209,210,210,211,211,212,212,213,
-		213,214,214,215,215,216,216,216,217,217,218,218,219,219,220,220,
-		221,221,222,222,223,223,224,224,224,225,225,226,226,227,227,228,
-		228,229,229,230,230,231,231,232,232,232,233,233,234,234,235,235,
-		236,236,237,237,238,238,239,239,240,240,240,241,241,242,242,243,
-		243,244,244,245,245,246,246,247,247,248,248,248,249,249,250,250,
-		251,251,252,252,253,253,254,254,255,255,255,255,255,255,255,255
+	static const uint8_t lookup_PWM[128] = {  //hacky LUT for open loop speed similar to GG2.  STFP!
+											  //We only use 128 elements because we only use ADC's 7 LSBs
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		77,77,78,78,79,79,80,80,
+		81,81,81,82,82,83,83,84,
+		84,85,85,86,86,87,87,88,
+		88,89,89,89,90,90,91,91,
+		92,92,93,93,94,94,95,95,
+		96,96,97,97,97,98,98,99,
+		99,100,100,101,101,102,102,103,
+		103,104,104,105,105,105,106,106,
+		107,107,108,108,109,109,110,110,
+		111,111,112,112,112,113,113,114,
+		114,115,115,116,116,117,117,118,
+		118,119,119,120,120,120,121,121,
+		122,122,123,123,124,124,125,125,
+		126,126,127,127,127,127,127,127
 	};
 
-	return lookup_PWM[255-raw_adc_value];
+	return lookup_PWM[raw_adc_value];
 }
 
-*/
+
+uint8_t ai_result_delayed = 0;
+uint8_t helper_p_control = 0; //controls how quickly main() runs
 
 int main(void)
 {
@@ -246,9 +251,19 @@ int main(void)
 		uint8_t ai_result = adc_read_latest();
 		uint8_t count_latest = TCNT0;
 		
-		//ai_result = scale_adc_pwm(ai_result); //LUT to spoof GG2 spindle RPM behavior 
+		if( ai_result != ai_result_delayed ) { //user changed rpm
+			helper_p_control++; //increment helper               
+			if( helper_p_control >= 100 ) { //only update rpm every n loop cycles
+				helper_p_control = 0; //reset helper
+				if ( (ai_result > ai_result_delayed) && (ai_result_delayed < 127) ) { ai_result_delayed++; } //new rpm greater than old
+				if ( (ai_result < ai_result_delayed) && (ai_result_delayed > 0  ) ) { ai_result_delayed--; } //new rpm less    than old
+			}	
+		} 
 		
-		if( count_latest > ai_result ) { //if free-running counter value is greater than arduino PWM output, turn off all FETs
+		
+		//ai_result_delayed = scale_adc_pwm(ai_result_delayed); //LUT hack to spoof GG2 spindle RPM behavior 
+		
+		if( count_latest > ai_result_delayed ) { //if free-running counter value is greater than arduino PWM output, turn off all FETs
 			set_all_phases('Z','Z','Z'); //replicate GG2 behavior
 		
 		} else { //always true when 'S8000' sent, true half the time when 'S4000', never true when 'S0'
