@@ -45,6 +45,9 @@ void adc_init()
 	ADCSRB = 0; //reset to default values
 	ADCSRB |= (1<<ADHSM); //uncomment to enable high speed mode.  max ADC rate with this line commented out is 200 kHz 
 	ADCSRB |= (1<<AREFEN); //connect analog reference to external AREF pin (with capacitor)
+						   //digitized values will range from 0:127, since AREF is VCC (0:5V), whereas grBLDCv3 has a 2:1 PWM lowpass voltage divider (0:2V5)
+						   //We don't want to use 32M1's internal reference because we only care about the ratiometric difference between the VCC and PWM %
+						   //In other words, uses a known good reference would actually add more uncertainty (because we lose the ratiometric tie)
 	//ADCSRB 3:0 sets auto-trigger source selection bits 0b0000 is "free running mode", which we're using for now
 
 	
@@ -58,6 +61,7 @@ void adc_init()
 }
 
 //returns the latest measurement (8 bits for now)
+//As implemented on grBLDC3v1, only the 7 LSBs are used (0:127)(see explanation above) 
 uint8_t adc_read_latest()
 {
 	uint8_t adc_result = 0;

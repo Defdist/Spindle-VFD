@@ -1,31 +1,31 @@
-"C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\mc_control.c"
+"C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\mc_control.c"
 -std=c99
 -ferror-limit=0
 -fbracket-depth=512
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR\..
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR\..
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR\IAR
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR\IAR
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR\..\CONF
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR\..\CONF
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR\..\..\..\Drivers
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR\..\..\..\Drivers
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\avr\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\avr\inc\clib
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\IAR\IAR
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\IAR\IAR
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\CONF
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Applications\MC310_bldc_sensor\CONF
 -I
-C:\Users\Windermac\Desktop\MASTER 32M1 drive\Atmel documentation\AVR194 Trapezoid drive with overcurrent\avr194_software\Drivers
+C:\Users\Windermac\Documents\GitHub\Spindle-VFD\VFD - Trapezoid - closed loop\avr194_software\Drivers
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0

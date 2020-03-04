@@ -2,11 +2,23 @@
 //#include "avr\iom64m1.h"
 #include <adc.h>
 
+FUSES = { //set 32M1's fuses.  //Requires avr/io.h
+	.low      = 0xFF,
+	.high     = 0xD7,
+	.extended = 0xFF
+};
+
 #define BLDC_ENABLE_PORT PORTB
 #define BLDC_ENABLE_DDR DDRB
 #define BLDC_ENABLE_PIN PINB
 #define BLDC_ENABLE_BIT 4 //PB4
 #define BLDC_ENABLE_MASK (1<<BLDC_ENABLE_BIT)
+
+#define BLDC_DIR_PORT PORTB
+#define BLDC_DIR_DDR DDRB
+#define BLDC_DIR_PIN PINB
+#define BLDC_DIR_BIT 3 //PB3
+#define BLDC_DIR_MASK (1<<BLDC_DIR_BIT)
 
 #define Hall_A_PORT PORTD
 #define Hall_A_DDR DDRD
@@ -69,6 +81,7 @@ void hall_init()
 }
 
 //setup TC0 to continuously count from 0:127 with auto-reload
+//This is used to (poorly) control spindle speed
 void timer0_init()
 {
 	PRR &= ~(1<<PRTIM0);//enable timer
@@ -113,6 +126,11 @@ uint8_t get_hall_logic()
 	return temp;
 }
 
+uint8_t is_direction_clockwise()
+{
+	if ( BLDC_DIR_PIN & BLDC_DIR_MASK ) { return 1;}  //spin CW 
+	else { return 0; } //spin CCW
+}
 
 void set_phase(char phase, char set_output_to)
 {
@@ -177,8 +195,6 @@ void set_phase(char phase, char set_output_to)
 		default:
 			break;
 	}
-
-
 }
 
 
@@ -189,6 +205,49 @@ void set_all_phases(char stateA, char stateB, char stateC)
 	set_phase('C',stateC);
 }
 
+/*
+uint8_t scale_adc_pwm(uint8_t raw_adc_value)
+{
+	static const uint8_t lookup_PWM[256] = {  //hacky LUT for open loop speed similar to GG2.  STFP!							  
+		0,0,0,0,0,0,0,0,                      //We scale across only first 128 elements because we only use ADC's 7 LSBs
+		0,0,0,0,0,0,0,0,                      //due to voltage dividing lowpass filter
+		77,77,78,78,79,79,80,80,
+		81,81,81,82,82,83,83,84,
+		84,85,85,86,86,87,87,88,
+		88,89,89,89,90,90,91,91,
+		92,92,93,93,94,94,95,95,
+		96,96,97,97,97,98,98,99,
+		99,100,100,101,101,102,102,103,
+		103,104,104,105,105,105,106,106,
+		107,107,108,108,109,109,110,110,
+		111,111,112,112,112,113,113,114,
+		114,115,115,116,116,117,117,118,
+		118,119,119,120,120,120,121,121,
+		122,122,123,123,124,124,125,125,
+		126,126,127,127,128,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129,
+		129,129,129,129,129,129,129,129
+	};
+	return lookup_PWM[raw_adc_value];
+}
+*/
+
+uint8_t ai_result_delayed = 0;
+uint8_t helper_p_control = 0; //controls how quickly rpm changes occur
 
 int main(void)
 {
@@ -199,31 +258,59 @@ int main(void)
 	adc_init();
 	timer0_init();
 	
-//	adc_select_channel(ADC_CHANNEL_goalRPM);
+
+	
+	//adc_select_channel(ADC_CHANNEL_goalRPM); // will need to specify if more than one ADC channel monitored
 
 	while (1) {
 		uint8_t ai_result = adc_read_latest();
-		uint8_t count_latest = TCNT0;
+		uint8_t counter_latest = TCNT0 + 1; //count from 1 to 128
 		
-		if( count_latest > ai_result ) { //if free-running counter value is greater than arduino wants, turn off all FETs
+		if( ai_result != ai_result_delayed ) { //user changed rpm
+			helper_p_control++; //increment helper               
+			if( helper_p_control >= 100 ) { //only update rpm every n loop cycles
+				helper_p_control = 0; //reset helper
+				if ( (ai_result > ai_result_delayed) && (ai_result_delayed < 128) ) { ai_result_delayed++; } //new rpm greater than old
+				if ( (ai_result < ai_result_delayed) && (ai_result_delayed > 0  ) ) { ai_result_delayed--; } //new rpm less    than old
+			}	
+		} 
+		
+		
+		//ai_result_delayed = scale_adc_pwm(ai_result_delayed); //LUT hack to spoof GG2 spindle RPM behavior 
+		
+		if( counter_latest > ai_result_delayed ) { //if free-running counter value is greater than arduino PWM output, turn off all FETs
 			set_all_phases('Z','Z','Z'); //replicate GG2 behavior
-		
 		} else { //always true when 'S8000' sent, true half the time when 'S4000', never true when 'S0'
-			
-			//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
-			switch ( get_hall_logic() ) {
-				case 1: set_all_phases('H','L','Z'); break;
-				case 2: set_all_phases('L','Z','H'); break;
-				case 3: set_all_phases('Z','L','H'); break;
-				case 4: set_all_phases('Z','H','L'); break;
-				case 5: set_all_phases('H','Z','L'); break;
-				case 6: set_all_phases('L','H','Z'); break;
-				case 0: //fall through
-				case 7: // fall through 0b000 & 0b111 are invalid hall states
-				default:
-					set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
-					break;
-			
+			if( is_direction_clockwise() == 0 ) //spin CCW
+			{
+				//PIND |= (1<<3); //debug... toggle PD3 (X1LIM)
+				switch ( get_hall_logic() ) {
+					case 6: set_all_phases('H','L','Z'); break;
+					case 5: set_all_phases('L','Z','H'); break;
+					case 4: set_all_phases('Z','L','H'); break;
+					case 3: set_all_phases('Z','H','L'); break;
+					case 2: set_all_phases('H','Z','L'); break;
+					case 1: set_all_phases('L','H','Z'); break;
+					case 0: //fall through
+					case 7: // fall through 0b000 & 0b111 are invalid hall states
+					default:
+						set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
+						break;
+				}		
+			} else { //spin CW
+				switch ( get_hall_logic() ) {
+					case 1: set_all_phases('H','L','Z'); break;
+					case 2: set_all_phases('L','Z','H'); break;
+					case 3: set_all_phases('Z','L','H'); break;
+					case 4: set_all_phases('Z','H','L'); break;
+					case 5: set_all_phases('H','Z','L'); break;
+					case 6: set_all_phases('L','H','Z'); break;
+					case 0: //fall through
+					case 7: // fall through 0b000 & 0b111 are invalid hall states
+					default:
+						set_all_phases('Z','Z','Z'); //mainly to catch M5 pulling HallC low (when spindle disabled)
+						break;
+				}
 			}
 		}
 	}

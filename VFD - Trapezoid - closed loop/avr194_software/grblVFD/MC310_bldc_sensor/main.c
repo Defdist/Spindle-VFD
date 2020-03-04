@@ -7,7 +7,7 @@
 //! @brief Main module : It is based on an infinite loop
 //!
 //! @todo
-//! @bug
+//! @bugs
 //******************************************************************************
 
 /* Copyright (c) 2008, Atmel Corporation All rights reserved.
