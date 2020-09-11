@@ -61,24 +61,31 @@ void mc_init_HW(void)
   // PC0 => VH     PB6 => VL
   // PB0 => WH     PB1 => WL
 
-  // Warning Output Low for MOSFET Drivers
+  // Set MOSFET Drive pins low (soo all FETs are off when set to output in next step)
   PORTB &= ~(1<<PORTB7 | 1<<PORTB6 | 1<<PORTB1 | 1<<PORTB0);
   PORTC &= ~(1<<PORTC0);
   PORTD &= ~(1<<PORTD0);
 
-  // PORT B :
+  // Set PSC MOSFET pins to output
   DDRB = (1<<DDB7)|(1<<DDB6)|(1<<DDB1)|(1<<DDB0);
-  // PORT C :
   DDRC = (1<<DDC0);
-  // PORT D :
   DDRD = (1<<DDD0);
   
-  Init_PC7(); /* PC7 is used to display the overcurrent */
+  A4910pinPB4_reset_Init(); //configure pin to digital output
+  A4910_Enable(); //enable MOSFET driver
 
-  // Disable Digital Input for amplifier1
+  // Set to disable digital input circuitry on all pins used as analog inputs.
+  // This reduces power consumption, particularly when an analog signal is near Vcc/2.
   // Digital Inputs for comparators are not disabled.
-  DIDR1 = (1<<ADC9D)|(1<<ADC8D);
-
+  DIDR1 = (1<<ADC9D)|(1<<ADC8D); //CUR_B & CUR_C ADC inputs
+  DIDR0 = (1<<ADC6D); //CUR_A ADC input
+  
+  //vref_source(); // Select the Vref Source
+  //JTS2do: need to use 2.56 internal reference when measuring phase currents (absolute accuracy)
+  //JTS2do: need to use VCC when measuring PWM from 328p (ratiometric)
+  //The first ADC measurement after each switch should be discarded
+  ADCSRB &= ~(1<<ISRCEN); //disable 100 uA current source on AREF pin.
+  ADCSRB |= (1<<AREFEN); //connect AREF pin to the internal analog reference.
   // Select the Vref Source
 //  init_vref_source ();
 
@@ -87,7 +94,7 @@ void mc_init_HW(void)
   Amp1_config();
   
   // Be careful : initialize DAC and Over_Current before PWM.
-  // DAC is used for oevr current level
+  // DAC is used for over current level
   Dac_config();
   /* set the overcurrent level */
   Dac_set_8_bits(IMAX);

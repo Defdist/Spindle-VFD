@@ -81,7 +81,7 @@ int main(void)
   // Start the motor
   mci_set_ref_speed(0);
   mci_run();
-//  mc_set_speed_loop(); // uncomment to activate the speed regulation loop
+  mc_set_speed_loop(); // uncomment to activate the speed regulation loop
   
   while(1)
   {
@@ -114,11 +114,11 @@ int main(void)
     }
     if (overcurrent==0)
     {
-      Set_PC7();
+	    A4910_Enable();
     }
     else
     {
-      Clear_PC7();
+	    A4910_Disable();
     }
 
   }

@@ -96,7 +96,8 @@ typedef  enum {HS_001=1,HS_010=2,HS_011=3,HS_100=4,HS_101=5,HS_110=6} Hall_Posit
 // K_SPEED = (60 * 255)/(n * t_timer0 * speed_max(rpm))
 // with n : number of pairs of poles.
 // and t_timer0 : 16us
-#define K_SPEED 34152 // max speed : 7000 (MC100 motor)
+  #define K_SPEED 53125 // max speed : 4500 (57BLF)  
+//#define K_SPEED 34152 // max speed : 7000 (MC100 motor)
 //#define K_SPEED 11250 // max speed : 17000 (MMT 35-1LS motor)
 // if you want to calculate the absolute speed
 //   absolute_speed = alpha * measured_speed
@@ -104,14 +105,22 @@ typedef  enum {HS_001=1,HS_010=2,HS_011=3,HS_100=4,HS_101=5,HS_110=6} Hall_Posit
 
 #endif
 
-/* IMAX for DAC is calculated on that way :
-   Rshunt = 0.05 Ohm
-   Vref = 2.56V
-   DAC is left adjust so it is like a 8 bit DAC
-   IMAX = imax(amp) * 0.05 * 5 * 256 / 2.56 + 128
-   IMAX = imax * 25 + 128
-   The result must be less than 254              */
+/* IMAX(counts) is calculated as follows:
+   Rshunt           = 0.005 Ohm    // series resistance on each phase
+   gain_opamp       = 16.5  V/V    // hardware gain using opamps inside A4910
+   imax(amps)       = _____ A      // amps through any single phase
+   Vref             = 2.56  V      // 32M1's internal reference
+   ADC_counts       = 2^8   b      // ADC is left adjusted; only 8 MSBs read
+   zero_current_b   = 0     counts // opamp component offset not used 
+   IMAX(counts) = imax(amps) * Rshunt * gain_opamp * adc_counts / Vref + zero_current_b
+   IMAX(counts) = imax(amps) * 0.005  * 16.5       * 256        / 2.56 + 0
+   IMAX(counts) = imax(amps) * 8.25
+Conclusions:
+   8.25 counts per amp through each phase 
+   IMAX must be less than 254! */
 
-//#define IMAX (4 * 25 + 128) /* 4 amps */
-#define IMAX 228
+//#define IMAX 124 //imax(amps) = 15 amps in phase
+  #define IMAX 165 //imax(amps) = 20 amps in phase
+//#define IMAX 206 //imax(amps) = 25 amps in phase
+//#define IMAX 248 //imax(amps) = 30 amps in phase
   

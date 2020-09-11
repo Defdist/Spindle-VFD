@@ -159,9 +159,19 @@
 #define Set_PC3()    (PORTC |= (1<<PORTC3))
 #define Clear_PC3()  (PORTC &= ~(1<<PORTC3))
 
+/* JTS: Previously used to indicate an overcurrent condition
 #define Init_PC7()   (DDRC |= (1<<DDC7))
 #define Toggle_PC7() (PINC |= (1<<PINC7))
 #define Set_PC7()    (PORTC |= (1<<PORTC7))
 #define Clear_PC7()  (PORTC &= ~(1<<PORTC7))
+*/
+
+#define A4910pinPB4_reset_Init()	(DDRB |= (1<<DDB4))
+#define A4910pinPB4_reset_Toggle()	(PINB |= (1<<PINB4))
+#define A4910pinPB4_reset_Set()    (PORTB |= (1<<PORTB4))
+#define A4910pinPB4_reset_Clear()  (PORTB &= ~(1<<PORTB4))
+
+#define A4910_Disable()	A4910pinPB4_reset_Clear()
+#define A4910_Enable()	A4910pinPB4_reset_Set()
 
 #endif // _CONFIG_H_
