@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
+    <ProjectGuid>017d290c-5444-42fa-adeb-410db4e470b8</ProjectGuid>
+    <Name>bldc_sensor</Name>
+    <avrdevice>atmega32m1</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <AvrProjectType>Importer</AvrProjectType>
+    <OutputType>Executable</OutputType>
+    <Language>C</Language>
+    <OutputFileName>bldc_sensorless</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <ToolchainFlavour>WinAVR2010</ToolchainFlavour>
+    <avrtool />
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <preserveEEPROM>true</preserveEEPROM>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <BootSegment>2</BootSegment>
+    <ResetRule>0</ResetRule>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <EraseKey />
+    <AsfFrameworkConfig>
+      <framework-data xmlns="">
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.47.0" />
+        </dependencies>
+      </framework-data>
+    </AsfFrameworkConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'default' ">
+    <OutputPath>bin\default\</OutputPath>
+    <ToolchainSettings>
+      <AvrGcc>
+  <avrgcc.common.Device>-mmcu=atmega32m1 -B "%24(PackRepoDir)\Atmel\ATmega_DFP\1.4.331\gcc\dev\atmega32m1"</avrgcc.common.Device>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\Atmel\ATmega_DFP\1.4.331\include</Value>
+      <Value>../../Drivers</Value>
+      <Value>../conf</Value>
+      <Value>..</Value>
+      <Value>../uart</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+  <avrgcc.compiler.miscellaneous.OtherFlags>-gdwarf-2 -std=gnu99</avrgcc.compiler.miscellaneous.OtherFlags>
+  <avrgcc.assembler.general.AssemblerFlags>-Wall -gdwarf-2 -std=gnu99 -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums</avrgcc.assembler.general.AssemblerFlags>
+  <avrgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>..\..\..\..\..\..\..\Desktop\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\..\..\Drivers\adc</Value>
+      <Value>..\..\..\..\..\..\..\Desktop\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\..\..\Drivers\comparator</Value>
+      <Value>..\..\..\..\..\..\..\Desktop\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\..\..\Drivers\pll</Value>
+      <Value>..\..\..\..\..\..\..\Desktop\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\conf</Value>
+      <Value>..\..\..\..\..\..\..\Desktop\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\.</Value>
+      <Value>..\..\..\..\..\..\..\Desktop\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\uart</Value>
+      <Value>..\..\..\..\..\..\..\Desktop\AVR194 Trapezoid drive with overcurrent\avr194_software\Applications\MC310_bldc_sensor\..\..\Drivers</Value>
+      <Value>%24(PackRepoDir)\Atmel\ATmega_DFP\1.4.331\include</Value>
+    </ListValues>
+  </avrgcc.assembler.general.IncludePaths>
+</AvrGcc>
+    </ToolchainSettings>
+    <BuildTarget>all</BuildTarget>
+    <CleanTarget>clean</CleanTarget>
+  </PropertyGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+  <ItemGroup>
+    <Compile Include="ascii.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="conf\config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="conf\config_motor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="conf\dac_config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="mc_control.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="mc_drv.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="mc_interface.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ushell_task.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Folder Include="conf\" />
+    <Folder Include="uart" />
+    <Compile Include="uart\uart_lib.c">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
