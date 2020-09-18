@@ -332,7 +332,7 @@ U8 c;
 
 }
 
-//! @brief convert param1 to binaire.
+//! @brief convert param1 to binary.
 //!
 //! @param none
 //!
@@ -349,7 +349,7 @@ void convert_param1(void)
    }
 }
 
-//! @brief convert param2 to binaire.
+//! @brief convert param2 to binary.
 //!
 //! @param none
 //!

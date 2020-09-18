@@ -5,6 +5,18 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "bldc_sensor", "bldc_sensor\bldc_sensor.cproj", "{017D290C-5444-42FA-ADEB-410DB4E470B8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Drivers", "Drivers", "{19E01692-1701-4CDC-A205-97ABB3047F99}"
+	ProjectSection(SolutionItems) = preProject
+		Drivers\adc\adc_drv.c = Drivers\adc\adc_drv.c
+		Drivers\adc\adc_drv.h = Drivers\adc\adc_drv.h
+		Drivers\comparator\comparator_drv.c = Drivers\comparator\comparator_drv.c
+		Drivers\comparator\comparator_drv.h = Drivers\comparator\comparator_drv.h
+		Drivers\dac\dac_drv.c = Drivers\dac\dac_drv.c
+		Drivers\dac\dac_drv.h = Drivers\dac\dac_drv.h
+		Drivers\pll\pll_drv.h = Drivers\pll\pll_drv.h
+		Drivers\psc\psc_drv.h = Drivers\psc\psc_drv.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		default|AVR = default|AVR

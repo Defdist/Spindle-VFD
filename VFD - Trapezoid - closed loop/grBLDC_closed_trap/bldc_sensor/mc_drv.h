@@ -34,25 +34,26 @@
 
 
 
-  // Comparator interruption
-#ifdef __GNUC__
-  #define HALL_A() (ANACOMP0_vect)
-#else
-  #define HALL_A() (ANA_COMP0_vect)
-#endif
-  #define HALL_B() (PCINT1_vect)
-#ifdef __GNUC__
-  #define HALL_C() (ANACOMP2_vect)
-#else
-  #define HALL_C() (ANA_COMP2_vect)
-#endif
+  // Hall sensor interrupt vector configuration
+  #define HALL_AC() (PCINT2_vect) //HallA & HallC share PCINT2
+  #define HALL_B()  (PCINT1_vect)
 
-
+  //Bit-bangs present hall positions as defined by enum
+  //'function' is inlined for speed
+  //'(Hall_Position) type-casts byte into enum (e.g. HS_001=1, HS_010=2, etc).
+  #define HALL_SENSOR_VALUE()        \
+    (Hall_Position)(\
+    ( (PIND & (1<<PIND1)) >> (PIND1-0) ) \
+  | ( (PINC & (1<<PINC1)) >> (PINC1-1) ) \
+  | ( (PIND & (1<<PIND2)) >> (PIND2-2) ) ) //builds hall states into byte
+  //For example, if Hall A & B are high, the result is 0b00000110, which is HS_110
+  /* JTS AS FOUND
   #define HALL_SENSOR_VALUE()        \
     (Hall_Position)(\
     ( (PIND & (1<<PIND7)) >> PIND7 ) \
-  | ( (PINC & (1<<PINC6)) >> 5 )     \
-  | ( (PIND & (1<<PIND5)) >> 3 ))
+  | ( (PINC & (1<<PINC6)) >> 5 )     \  //JTS: Byte packing poorly done
+  | ( (PIND & (1<<PIND5)) >> 3 ))		//JTS: Byte packing poorly done
+*/
 
   #define Clear_Port_Q5() (PORTB &= ( ~(1<<PORTB0)))
   #define Clear_Port_Q3() (PORTC &= ( ~(1<<PORTC0)))

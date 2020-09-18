@@ -250,7 +250,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x16b2
+.text           0x00000000     0x15f2
  *(.vectors)
  .vectors       0x00000000       0x7c c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32m1.o
                 0x00000000                __vectors
@@ -323,9 +323,10 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text          0x00000150        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32m1.o
                 0x00000150                __vector_22
                 0x00000150                __vector_28
-                0x00000150                __vector_24
+                0x00000150                __vector_1
                 0x00000150                __bad_interrupt
                 0x00000150                __vector_6
+                0x00000150                __vector_3
                 0x00000150                __vector_30
                 0x00000150                __vector_25
                 0x00000150                __vector_11
@@ -374,163 +375,160 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x000003ba       0x7e mc_drv.o
                 0x000003ba                PSC_Init
  .text.mc_get_hall
-                0x00000438       0x32 mc_drv.o
+                0x00000438       0x1a mc_drv.o
                 0x00000438                mc_get_hall
  .text.mc_duty_cycle
-                0x0000046a       0x58 mc_drv.o
-                0x0000046a                mc_duty_cycle
+                0x00000452       0x58 mc_drv.o
+                0x00000452                mc_duty_cycle
  .text.mc_init_timer1
-                0x000004c2       0x20 mc_drv.o
-                0x000004c2                mc_init_timer1
+                0x000004aa       0x20 mc_drv.o
+                0x000004aa                mc_init_timer1
  .text.mc_init_HW
-                0x000004e2       0x96 mc_drv.o
-                0x000004e2                mc_init_HW
+                0x000004ca       0x96 mc_drv.o
+                0x000004ca                mc_init_HW
  .text.__vector_12
-                0x00000578       0x1e mc_drv.o
-                0x00000578                __vector_12
+                0x00000560       0x1e mc_drv.o
+                0x00000560                __vector_12
  .text.mc_ADC_Scheduler
-                0x00000596       0x86 mc_drv.o
-                0x00000596                mc_ADC_Scheduler
+                0x0000057e       0x86 mc_drv.o
+                0x0000057e                mc_ADC_Scheduler
  .text.mc_disable_during_inrush
-                0x0000061c       0x1a mc_drv.o
-                0x0000061c                mc_disable_during_inrush
+                0x00000604       0x1a mc_drv.o
+                0x00000604                mc_disable_during_inrush
  .text.mc_inrush_task
-                0x00000636       0x2a mc_drv.o
-                0x00000636                mc_inrush_task
+                0x0000061e       0x2a mc_drv.o
+                0x0000061e                mc_inrush_task
  .text.__vector_5
-                0x00000660       0x54 mc_drv.o
-                0x00000660                __vector_5
+                0x00000648       0x54 mc_drv.o
+                0x00000648                __vector_5
  .text.__vector_27
-                0x000006b4       0x80 mc_drv.o
-                0x000006b4                __vector_27
+                0x0000069c       0x80 mc_drv.o
+                0x0000069c                __vector_27
  .text.mc_estimation_speed
-                0x00000734       0x5a mc_drv.o
-                0x00000734                mc_estimation_speed
+                0x0000071c       0x5a mc_drv.o
+                0x0000071c                mc_estimation_speed
  .text.__vector_17
-                0x0000078e       0x6a mc_drv.o
-                0x0000078e                __vector_17
+                0x00000776       0x6a mc_drv.o
+                0x00000776                __vector_17
  .text.mc_switch_commutation
-                0x000007f8       0x8c mc_drv.o
-                0x000007f8                mc_switch_commutation
- .text.__vector_3
-                0x00000884       0x78 mc_drv.o
-                0x00000884                __vector_3
+                0x000007e0       0x8c mc_drv.o
+                0x000007e0                mc_switch_commutation
  .text.__vector_23
-                0x000008fc       0x78 mc_drv.o
-                0x000008fc                __vector_23
- .text.__vector_1
-                0x00000974       0x8c mc_drv.o
-                0x00000974                __vector_1
+                0x0000086c       0x74 mc_drv.o
+                0x0000086c                __vector_23
+ .text.__vector_24
+                0x000008e0       0x60 mc_drv.o
+                0x000008e0                __vector_24
  .text.mci_motor_is_running
-                0x00000a00        0x6 mc_interface.o
-                0x00000a00                mci_motor_is_running
+                0x00000940        0x6 mc_interface.o
+                0x00000940                mci_motor_is_running
  .text.mci_stop
-                0x00000a06        0x6 mc_interface.o
-                0x00000a06                mci_stop
+                0x00000946        0x6 mc_interface.o
+                0x00000946                mci_stop
  .text.mci_set_ref_speed
-                0x00000a0c        0x6 mc_interface.o
-                0x00000a0c                mci_set_ref_speed
+                0x0000094c        0x6 mc_interface.o
+                0x0000094c                mci_set_ref_speed
  .text.mci_get_ref_speed
-                0x00000a12        0x6 mc_interface.o
-                0x00000a12                mci_get_ref_speed
+                0x00000952        0x6 mc_interface.o
+                0x00000952                mci_get_ref_speed
  .text.mci_forward
-                0x00000a18        0x6 mc_interface.o
-                0x00000a18                mci_forward
+                0x00000958        0x6 mc_interface.o
+                0x00000958                mci_forward
  .text.mci_backward
-                0x00000a1e        0x8 mc_interface.o
-                0x00000a1e                mci_backward
+                0x0000095e        0x8 mc_interface.o
+                0x0000095e                mci_backward
  .text.mci_get_motor_direction
-                0x00000a26        0x6 mc_interface.o
-                0x00000a26                mci_get_motor_direction
+                0x00000966        0x6 mc_interface.o
+                0x00000966                mci_get_motor_direction
  .text.mc_set_measured_speed
-                0x00000a2c        0x6 mc_interface.o
-                0x00000a2c                mc_set_measured_speed
+                0x0000096c        0x6 mc_interface.o
+                0x0000096c                mc_set_measured_speed
  .text.mci_get_measured_speed
-                0x00000a32        0x6 mc_interface.o
-                0x00000a32                mci_get_measured_speed
+                0x00000972        0x6 mc_interface.o
+                0x00000972                mci_get_measured_speed
  .text.mci_get_measured_current
-                0x00000a38       0x22 mc_interface.o
-                0x00000a38                mci_get_measured_current
+                0x00000978       0x22 mc_interface.o
+                0x00000978                mci_get_measured_current
  .text.mci_store_measured_current
-                0x00000a5a       0x70 mc_interface.o
-                0x00000a5a                mci_store_measured_current
+                0x0000099a       0x70 mc_interface.o
+                0x0000099a                mci_store_measured_current
  .text.mc_get_potentiometer_value
-                0x00000aca        0x6 mc_interface.o
-                0x00000aca                mc_get_potentiometer_value
+                0x00000a0a        0x6 mc_interface.o
+                0x00000a0a                mc_get_potentiometer_value
  .text.mc_set_potentiometer_value
-                0x00000ad0        0x6 mc_interface.o
-                0x00000ad0                mc_set_potentiometer_value
- .text.mc_init  0x00000ad6       0x18 mc_interface.o
-                0x00000ad6                mc_init
+                0x00000a10        0x6 mc_interface.o
+                0x00000a10                mc_set_potentiometer_value
+ .text.mc_init  0x00000a16       0x18 mc_interface.o
+                0x00000a16                mc_init
  .text.mci_retry_run
-                0x00000aee       0x20 mc_interface.o
-                0x00000aee                mci_retry_run
- .text.mci_run  0x00000b0e       0x30 mc_interface.o
-                0x00000b0e                mci_run
+                0x00000a2e       0x20 mc_interface.o
+                0x00000a2e                mci_retry_run
+ .text.mci_run  0x00000a4e       0x30 mc_interface.o
+                0x00000a4e                mci_run
  .text.print_hex16
-                0x00000b3e       0x7a ushell_task.o
-                0x00000b3e                print_hex16
+                0x00000a7e       0x7a ushell_task.o
+                0x00000a7e                print_hex16
  .text.print_msg
-                0x00000bb8       0x22 ushell_task.o
-                0x00000bb8                print_msg
+                0x00000af8       0x22 ushell_task.o
+                0x00000af8                print_msg
  .text.parse_cmd
-                0x00000bda      0x248 ushell_task.o
-                0x00000bda                parse_cmd
+                0x00000b1a      0x248 ushell_task.o
+                0x00000b1a                parse_cmd
  .text.convert_param1
-                0x00000e22       0x5a ushell_task.o
-                0x00000e22                convert_param1
+                0x00000d62       0x5a ushell_task.o
+                0x00000d62                convert_param1
  .text.build_cmd
-                0x00000e7c       0x96 ushell_task.o
-                0x00000e7c                build_cmd
+                0x00000dbc       0x96 ushell_task.o
+                0x00000dbc                build_cmd
  .text.ushell_task
-                0x00000f12      0x11e ushell_task.o
-                0x00000f12                ushell_task
+                0x00000e52      0x11e ushell_task.o
+                0x00000e52                ushell_task
  .text.ushell_task_init
-                0x00001030       0x1e ushell_task.o
-                0x00001030                ushell_task_init
+                0x00000f70       0x1e ushell_task.o
+                0x00000f70                ushell_task_init
  .text.uart_test_hit
-                0x0000104e        0x8 uart/uart_lib.o
-                0x0000104e                uart_test_hit
+                0x00000f8e        0x8 uart/uart_lib.o
+                0x00000f8e                uart_test_hit
  .text.uart_init
-                0x00001056       0x2c uart/uart_lib.o
-                0x00001056                uart_init
+                0x00000f96       0x2c uart/uart_lib.o
+                0x00000f96                uart_init
  .text.uart_putchar
-                0x00001082       0x12 uart/uart_lib.o
-                0x00001082                uart_putchar
+                0x00000fc2       0x12 uart/uart_lib.o
+                0x00000fc2                uart_putchar
  .text.uart_getchar
-                0x00001094        0xe uart/uart_lib.o
-                0x00001094                uart_getchar
- .text.libgcc   0x000010a2       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodsi4.o)
-                0x000010a2                __divmodsi4
- .text.libgcc   0x000010d8       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
-                0x000010d8                __udivmodsi4
+                0x00000fd4        0xe uart/uart_lib.o
+                0x00000fd4                uart_getchar
+ .text.libgcc   0x00000fe2       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodsi4.o)
+                0x00000fe2                __divmodsi4
+ .text.libgcc   0x00001018       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+                0x00001018                __udivmodsi4
  .text.avr-libc
-                0x0000111c       0x2a c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(printf.o)
-                0x0000111c                printf
+                0x0000105c       0x2a c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(printf.o)
+                0x0000105c                printf
  .text.avr-libc
-                0x00001146      0x3ba c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(vfprintf_std.o)
-                0x00001146                vfprintf
+                0x00001086      0x3ba c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(vfprintf_std.o)
+                0x00001086                vfprintf
  .text.avr-libc
-                0x00001500       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strnlen_P.o)
-                0x00001500                strnlen_P
+                0x00001440       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strnlen_P.o)
+                0x00001440                strnlen_P
  .text.avr-libc
-                0x00001516       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strnlen.o)
-                0x00001516                strnlen
+                0x00001456       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strnlen.o)
+                0x00001456                strnlen
  .text.avr-libc
-                0x0000152c       0x58 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(fputc.o)
-                0x0000152c                fputc
+                0x0000146c       0x58 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(fputc.o)
+                0x0000146c                fputc
  .text.avr-libc
-                0x00001584       0xbc c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(ultoa_invert.o)
-                0x00001584                __ultoa_invert
- .text.libgcc   0x00001640       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
-                0x00001640                __prologue_saves__
- .text.libgcc   0x00001678       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
-                0x00001678                __epilogue_restores__
-                0x000016ae                . = ALIGN (0x2)
+                0x000014c4       0xbc c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(ultoa_invert.o)
+                0x000014c4                __ultoa_invert
+ .text.libgcc   0x00001580       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
+                0x00001580                __prologue_saves__
+ .text.libgcc   0x000015b8       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
+                0x000015b8                __epilogue_restores__
+                0x000015ee                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000016ae        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x000016ae                exit
-                0x000016ae                _exit
+ .fini9         0x000015ee        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x000015ee                exit
+                0x000015ee                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -549,11 +547,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000016ae        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x000015ee        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000016b2                _etext = .
+                0x000015f2                _etext = .
 
-.data           0x00800100        0x4 load address 0x000016b2
+.data           0x00800100        0x4 load address 0x000015f2
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x3 ushell_task.o
@@ -652,8 +650,8 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  COMMON         0x0080016a        0x6 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(iob.o)
                 0x0080016a                __iob
                 0x00800170                PROVIDE (__bss_end, .)
-                0x000016b2                __data_load_start = LOADADDR (.data)
-                0x000016b6                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000015f2                __data_load_start = LOADADDR (.data)
+                0x000015f6                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800170        0x0
                 0x00800170                PROVIDE (__noinit_start, .)
@@ -711,7 +709,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x270
+.debug_aranges  0x00000000      0x268
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 ascii.o
@@ -720,16 +718,16 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .debug_aranges
                 0x00000048       0x50 mc_control.o
  .debug_aranges
-                0x00000098       0xa8 mc_drv.o
+                0x00000098       0xa0 mc_drv.o
  .debug_aranges
-                0x00000140       0x98 mc_interface.o
+                0x00000138       0x98 mc_interface.o
  .debug_aranges
-                0x000001d8       0x60 ushell_task.o
+                0x000001d0       0x60 ushell_task.o
  .debug_aranges
-                0x00000238       0x38 uart/uart_lib.o
+                0x00000230       0x38 uart/uart_lib.o
 
 .debug_pubnames
-                0x00000000      0x7c8
+                0x00000000      0x7ba
  *(.debug_pubnames)
  .debug_pubnames
                 0x00000000       0x34 ascii.o
@@ -738,23 +736,23 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .debug_pubnames
                 0x00000077      0x1c7 mc_control.o
  .debug_pubnames
-                0x0000023e      0x1b0 mc_drv.o
+                0x0000023e      0x1a2 mc_drv.o
  .debug_pubnames
-                0x000003ee      0x1fa mc_interface.o
+                0x000003e0      0x1fa mc_interface.o
  .debug_pubnames
-                0x000005e8      0x18c ushell_task.o
+                0x000005da      0x18c ushell_task.o
  .debug_pubnames
-                0x00000774       0x54 uart/uart_lib.o
+                0x00000766       0x54 uart/uart_lib.o
 
-.debug_info     0x00000000     0x155f
+.debug_info     0x00000000     0x1548
  *(.debug_info)
  .debug_info    0x00000000       0xde ascii.o
  .debug_info    0x000000de      0x102 main.o
  .debug_info    0x000001e0      0x2df mc_control.o
- .debug_info    0x000004bf      0x3b6 mc_drv.o
- .debug_info    0x00000875      0x34b mc_interface.o
- .debug_info    0x00000bc0      0x861 ushell_task.o
- .debug_info    0x00001421      0x13e uart/uart_lib.o
+ .debug_info    0x000004bf      0x39f mc_drv.o
+ .debug_info    0x0000085e      0x34b mc_interface.o
+ .debug_info    0x00000ba9      0x861 ushell_task.o
+ .debug_info    0x0000140a      0x13e uart/uart_lib.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev   0x00000000      0x76c
@@ -767,27 +765,27 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .debug_abbrev  0x00000498      0x22e ushell_task.o
  .debug_abbrev  0x000006c6       0xa6 uart/uart_lib.o
 
-.debug_line     0x00000000     0x1416
+.debug_line     0x00000000     0x13f6
  *(.debug_line)
  .debug_line    0x00000000       0xbd ascii.o
  .debug_line    0x000000bd      0x125 main.o
  .debug_line    0x000001e2      0x1f3 mc_control.o
- .debug_line    0x000003d5      0x612 mc_drv.o
- .debug_line    0x000009e7      0x305 mc_interface.o
- .debug_line    0x00000cec      0x618 ushell_task.o
- .debug_line    0x00001304      0x112 uart/uart_lib.o
+ .debug_line    0x000003d5      0x5f2 mc_drv.o
+ .debug_line    0x000009c7      0x305 mc_interface.o
+ .debug_line    0x00000ccc      0x618 ushell_task.o
+ .debug_line    0x000012e4      0x112 uart/uart_lib.o
 
-.debug_frame    0x00000000      0x400
+.debug_frame    0x00000000      0x3f0
  *(.debug_frame)
  .debug_frame   0x00000000       0x30 ascii.o
  .debug_frame   0x00000030       0x20 main.o
  .debug_frame   0x00000050       0x80 mc_control.o
- .debug_frame   0x000000d0      0x130 mc_drv.o
- .debug_frame   0x00000200      0x110 mc_interface.o
- .debug_frame   0x00000310       0xa0 ushell_task.o
- .debug_frame   0x000003b0       0x50 uart/uart_lib.o
+ .debug_frame   0x000000d0      0x120 mc_drv.o
+ .debug_frame   0x000001f0      0x110 mc_interface.o
+ .debug_frame   0x00000300       0xa0 ushell_task.o
+ .debug_frame   0x000003a0       0x50 uart/uart_lib.o
 
-.debug_str      0x00000000      0x858
+.debug_str      0x00000000      0x84e
  *(.debug_str)
  .debug_str     0x00000000       0xfe ascii.o
                                 0x137 (size before relaxing)
@@ -795,13 +793,13 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                                 0x167 (size before relaxing)
  .debug_str     0x00000155      0x18d mc_control.o
                                 0x2be (size before relaxing)
- .debug_str     0x000002e2      0x1d6 mc_drv.o
-                                0x30e (size before relaxing)
- .debug_str     0x000004b8      0x1b2 mc_interface.o
+ .debug_str     0x000002e2      0x1cc mc_drv.o
+                                0x304 (size before relaxing)
+ .debug_str     0x000004ae      0x1b2 mc_interface.o
                                 0x2f0 (size before relaxing)
- .debug_str     0x0000066a      0x176 ushell_task.o
+ .debug_str     0x00000660      0x176 ushell_task.o
                                 0x2d2 (size before relaxing)
- .debug_str     0x000007e0       0x78 uart/uart_lib.o
+ .debug_str     0x000007d6       0x78 uart/uart_lib.o
                                 0x188 (size before relaxing)
 
 .debug_loc      0x00000000      0xa3f
@@ -818,11 +816,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 OUTPUT(bldc_sensorless.elf elf32-avr)
 LOAD linker stubs
 
-.debug_ranges   0x00000000      0x238
+.debug_ranges   0x00000000      0x230
  .debug_ranges  0x00000000       0x20 ascii.o
  .debug_ranges  0x00000020       0x18 main.o
  .debug_ranges  0x00000038       0x48 mc_control.o
- .debug_ranges  0x00000080       0xa0 mc_drv.o
- .debug_ranges  0x00000120       0x90 mc_interface.o
- .debug_ranges  0x000001b0       0x58 ushell_task.o
- .debug_ranges  0x00000208       0x30 uart/uart_lib.o
+ .debug_ranges  0x00000080       0x98 mc_drv.o
+ .debug_ranges  0x00000118       0x90 mc_interface.o
+ .debug_ranges  0x000001a8       0x58 ushell_task.o
+ .debug_ranges  0x00000200       0x30 uart/uart_lib.o

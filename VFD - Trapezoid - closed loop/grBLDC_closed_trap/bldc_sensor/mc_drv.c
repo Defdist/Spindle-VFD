@@ -37,7 +37,7 @@ static U8 ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits ti
 static Bool inrush_mask_flag = FALSE;
 static U16 inrush_delay = 0;
 
-Bool g_mc_read_enable = FALSE;  // the speed can be read
+Bool g_mc_read_enable = FALSE;  // the speed can be read when TRUE
 Bool g_tick = FALSE;             //!< Use for control the sampling period value
 
 Bool current_EOC = FALSE; //End Of Conversion Flag
@@ -106,9 +106,14 @@ void mc_init_HW(void)
   Comp_1_config();
   Comp_2_config();
   
-  // Use PCINT14 to detect change on H2 sensor
-  PCMSK1 = (1<<PCINT14);
-  PCICR = (1<<PCIE1);
+  //JTS rewrote
+  // Use PCINT17 to detect change on H1 (A) sensor
+  // Use PCINT18 to detect change on H3 (C) sensor
+  PCMSK2 = ( (1<<PCINT17) | (1<<PCINT18) );
+  // Use PCINT9 to detect change on H2 (B) sensor
+  PCMSK1 = (1<<PCINT9);
+  // Enable pin change interrupts on PCMSK1 & 2
+  PCICR = ( (1<<PCIE1) | (1<<PCIE2) );
 
 //  Start_pll_32_mega(); // Start the PLL and use the 32 MHz PLL output
   Start_pll_64_mega(); // Start the PLL and use the 64 MHz PLL output
@@ -180,65 +185,24 @@ Hall_Position mc_get_hall(void)
   return HALL_SENSOR_VALUE();
 }
 
-/**
- * @brief External interruption
- *                 Sensor (A) mode toggle
- * @pre configuration of external interruption (initialization)
- * @post New value in Hall variable
- */
-#ifdef __GNUC__
-  ISR(HALL_A())
-#else
-#pragma vector = HALL_A()
-__interrupt void mc_hall_a(void)
-#endif
+//Configure interrupt vectors (each time a hall sensor state changes)
+ISR( HALL_AC() )  //Hall_A & Hall_C share the same interrupt vector byte
 {
-  mc_switch_commutation(HALL_SENSOR_VALUE());
+  mc_switch_commutation( HALL_SENSOR_VALUE() );
+}
 
-  //estimation speed on rising edge of Hall_A
-  if (PIND&(1<<PORTD7))
+ISR( HALL_B() )
+{
+  mc_switch_commutation( HALL_SENSOR_VALUE() ); 
+  if (PINC&(1<<PINC1)) //"is Hall_B logic high?"
   {
-    mc_estimation_speed();
-    g_mc_read_enable=FALSE; // Wait 1 period
-  }
-  else
-  {
-    g_mc_read_enable=TRUE;
-  }
-
+	mc_estimation_speed(); //estimate speed on Hall_B rising edge
+	g_mc_read_enable=FALSE; // Wait 1 period
+	} else {
+	g_mc_read_enable=TRUE;
+  } 
 }
 
-/**
- * @brief External interruption
- *                 Hall Sensor (B) mode toggle
- * @pre configuration of external interruption (initialization)
- * @post New value in Hall variable
- */
-#ifdef __GNUC__
-  ISR(HALL_B())
-#else
-#pragma vector = HALL_B()
-__interrupt void mc_hall_b(void)
-#endif
-{
-  mc_switch_commutation(HALL_SENSOR_VALUE());
-}
-
- /**
- * @brief External interruption
- *                 Hall Sensor (C) mode toggle
- * @pre configuration of external interruption (initialization)
- * @post New value in Hall variable
- */
-#ifdef __GNUC__
-  ISR(HALL_C())
-#else
-#pragma vector = HALL_C()
-__interrupt void mc_hall_c(void)
-#endif
-{
-  mc_switch_commutation(HALL_SENSOR_VALUE());
-}
 
 /**
 * @brief Set the duty cycle values in the PSC according to the value calculate by the regulation loop
@@ -339,13 +303,13 @@ void mc_switch_commutation(Hall_Position position)
  * @pre None
  * @post An interrupt all 256us
 */
-void mc_init_timer1(void)
+void mc_init_timer1(void)  //JTS2do: swap with counter 0, which uses software 16 bit.
 {
   TCCR1A = 0; //Normal port operation + Mode CTC
-  TCCR1B = 1<<WGM12 | 1<<CS11 | 1<<CS10 ; // Mode CTC + prescaler 64
+  TCCR1B = 1<<WGM12 | 1<<CS11 | 1<<CS10 ; // Mode CTC + clock prescaler=64
   TCCR1C = 0;
-  OCR1AH = 0;
-  OCR1AL = 63; // f ocra = 16MHz %64 %63
+  OCR1AH = 0; //output compare register high byte
+  OCR1AL = 63; // f ocra = 16MHz/64 = 250 kHz tick
   TIMSK1=(1<<OCIE1A); // Output compare A Match interrupt Enable
 }
 
@@ -354,12 +318,7 @@ void mc_init_timer1(void)
   * @pre configuration of timer 1 registers
   * @post g_tick use in main.c for regulation loop
 */
-#ifdef __GNUC__
-  ISR(TIMER1_COMPA_vect)
-#else
-#pragma vector = TIMER1_COMPA_vect
-__interrupt void launch_sampling_period(void)
-#endif
+ISR(TIMER1_COMPA_vect) //main tick //timer configured in mc_init_timer1()
 {
   g_tick = TRUE;
 }
@@ -388,12 +347,7 @@ void mc_init_timer0(void)
   * @pre configuration of timer 0
   * @post generate an overflow when the motor turns too slowly
 */
-#ifdef __GNUC__
-  ISR(TIMER0_OVF_vect)
-#else
-#pragma vector = TIMER0_OVF_vect
-__interrupt void ovfl_timer0(void)
-#endif
+ISR(TIMER0_OVF_vect)
 {
   TCNT0=0x00;
   ovf_timer++;
@@ -415,7 +369,7 @@ __interrupt void ovfl_timer0(void)
 *           and define or not AVERAGE_SPEED_MEASURENT in config_motor.h
 * @post new value for real speed
 */
-void mc_estimation_speed(void)
+void mc_estimation_speed(void) //JTS2do: This should be inlined because it's called inside ISR
 {
   U16 timer_value;
   U32 new_measured_speed;
@@ -425,7 +379,7 @@ void mc_estimation_speed(void)
     // Two 8 bits variables are use to simulate a 16 bits timers
     timer_value = (ovf_timer<<8) + TCNT0;
 
-    if (timer_value == 0) {timer_value += 1 ;} // warning DIV by 0
+    if (timer_value == 0) {timer_value += 1 ;} // prevent DIV by 0 in next line
     new_measured_speed = K_SPEED / timer_value;
     if(new_measured_speed > 255) new_measured_speed = 255; // Variable saturation
 
