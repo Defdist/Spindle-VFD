@@ -40,7 +40,7 @@
 
 
       //! @defgroup Comp_0_config() Configure Comparator 0
-      //! All parameters must be setted in definitions
+      //! All parameters must be set in definitions
       //! @{
 #define Comp_0_config() \
    AC0CON = (COMP0_ENABLE_BIT_VALUE<<AC0EN)| \
@@ -53,7 +53,7 @@
 
 
       //! @defgroup Comp_1_config() Configure Comparator 1
-      //! All parameters must be setted in definitions
+      //! All parameters must be set in definitions
       //! @{
 #define Comp_1_config() \
    AC1CON = (COMP1_ENABLE_BIT_VALUE<<AC1EN)| \
@@ -65,7 +65,7 @@
 
 
       //! @defgroup Comp_2_config() Configure Comparator 2
-      //! All parameters must be setted in definitions
+      //! All parameters must be set in definitions
       //! @{
 #define Comp_2_config() \
    AC2CON = (COMP2_ENABLE_BIT_VALUE<<AC1EN)| \
@@ -77,7 +77,7 @@
 
 
       //! @defgroup Comp_3_config() Configure Comparator 3
-      //! All parameters must be setted in definitions
+      //! All parameters must be set in definitions
       //! @{
 #define Comp_3_config() \
    AC3CON = (COMP3_ENABLE_BIT_VALUE<<AC1EN)| \

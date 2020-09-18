@@ -55,7 +55,7 @@
 /*-------------- UART LIB CONFIGURATION ---------------*/
 
 #define BAUDRATE      38400
-#define FOSC          16000
+#define FOSC          16000 //kHz
 
 /* DAC configuration */
 #define DAC_AUTOTRIG_ENABLE_VALUE        DAC_AUTOTRIG_DISABLE

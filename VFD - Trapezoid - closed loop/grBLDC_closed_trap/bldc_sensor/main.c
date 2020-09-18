@@ -76,7 +76,7 @@ int main(void)
   mc_init();  // launch initialization of the motor application
   
   // Initialyze the communication system for External Command through Uart
-  ushell_task_init();
+  //ushell_task_init();
 
   // Start the motor
   mci_set_ref_speed(0);
@@ -85,20 +85,19 @@ int main(void)
   
   while(1)
   {
-    // Launch regulation loop
-    // Timer 1 generate an IT (g_tick) all 250us
-    // Sampling period = n * 250us
+    // Timer 1 generates an interrupt (g_tick) @ 256us
+    // Sampling period = n * 256us
     if (g_tick == TRUE)
     {
       g_tick = FALSE;
-      mc_ADC_Scheduler(); // Get Current and potentiometer value
+      mc_ADC_Scheduler(); // Get Current or potentiometer value
       g_regulation_period += 1;
 	  
-      if(g_regulation_period >= 40) //n * 250us = Te
+      if(g_regulation_period >= 40) //n * 256us = Te
       {
         g_regulation_period = 0;
 
-        if (ushell_active == FALSE)
+        if (ushell_active == FALSE)  //JTS: Looks like UART is ignored until handshaking occurs
         {
           // Set User Speed Command with potentiometer
           mci_set_ref_speed(mc_get_potentiometer_value());
@@ -106,10 +105,11 @@ int main(void)
         mc_regulation_loop(); // launch regulation loop
       }
       mc_duty_cycle(mc_get_duty_cycle());
-      ushell_task();
+      //ushell_task();
       mc_inrush_task();       // manage the inrush current
     }
 	
+  /*
     if (overcurrent==0)
     {
 	    A4910_Enable();
@@ -118,6 +118,7 @@ int main(void)
     {
 	    A4910_Disable();
     }
+  */
 
   }
 }

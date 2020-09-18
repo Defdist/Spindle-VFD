@@ -16,6 +16,7 @@ mc_drv.c:
 -mc_estimation_speed()
 -measures ADC values (current, Vsupply) mc_ADC_Scheduler()
 -configures overcurrent ISR (right now it stops the motor)
+-ADC scheduler
 
 mc_control.c:
 -speed/current regulation variables

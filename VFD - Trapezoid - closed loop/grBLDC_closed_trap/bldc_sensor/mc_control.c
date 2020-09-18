@@ -18,7 +18,7 @@
 #include "dac\dac_drv.h"
 
 U8 duty_cycle = 0;    //!<Parameter to set PWM Duty Cycle after regulation calculation
-U8 regulation_type = OPEN_LOOP; //!< Define the type of regulation (OPEN_LOOP or CLOSE_LOOP)
+U8 regulation_type = CLOSE_LOOP; //!< Define the type of regulation (OPEN_LOOP or CLOSE_LOOP)
 
 /* Speed regulation variables */
 S16 speed_error = 0;      //!<Error calculation

@@ -177,17 +177,18 @@ U8 mci_get_measured_speed(void)
 */
 U16 mci_get_measured_current(void)
 {
-  return mci_measured_current/64;
+  return mci_measured_current>>6; //equals mci_measured_current/64
 }
 
 /**
-* @brief Set the variable 'mc_measured_current' for initialization.
+* @brief Set the variable 'mci_measured_current' for initialization.
 * @pre none
-* @post 'mc_measured_current' set with the current value
+* @post 'mci_measured_current' set with the current value
 */
 void mci_store_measured_current(U16 current)
 {
-  mci_measured_current = ((63*mci_measured_current)+(64*current))>>6;
+  //some kind of average
+  mci_measured_current = ( (63*mci_measured_current)+(64*current) )>>6;
 }
 
 /**

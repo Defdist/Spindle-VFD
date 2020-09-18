@@ -103,7 +103,6 @@
       DACON = (DAC_AUTOTRIG_ENABLE_VALUE<<DAATE)| \
               (DAC_TRIGGER_SELECTION<<DATS0)| \
               (DAC_LEFT_ADJUST_VALUE<<DALA) | \
-              (DAC_OUTPUT_ENABLE_VALUE<<DAOE) | \
               (DAC_ENABLE_VALUE<<DAEN);
        
 

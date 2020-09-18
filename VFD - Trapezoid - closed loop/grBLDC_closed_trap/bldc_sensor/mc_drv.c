@@ -33,7 +33,7 @@ Bool overcurrent = FALSE;
 U8 count = 1;     // variable "count" is use to calculate the "average" speed on 'n' samples
 U16 average = 0;
 static U8 ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits timer with 8 bits timer
-
+                        //JTS2do: T0 is 8 bits, while T1 is 16 bits.  Swap T0<->T1.
 static Bool inrush_mask_flag = FALSE;
 static U16 inrush_delay = 0;
 
@@ -71,6 +71,7 @@ void mc_init_HW(void)
   DDRC = (1<<DDC0);
   DDRD = (1<<DDD0);
   
+  //Enable A4910 (FET driver IC)
   A4910pinPB4_reset_Init(); //configure pin to digital output
   A4910_Enable(); //enable MOSFET driver
 
@@ -78,7 +79,7 @@ void mc_init_HW(void)
   // This reduces power consumption, particularly when an analog signal is near Vcc/2.
   // Digital Inputs for comparators are not disabled.
   DIDR1 = (1<<ADC9D)|(1<<ADC8D); //CUR_B & CUR_C ADC inputs
-  DIDR0 = (1<<ADC6D); //CUR_A ADC input
+  DIDR0 = (1<<ADC5D)|(1<<ADC6D); //CUR_A ADC input
   
   //vref_source(); // Select the Vref Source
   //JTS2do: need to use 2.56 internal reference when measuring phase currents (absolute accuracy)
@@ -95,6 +96,8 @@ void mc_init_HW(void)
   
   // Be careful : initialize DAC and Over_Current before PWM.
   // DAC is used for over current level
+  //JTS2do: Handle overcurrent differently... AVR194 routes the DAC output to another micro
+  //JTS2do: I've disconnected the DAC register from the pin, but right now no overcurrent.
   Dac_config();
   /* set the overcurrent level */
   Dac_set_8_bits(IMAX);
@@ -102,6 +105,7 @@ void mc_init_HW(void)
   mc_init_timer0();
   mc_init_timer1();
 
+  //JTS2do: We'll eventually use these to throttle back current, using 1V1 bandgap 
   Comp_0_config();
   Comp_1_config();
   Comp_2_config();
@@ -122,7 +126,6 @@ void mc_init_HW(void)
 
   // => PSCx_Init(Period_Half, Dutyx0_Half, Synchro, Dutyx1_Half)
   PSC_Init();
-
 }
 
 
@@ -214,7 +217,7 @@ void mc_duty_cycle(U8 level)
 
 #if ((CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)||(CURRENT_DECAY == FAST_DECAY_SYNCHRONOUS))
    U8 dutydt;   /* duty with dead time */
-   if (duty >= DEADTIME) dutydt = duty - DEADTIME;
+   if (duty >= DEADTIME) {dutydt = duty - DEADTIME;}
 #endif
    
    Psc_lock();
@@ -253,9 +256,9 @@ void mc_switch_commutation(Hall_Position position)
   char direction = mci_get_motor_direction();
 
   // Switches are commuted only if the user start the motor
-  if (mci_motor_is_running())
+  if ( mci_motor_is_running() )
   {
-    mc_duty_cycle(mc_get_duty_cycle());
+    mc_duty_cycle( mc_get_duty_cycle() );
     switch(position)
     {
     // cases according to rotor position
@@ -299,7 +302,7 @@ void mc_switch_commutation(Hall_Position position)
 
 /**
  * @brief timer 1 Configuration
- * Use to generate a 250us activation  for sampling speed regulation
+ * Use to generate a 256us tick for sampling speed regulation
  * @pre None
  * @post An interrupt all 256us
 */
@@ -309,7 +312,7 @@ void mc_init_timer1(void)  //JTS2do: swap with counter 0, which uses software 16
   TCCR1B = 1<<WGM12 | 1<<CS11 | 1<<CS10 ; // Mode CTC + clock prescaler=64
   TCCR1C = 0;
   OCR1AH = 0; //output compare register high byte
-  OCR1AL = 63; // f ocra = 16MHz/64 = 250 kHz tick
+  OCR1AL = 63; // f ocra = 1/(16MHz/64)*(63+1) = 256 us tick
   TIMSK1=(1<<OCIE1A); // Output compare A Match interrupt Enable
 }
 
@@ -436,14 +439,14 @@ void mc_ADC_Scheduler(void)
     State = CONV_CURRENT;
     break;
 
-  //JTS:Confusing: selected case doesn't match ADC action
+  //JTS:Confusing: case doesn't match ADC action
   case CONV_CURRENT :              /* previous state was CONV_CURRENT */
     if(ADC_State == FREE)
     {
       ADC_State = BUSY;
-      State= CONV_POT;                        /* new state is CONV_POT */
+      State= CONV_POT;                        //this case gets potentiometer
       Adc_left_adjust_result();
-      Adc_start_conv_channel(ADC_INPUT_ISRC); /* get POT on ISRC input */
+      Adc_start_conv_channel(ADC_INPUT_ADC5); /* get POT on ADC5 */
     }
     break;
 
@@ -451,7 +454,7 @@ void mc_ADC_Scheduler(void)
     if(ADC_State == FREE)
     {
       ADC_State = BUSY;
-      State = CONV_CURRENT;                   /* new state is CONV_CURRENT */
+      State = CONV_CURRENT;                   //this case gets current sensor
       Adc_right_adjust_result();
       Adc_start_conv_channel(ADC_INPUT_AMP1); /* get current on amplifier 1 */
     }
