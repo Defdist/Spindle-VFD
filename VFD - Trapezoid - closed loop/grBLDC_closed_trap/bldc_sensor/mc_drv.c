@@ -415,12 +415,8 @@ void mc_estimation_speed(void) //JTS2do: This should be inlined because it's cal
 //! @brief Launch the sampling procedure to get current value
 //! @pre amplifier and IT initialization
 //! @post Set the End Of Conversion flag
-#ifdef __GNUC__
-  ISR(ADC_vect)
-#else
-#pragma vector = ADC_vect
-__interrupt void ADC_end_of_conversion(void)
-#endif
+
+ISR(ADC_vect)
 {
   Adc_select_channel(ADC_INPUT_GND); /* release the amplified channel */
   if(State == CONV_POT) mc_set_potentiometer_value(Adc_get_8_bits_result());
@@ -440,6 +436,7 @@ void mc_ADC_Scheduler(void)
     State = CONV_CURRENT;
     break;
 
+  //JTS:Confusing: selected case doesn't match ADC action
   case CONV_CURRENT :              /* previous state was CONV_CURRENT */
     if(ADC_State == FREE)
     {

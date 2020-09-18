@@ -136,6 +136,7 @@
       //! @defgroup Configuration of the ADC
       //! Configure the ADC
       //! @{
+//JTS2do: Properly configure ADC
 #define Adc_config() \
   ADMUX  = (ADC_REF_SOURCE<<REFS0)| \
            (ADC_ADLAR_VALUE<<ADLAR)| \
