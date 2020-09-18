@@ -1,6 +1,0 @@
-non-programmer's guide to AVR194
-
-starting in main.c:
-	mc_init() //init motor
-	ushell_task_init //init UART... change to 328p?
-	

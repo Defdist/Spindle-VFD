@@ -1,0 +1,50 @@
+ushell_task.c:
+-UART
+-Controls User Input
+-Accepts user input
+-print_hex16 on serial port
+
+mc_interface.c:
+-primary low-level motor control interface
+
+mc_drv.c:
+-configures hardware
+-hall sensor ISRs
+-sets PSC duty cycle
+-sets g_tick on timer 1
+-sets speed measurement on timer 0
+-mc_estimation_speed()
+-measures ADC values (current, Vsupply) mc_ADC_Scheduler()
+-configures overcurrent ISR (right now it stops the motor)
+
+mc_control.c:
+-speed/current regulation variables
+-controls regulation_type (Closed loop)
+-closed loop PID math
+
+main.c:
+-initializes system
+-if g_tick, gets ADC values
+
+ascii.c:
+-converts ascii<->bin
+
+uart_lib.c:
+-determines if uart data received in buffer
+
+dac_config.h:
+-Determines if DAC is right-adjusted
+-Determines DAC_OUTPUT_DRIVER
+
+config_motor.h:
+-configures hall position order
+-defines motor directions
+-defines PID values
+-defines motor K constant
+-sets maximum current values for comparator
+
+config.h:
+-sets board ID (MC310)
+-tons of define statements for ADC/DAC/AMP/COMP/PSC
+-Configures fast/slow decay modes
+-PC3 setup (displays events)
