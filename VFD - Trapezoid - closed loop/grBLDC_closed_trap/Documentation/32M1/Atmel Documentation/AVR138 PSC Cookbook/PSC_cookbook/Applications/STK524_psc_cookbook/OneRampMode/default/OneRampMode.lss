@@ -1,0 +1,274 @@
+
+OneRampMode.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001a6  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .stab         00000378  00000000  00000000  000001fc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  2 .stabstr      00000071  00000000  00000000  00000574  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_aranges 00000020  00000000  00000000  000005e5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_pubnames 00000028  00000000  00000000  00000605  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000169  00000000  00000000  0000062d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000056  00000000  00000000  00000796  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000015d  00000000  00000000  000007ec  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000030  00000000  00000000  0000094c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000000d  00000000  00000000  0000097c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__ctors_end>
+   4:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+   8:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+   c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  10:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  14:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  18:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  1c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  20:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  24:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  28:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  2c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  30:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  34:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  38:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  3c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  40:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  44:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  48:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  4c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  50:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  54:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  58:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  5c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  60:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  64:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  68:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  6c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  70:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  74:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+  78:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
+
+0000007c <__ctors_end>:
+  7c:	11 24       	eor	r1, r1
+  7e:	1f be       	out	0x3f, r1	; 63
+  80:	cf ef       	ldi	r28, 0xFF	; 255
+  82:	d8 e0       	ldi	r29, 0x08	; 8
+  84:	de bf       	out	0x3e, r29	; 62
+  86:	cd bf       	out	0x3d, r28	; 61
+
+00000088 <__do_copy_data>:
+  88:	11 e0       	ldi	r17, 0x01	; 1
+  8a:	a0 e0       	ldi	r26, 0x00	; 0
+  8c:	b1 e0       	ldi	r27, 0x01	; 1
+  8e:	e6 ea       	ldi	r30, 0xA6	; 166
+  90:	f1 e0       	ldi	r31, 0x01	; 1
+  92:	02 c0       	rjmp	.+4      	; 0x98 <.do_copy_data_start>
+
+00000094 <.do_copy_data_loop>:
+  94:	05 90       	lpm	r0, Z+
+  96:	0d 92       	st	X+, r0
+
+00000098 <.do_copy_data_start>:
+  98:	a0 30       	cpi	r26, 0x00	; 0
+  9a:	b1 07       	cpc	r27, r17
+  9c:	d9 f7       	brne	.-10     	; 0x94 <.do_copy_data_loop>
+
+0000009e <__do_clear_bss>:
+  9e:	11 e0       	ldi	r17, 0x01	; 1
+  a0:	a0 e0       	ldi	r26, 0x00	; 0
+  a2:	b1 e0       	ldi	r27, 0x01	; 1
+  a4:	01 c0       	rjmp	.+2      	; 0xa8 <.do_clear_bss_start>
+
+000000a6 <.do_clear_bss_loop>:
+  a6:	1d 92       	st	X+, r1
+
+000000a8 <.do_clear_bss_start>:
+  a8:	a0 30       	cpi	r26, 0x00	; 0
+  aa:	b1 07       	cpc	r27, r17
+  ac:	e1 f7       	brne	.-8      	; 0xa6 <.do_clear_bss_loop>
+  ae:	0e 94 bf 00 	call	0x17e	; 0x17e <main>
+  b2:	0c 94 d2 00 	jmp	0x1a4	; 0x1a4 <_exit>
+
+000000b6 <__bad_interrupt>:
+  b6:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000ba <PSC_Init>:
+/*F**************************************************************************
+* NAME: PSC Init
+*****************************************************************************/
+void PSC_Init (void)
+{
+  ba:	cf 93       	push	r28
+  bc:	df 93       	push	r29
+  be:	cd b7       	in	r28, 0x3d	; 61
+  c0:	de b7       	in	r29, 0x3e	; 62
+   Psc_enable_all_outputs();
+  c2:	e6 eb       	ldi	r30, 0xB6	; 182
+  c4:	f0 e0       	ldi	r31, 0x00	; 0
+  c6:	8f e3       	ldi	r24, 0x3F	; 63
+  c8:	80 83       	st	Z, r24
+
+   Psc_set_module_A(A_SA_VAL,A_RA_VAL,A_SB_VAL);
+  ca:	e1 ea       	ldi	r30, 0xA1	; 161
+  cc:	f0 e0       	ldi	r31, 0x00	; 0
+  ce:	10 82       	st	Z, r1
+  d0:	e0 ea       	ldi	r30, 0xA0	; 160
+  d2:	f0 e0       	ldi	r31, 0x00	; 0
+  d4:	8a ef       	ldi	r24, 0xFA	; 250
+  d6:	80 83       	st	Z, r24
+  d8:	e3 ea       	ldi	r30, 0xA3	; 163
+  da:	f0 e0       	ldi	r31, 0x00	; 0
+  dc:	81 e0       	ldi	r24, 0x01	; 1
+  de:	80 83       	st	Z, r24
+  e0:	e2 ea       	ldi	r30, 0xA2	; 162
+  e2:	f0 e0       	ldi	r31, 0x00	; 0
+  e4:	80 e9       	ldi	r24, 0x90	; 144
+  e6:	80 83       	st	Z, r24
+  e8:	e5 ea       	ldi	r30, 0xA5	; 165
+  ea:	f0 e0       	ldi	r31, 0x00	; 0
+  ec:	82 e0       	ldi	r24, 0x02	; 2
+  ee:	80 83       	st	Z, r24
+  f0:	e4 ea       	ldi	r30, 0xA4	; 164
+  f2:	f0 e0       	ldi	r31, 0x00	; 0
+  f4:	8e ee       	ldi	r24, 0xEE	; 238
+  f6:	80 83       	st	Z, r24
+   Psc_set_module_B(B_SA_VAL,B_RA_VAL,B_SB_VAL);
+  f8:	e7 ea       	ldi	r30, 0xA7	; 167
+  fa:	f0 e0       	ldi	r31, 0x00	; 0
+  fc:	83 e0       	ldi	r24, 0x03	; 3
+  fe:	80 83       	st	Z, r24
+ 100:	e6 ea       	ldi	r30, 0xA6	; 166
+ 102:	f0 e0       	ldi	r31, 0x00	; 0
+ 104:	80 e2       	ldi	r24, 0x20	; 32
+ 106:	80 83       	st	Z, r24
+ 108:	e9 ea       	ldi	r30, 0xA9	; 169
+ 10a:	f0 e0       	ldi	r31, 0x00	; 0
+ 10c:	84 e0       	ldi	r24, 0x04	; 4
+ 10e:	80 83       	st	Z, r24
+ 110:	e8 ea       	ldi	r30, 0xA8	; 168
+ 112:	f0 e0       	ldi	r31, 0x00	; 0
+ 114:	8c e4       	ldi	r24, 0x4C	; 76
+ 116:	80 83       	st	Z, r24
+ 118:	eb ea       	ldi	r30, 0xAB	; 171
+ 11a:	f0 e0       	ldi	r31, 0x00	; 0
+ 11c:	84 e0       	ldi	r24, 0x04	; 4
+ 11e:	80 83       	st	Z, r24
+ 120:	ea ea       	ldi	r30, 0xAA	; 170
+ 122:	f0 e0       	ldi	r31, 0x00	; 0
+ 124:	8e e7       	ldi	r24, 0x7E	; 126
+ 126:	80 83       	st	Z, r24
+   Psc_set_module_C(C_SA_VAL,C_RA_VAL,C_SB_VAL);
+ 128:	ed ea       	ldi	r30, 0xAD	; 173
+ 12a:	f0 e0       	ldi	r31, 0x00	; 0
+ 12c:	82 e0       	ldi	r24, 0x02	; 2
+ 12e:	80 83       	st	Z, r24
+ 130:	ec ea       	ldi	r30, 0xAC	; 172
+ 132:	f0 e0       	ldi	r31, 0x00	; 0
+ 134:	88 e5       	ldi	r24, 0x58	; 88
+ 136:	80 83       	st	Z, r24
+ 138:	ef ea       	ldi	r30, 0xAF	; 175
+ 13a:	f0 e0       	ldi	r31, 0x00	; 0
+ 13c:	83 e0       	ldi	r24, 0x03	; 3
+ 13e:	80 83       	st	Z, r24
+ 140:	ee ea       	ldi	r30, 0xAE	; 174
+ 142:	f0 e0       	ldi	r31, 0x00	; 0
+ 144:	80 e2       	ldi	r24, 0x20	; 32
+ 146:	80 83       	st	Z, r24
+ 148:	e1 eb       	ldi	r30, 0xB1	; 177
+ 14a:	f0 e0       	ldi	r31, 0x00	; 0
+ 14c:	83 e0       	ldi	r24, 0x03	; 3
+ 14e:	80 83       	st	Z, r24
+ 150:	e0 eb       	ldi	r30, 0xB0	; 176
+ 152:	f0 e0       	ldi	r31, 0x00	; 0
+ 154:	84 e8       	ldi	r24, 0x84	; 132
+ 156:	80 83       	st	Z, r24
+   Psc_set_register_RB(RB_VAL);
+ 158:	e3 eb       	ldi	r30, 0xB3	; 179
+ 15a:	f0 e0       	ldi	r31, 0x00	; 0
+ 15c:	84 e0       	ldi	r24, 0x04	; 4
+ 15e:	80 83       	st	Z, r24
+ 160:	e2 eb       	ldi	r30, 0xB2	; 178
+ 162:	f0 e0       	ldi	r31, 0x00	; 0
+ 164:	82 ee       	ldi	r24, 0xE2	; 226
+ 166:	80 83       	st	Z, r24
+
+   Psc_config();
+ 168:	e5 eb       	ldi	r30, 0xB5	; 181
+ 16a:	f0 e0       	ldi	r31, 0x00	; 0
+ 16c:	8c e0       	ldi	r24, 0x0C	; 12
+ 16e:	80 83       	st	Z, r24
+
+#ifdef T_OVERLAP
+   Psc_config_input_0(PSC_OVERLAP_ENABLE,\
+                      PSC_INPUT_SELECT_PSCIN,\
+					       PSC_INPUT_LOW_LEVEL,\
+					       PSC_INPUT_FILTER_ENABLE,\
+					       PSC_INPUT_ASYNCHRONOUS,\
+					       PSC_INPUT_NO_ACTION);
+
+   Psc_config_input_1(PSC_OVERLAP_DISABLE,\
+                      PSC_INPUT_SELECT_PSCIN,\
+					       PSC_INPUT_LOW_LEVEL,\
+					       PSC_INPUT_FILTER_ENABLE,\
+					       PSC_INPUT_ASYNCHRONOUS,\
+					       PSC_INPUT_NO_ACTION);
+#endif
+
+
+   Psc_run();
+ 170:	e7 eb       	ldi	r30, 0xB7	; 183
+ 172:	f0 e0       	ldi	r31, 0x00	; 0
+ 174:	81 e2       	ldi	r24, 0x21	; 33
+ 176:	80 83       	st	Z, r24
+ 178:	df 91       	pop	r29
+ 17a:	cf 91       	pop	r28
+ 17c:	08 95       	ret
+
+0000017e <main>:
+
+}
+
+
+
+/*F**************************************************************************
+* NAME: main
+*****************************************************************************/
+int main (void)
+{
+ 17e:	cf 93       	push	r28
+ 180:	df 93       	push	r29
+ 182:	cd b7       	in	r28, 0x3d	; 61
+ 184:	de b7       	in	r29, 0x3e	; 62
+
+  Start_pll_64_mega();
+ 186:	e9 e4       	ldi	r30, 0x49	; 73
+ 188:	f0 e0       	ldi	r31, 0x00	; 0
+ 18a:	86 e0       	ldi	r24, 0x06	; 6
+ 18c:	80 83       	st	Z, r24
+  Wait_pll_ready();
+ 18e:	e9 e4       	ldi	r30, 0x49	; 73
+ 190:	f0 e0       	ldi	r31, 0x00	; 0
+ 192:	80 81       	ld	r24, Z
+ 194:	99 27       	eor	r25, r25
+ 196:	81 70       	andi	r24, 0x01	; 1
+ 198:	90 70       	andi	r25, 0x00	; 0
+ 19a:	00 97       	sbiw	r24, 0x00	; 0
+ 19c:	c1 f3       	breq	.-16     	; 0x18e <main+0x10>
+  PSC_Init();
+ 19e:	0e 94 5d 00 	call	0xba	; 0xba <PSC_Init>
+
+  while(1) {;}
+ 1a2:	ff cf       	rjmp	.-2      	; 0x1a2 <main+0x24>
+
+000001a4 <_exit>:
+ 1a4:	ff cf       	rjmp	.-2      	; 0x1a4 <_exit>

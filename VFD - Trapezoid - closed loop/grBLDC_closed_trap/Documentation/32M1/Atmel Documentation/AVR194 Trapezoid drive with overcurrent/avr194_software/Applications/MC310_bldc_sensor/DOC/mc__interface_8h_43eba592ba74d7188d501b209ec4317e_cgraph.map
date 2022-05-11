@@ -1,0 +1,6 @@
+<area shape="rect" href="$mc__drv_8c.html#e71311b8b3ac3219ee86654aae544781" title="mc_disable_during_inrush" alt="" coords="159,5,335,32">
+<area shape="rect" href="$mc__drv_8c.html#52c83e247d511514b3aef87aab6c2644" title="mc_duty_cycle" alt="" coords="192,56,301,83">
+<area shape="rect" href="$mc__control_8c.html#230f0bc4daa54b14cd4870b089def0a7" title="mc_get_duty_cycle" alt="" coords="179,107,315,133">
+<area shape="rect" href="$mc__drv_8c.html#dbf810d44b3caa26b5e0822e3df20596" title="mc_get_hall" alt="" coords="200,157,293,184">
+<area shape="rect" href="$mc__control_8c.html#f3a4fbf44fc73b105bfb36a2ad11024c" title="mc_regulation_loop" alt="" coords="177,208,316,235">
+<area shape="rect" href="$mc__drv_8c.html#ab6d4a05993a4e6318892fc2c9665c0f" title="mc_switch_commutation" alt="" coords="163,259,331,285">

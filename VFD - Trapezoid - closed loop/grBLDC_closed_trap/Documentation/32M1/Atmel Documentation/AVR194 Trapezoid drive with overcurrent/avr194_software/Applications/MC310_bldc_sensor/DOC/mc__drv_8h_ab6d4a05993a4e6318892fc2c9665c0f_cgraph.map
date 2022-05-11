@@ -1,0 +1,4 @@
+<area shape="rect" href="$mc__drv_8c.html#52c83e247d511514b3aef87aab6c2644" title="mc_duty_cycle" alt="" coords="251,5,360,32">
+<area shape="rect" href="$mc__control_8c.html#230f0bc4daa54b14cd4870b089def0a7" title="mc_get_duty_cycle" alt="" coords="237,56,373,83">
+<area shape="rect" href="$mc__interface_8c.html#553c5abd255dcf9f188cbaa2d827992e" title="mci_get_motor_direction" alt="" coords="221,107,389,133">
+<area shape="rect" href="$mc__interface_8c.html#f425981c9974530642861aa5167fb8fc" title="mci_motor_is_running" alt="" coords="229,157,381,184">

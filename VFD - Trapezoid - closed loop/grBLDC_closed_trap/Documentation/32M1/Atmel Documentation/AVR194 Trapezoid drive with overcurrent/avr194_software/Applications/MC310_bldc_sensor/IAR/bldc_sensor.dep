@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>4220270562</fileChecksum>
+  <configuration>
+    <name>Debug</name>
+    <outputs>
+      <file>$PROJ_DIR$\..\mc_drv.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\ascii.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\inavr.h</file>
+      <file>$TOOLKIT_DIR$\inc\iomacro.h</file>
+      <file>$TOOLKIT_DIR$\inc\ioavr.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\mc_interface.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\ushell_task.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart_lib.pbi</file>
+      <file>$PROJ_DIR$\..\mc_control.h</file>
+      <file>$PROJ_DIR$\..\ushell_task.c</file>
+      <file>$PROJ_DIR$\..\mc_control.c</file>
+      <file>$PROJ_DIR$\..\uart\uart_lib.c</file>
+      <file>$PROJ_DIR$\..\ushell_task.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\bldc_sensor.pbd</file>
+      <file>$PROJ_DIR$\..\..\..\Drivers\adc\adc_drv.h</file>
+      <file>$PROJ_DIR$\..\mc_interface.c</file>
+      <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
+      <file>$TOOLKIT_DIR$\inc\clib\sysmac.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.r90</file>
+      <file>$PROJ_DIR$\..\..\..\Drivers\dac\dac_drv.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\mc_drv.r90</file>
+      <file>$PROJ_DIR$\..\ascii.h</file>
+      <file>$PROJ_DIR$\..\conf\config_motor.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\mc_drv.pbi</file>
+      <file>$PROJ_DIR$\..\conf\config.h</file>
+      <file>$TOOLKIT_DIR$\inc\iom32m1.h</file>
+      <file>$TOOLKIT_DIR$\inc\clib\stdarg.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\mc_control.r90</file>
+      <file>$PROJ_DIR$\..\mc_interface.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\mc_control.pbi</file>
+      <file>$PROJ_DIR$\..\compiler.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\ascii.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\ushell_task.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\clib\stdio.h</file>
+      <file>$PROJ_DIR$\..\ascii.c</file>
+      <file>$PROJ_DIR$\..\main.c</file>
+      <file>$PROJ_DIR$\..\mc_drv.c</file>
+      <file>$PROJ_DIR$\Debug\Exe\bldc_sensor.a90</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart_lib.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\mc_interface.pbi</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\..\ushell_task.c</name>
+      <outputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 6</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 32</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\mc_control.c</name>
+      <outputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 27</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 29</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 24 30 4 25 3 2 16 22 8 28 19</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\uart\uart_lib.c</name>
+      <outputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 39</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 7</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\mc_interface.c</name>
+      <outputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 5</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 40</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 37</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\ascii.c</name>
+      <outputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 31</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 1</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 24 30 4 25 3 2 16 22 21 33 26 17</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\main.c</name>
+      <outputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 18</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 38</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 24 30 4 25 3 2 16 22 28 8 0 14 12</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\mc_drv.c</name>
+      <outputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 20</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 23</file>
+        </tool>
+      </outputs>
+    </file>
+  </configuration>
+  <configuration>
+    <name>Release</name>
+    <outputs/>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

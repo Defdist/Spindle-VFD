@@ -1,0 +1,11 @@
+<area shape="rect" href="$mc__drv_8c.html#80555e077d5061fc37441c37e0763dad" title="mc_ADC_Scheduler" alt="" coords="131,5,272,32">
+<area shape="rect" href="$mc__drv_8c.html#52c83e247d511514b3aef87aab6c2644" title="mc_duty_cycle" alt="" coords="147,56,256,83">
+<area shape="rect" href="$mc__control_8c.html#230f0bc4daa54b14cd4870b089def0a7" title="mc_get_duty_cycle" alt="" coords="133,107,269,133">
+<area shape="rect" href="$mc__interface_8c.html#c17349fce6a5f0145b2ced38650e5f3d" title="mc_get_potentiometer_value" alt="" coords="104,157,299,184">
+<area shape="rect" href="$mc__interface_8c.html#db9a4a25fdd466da1509e0b91202b37e" title="mc_init" alt="" coords="169,208,233,235">
+<area shape="rect" href="$mc__drv_8c.html#2b5ecab44fb9a83d80d7f3ebf63af0a1" title="mc_inrush_task" alt="" coords="144,259,259,285">
+<area shape="rect" href="$mc__control_8c.html#f3a4fbf44fc73b105bfb36a2ad11024c" title="mc_regulation_loop" alt="" coords="132,309,271,336">
+<area shape="rect" href="$mc__interface_8c.html#e0cda5b62fcc49fa794dd0b64b1d538f" title="mci_run" alt="" coords="167,360,236,387">
+<area shape="rect" href="$mc__interface_8c.html#1dd7770694b33528149380dcb538d513" title="mci_set_ref_speed" alt="" coords="135,411,268,437">
+<area shape="rect" href="$ushell__task_8c.html#654507812efaaabb850eb029f4bab779" title="ushell_task" alt="" coords="157,461,245,488">
+<area shape="rect" href="$ushell__task_8c.html#8c1069d6c5ba48cbf7d24d6456c36eaa" title="ushell_task_init" alt="" coords="145,512,257,539">

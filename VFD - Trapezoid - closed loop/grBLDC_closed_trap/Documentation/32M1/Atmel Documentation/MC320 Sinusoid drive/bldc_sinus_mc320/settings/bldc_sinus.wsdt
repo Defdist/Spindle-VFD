@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>bldc_sinus/Debug</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>296</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>915</ColumnWidth1><ColumnWidth2>244</ColumnWidth2><ColumnWidth3>61</ColumnWidth3></Build>
+    <Debug-Log><ColumnWidth0>21</ColumnWidth0><ColumnWidth1>1220</ColumnWidth1></Debug-Log><TerminalIO/><Find-in-Files><ColumnWidth0>440</ColumnWidth0><ColumnWidth1>62</ColumnWidth1><ColumnWidth2>754</ColumnWidth2></Find-in-Files></Static>
+    <Windows>
+      
+      
+    <Wnd2>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-22694-12406</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>bldc_sinus</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-10900-12422</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-21066-28757</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab><Tab><Identity>TabID-30109-2833</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd3></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\adc.c</Filename><XPos>0</XPos><YPos>68</YPos><SelStart>2917</SelStart><SelEnd>2917</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Program Files\IAR Systems\Embedded Workbench 5.4\avr\inc\ioavr.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\lib_mcu\comparator\comparator_drv.c</Filename><XPos>0</XPos><YPos>62</YPos><SelStart>1763</SelStart><SelEnd>1763</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\init.c</Filename><XPos>0</XPos><YPos>30</YPos><SelStart>1567</SelStart><SelEnd>1567</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\lib_mcu\comparator\comparator_drv.h</Filename><XPos>0</XPos><YPos>325</YPos><SelStart>15511</SelStart><SelEnd>15511</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\lib_mcu\pll\pll_drv.h</Filename><XPos>0</XPos><YPos>18</YPos><SelStart>740</SelStart><SelEnd>740</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\main.c</Filename><XPos>0</XPos><YPos>33</YPos><SelStart>1377</SelStart><SelEnd>1377</SelEnd></Tab><ActiveTab>6</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\mc_interface.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>542</SelStart><SelEnd>542</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\table_sin81.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>205</SelStart><SelEnd>205</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\config.h</Filename><XPos>0</XPos><YPos>39</YPos><SelStart>3173</SelStart><SelEnd>3173</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\mc_drv.c</Filename><XPos>0</XPos><YPos>138</YPos><SelStart>5639</SelStart><SelEnd>5639</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\mc_interface.c</Filename><XPos>0</XPos><YPos>74</YPos><SelStart>1286</SelStart><SelEnd>1286</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-00b3a2a8><key>iaridepm.enu1</key></Toolbar-00b3a2a8></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>505</Bottom><Right>370</Right><x>-2</x><y>-2</y><xscreen>752</xscreen><yscreen>87</yscreen><sizeHorzCX>550512</sizeHorzCX><sizeHorzCY>125723</sizeHorzCY><sizeVertCX>272328</sizeVertCX><sizeVertCY>732659</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>143</Bottom><Right>1368</Right><x>-2</x><y>-2</y><xscreen>1370</xscreen><yscreen>145</yscreen><sizeHorzCX>1002928</sizeHorzCX><sizeHorzCY>209538</sizeHorzCY><sizeVertCX>550512</sizeVertCX><sizeVertCY>125723</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+

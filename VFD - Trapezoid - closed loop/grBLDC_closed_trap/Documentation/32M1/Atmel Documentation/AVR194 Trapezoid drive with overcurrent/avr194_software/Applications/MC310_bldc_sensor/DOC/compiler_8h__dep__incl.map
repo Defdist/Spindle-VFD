@@ -1,0 +1,13 @@
+<area shape="rect" href="$config_8h.html" title="config.h" alt="" coords="476,80,545,107">
+<area shape="rect" href="$dac__config_8h.html" title="dac_config.h" alt="" coords="819,80,915,107">
+<area shape="rect" href="$adc__config_8h.html" title="adc_config.h" alt="" coords="5,155,101,181">
+<area shape="rect" href="$ascii_8c.html" title="ascii.c" alt="" coords="125,155,184,181">
+<area shape="rect" href="$main_8c.html" title="main.c" alt="" coords="208,155,269,181">
+<area shape="rect" href="$mc__control_8c.html" title="mc_control.c" alt="" coords="293,155,392,181">
+<area shape="rect" href="$mc__drv_8c.html" title="mc_drv.c" alt="" coords="416,155,491,181">
+<area shape="rect" href="$mc__interface_8c.html" title="mc_interface.c" alt="" coords="515,155,624,181">
+<area shape="rect" href="$uart__lib_8c.html" title="uart_lib.c" alt="" coords="648,155,723,181">
+<area shape="rect" href="$ushell__task_8c.html" title="ushell_task.c" alt="" coords="747,155,845,181">
+<area shape="rect" href="$comparator__drv_8c.html" title="comparator_drv.c" alt="" coords="869,155,995,181">
+<area shape="rect" href="$adc__drv_8c.html" title="adc_drv.c" alt="" coords="13,229,93,256">
+<area shape="rect" href="$dac__drv_8c.html" title="dac_drv.c" alt="" coords="1019,155,1099,181">
