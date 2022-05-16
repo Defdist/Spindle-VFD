@@ -1,0 +1,7 @@
+JTS Notes:
+Doesn't have 3rd harmonic injection
+Isn't closed loop
+
+Code expects Hall sensors to be connected to ACMP0/1/2 (pins 15/22/13), so that the built-in comparators can be used to determine when a Hall sensor has changed from high to low.  Instead, on GrBLDC, the Hall sensors are connected to PSCIN0/1/2 (pins 32/3/1).  Fortunately, those pins are also PCINT17/9/18, so we could use standard pin change interrupts instead.
+
+https://www.switchcraft.org/learning/2017/3/15/space-vector-pwm-intro

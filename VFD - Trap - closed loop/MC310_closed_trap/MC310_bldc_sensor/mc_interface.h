@@ -1,44 +1,27 @@
-//******************************************************************************
-//!
-//! @file $Id: mc_interface.h 943 2008-03-21 12:28:21Z raubree $
-//!
-//! Copyright (c) 2007 Atmel.
-//!
-//! @brief Motor Control Interface Functions
-//!
-//!
-//! @todo
-//! @bug
-//******************************************************************************
-
-//_____  I N C L U D E S ___________________________________________________
-
 #ifndef _MC_LIB_H_
-#define _MC_LIB_H_
+	#define _MC_LIB_H_
 
-extern Bool mci_direction;
-extern Bool mci_run_stop;
+	void mci_motor_run(void);
+	void mci_motor_stop(void);
+	uint8_t mci_motorState_get(void);
 
-void mci_run(void);
-void mci_retry_run(void);
-Bool mci_motor_is_running(void);
-void mci_stop(void);
-void mc_init(void);
+	void mc_motor_init(void);
 
-void mci_set_ref_speed(U8 speed);
-U8 mci_get_ref_speed(void);
+	void mci_motor_desiredSpeed_set(uint8_t speed);
+	uint8_t mci_motor_desiredSpeed_get(void);
 
-void mci_forward(void);
-void mci_backward(void);
-U8 mci_get_motor_direction(void);
+	uint8_t mci_motorDirection_get(void);
 
-void mc_set_measured_speed(U8 measured_speed);
-U8 mci_get_measured_speed(void);
+	void mci_motor_measuredSpeed_set(uint8_t measured_speed);
+	uint8_t mci_motor_measuredSpeed_get(void);
 
-U16 mci_get_measured_current(void);
-void mci_store_measured_current(U16 current);
+	uint16_t mci_motor_measuredCurrent_get(void);
+	void mci_motor_measuredCurrent_integrate(uint16_t current);
 
-U8 mc_get_potentiometer_value(void);
-void mc_set_potentiometer_value(U8 potentiometer);
+	uint8_t mc_potentiometerValue_get(void);
+	void mc_potentiometerValue_set(uint8_t potentiometer);
+
+	#define RUNNING 1
+	#define STOPPED 0
 
 #endif

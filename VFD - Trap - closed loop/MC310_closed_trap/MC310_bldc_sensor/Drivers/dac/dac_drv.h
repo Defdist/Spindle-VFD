@@ -65,8 +65,8 @@
       //! @defgroup DAC_set_input_value DAC Set Input Value
       //! Setart the conversion input conversion value
       //! @{
-#define Dac_set_8_bits(dac_in)               (DACH = (U8)(dac_in))
-#define Dac_set_10_bits(dac_in)              (DACL = Low((U16)(dac_in)), DACH = High((U16)(dac_in)))
+#define Dac_set_8_bits(dac_in)               (DACH = (uint8_t)(dac_in))
+#define Dac_set_10_bits(dac_in)              (DACL = Low((uint16_t)(dac_in)), DACH = High((uint16_t)(dac_in)))
       //! @}
 
       //! @defgroup DAC_start_left DAC Start Left Adjust

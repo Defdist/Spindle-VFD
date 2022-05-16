@@ -1,28 +1,4 @@
-//******************************************************************************
-//!
-//! @file $Id: mc_drv.c 1137 2008-04-17 16:35:06Z raubree $
-//!
-//! Copyright (c) 2007 Atmel.
-//!
-//! @brief Driver level : Init, PWM ...
-//!
-//! @todo
-//! @bug
-//******************************************************************************
-
-//_____  I N C L U D E S ___________________________________________________
-
-#include "config.h"
-
-#include "mc_drv.h"
-#include "mc_interface.h"
-#include "mc_control.h"
-
-#include "psc\psc_drv.h"
-#include "adc\adc_drv.h"
-#include "dac\dac_drv.h"
-#include "pll\pll_drv.h"
-#include "comparator\comparator_drv.h"
+#include "grBLDC.h"
 
 #define PSWAP0 2
 #define PSWAP1 3
@@ -30,12 +6,10 @@
 
 Bool overcurrent = FALSE;
 
-U8 count = 1;     // variable "count" is use to calculate the "average" speed on 'n' samples
-U16 average = 0;
-static U8 ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits timer with 8 bits timer
+static uint8_t ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits timer with 8 bits timer
                         //JTS2do: T0 is 8 bits, while T1 is 16 bits.  Swap T0<->T1.
 static Bool inrush_mask_flag = FALSE;
-static U16 inrush_delay = 0;
+static uint16_t inrush_delay = 0;
 
 Bool g_mc_read_enable = FALSE;  // the speed can be read when TRUE
 Bool g_tick = FALSE;             //!< Use for control the sampling period value
@@ -45,6 +19,8 @@ Bool current_EOC = FALSE; //End Of Conversion Flag
 static char State = CONV_INIT; // State of the ADC scheduler
 static char ADC_State = FREE;  // ADC State : running = BUSY not running = FREE
 
+////////////////////////////////////////////////////////////////////////////////////////
+
 /******************************************************************************/
 /******************************************************************************/
 /*        Hardware Initialization                                             */
@@ -52,9 +28,9 @@ static char ADC_State = FREE;  // ADC State : running = BUSY not running = FREE
 /******************************************************************************/
 
 
-//! @brief mc_init_HW : Hardware Initialization
+//! @brief mc_motor_init_HW : Hardware Initialization
 //! @post initialization of hardware
-void mc_init_HW(void)
+void mc_motor_init_HW(void)
 {
   // Output Pin configuration (used by PSC outputs)
   // PD0 => UH     PB7 => UL
@@ -102,8 +78,8 @@ void mc_init_HW(void)
   /* set the overcurrent level */
   Dac_set_8_bits(IMAX);
     
-  mc_init_timer0();
-  mc_init_timer1();
+  mc_motor_init_timer0();
+  mc_motor_init_timer1();
 
   //JTS2do: We'll eventually use these to throttle back current, using 1V1 bandgap 
   Comp_0_config();
@@ -119,17 +95,13 @@ void mc_init_HW(void)
   // Enable pin change interrupts on PCMSK1 & 2
   PCICR = ( (1<<PCIE1) | (1<<PCIE2) );
 
-//  Start_pll_32_mega(); // Start the PLL and use the 32 MHz PLL output
   Start_pll_64_mega(); // Start the PLL and use the 64 MHz PLL output
   Wait_pll_ready();
 
-
-  // => PSCx_Init(Period_Half, Dutyx0_Half, Synchro, Dutyx1_Half)
   PSC_Init();
 }
 
-
-
+////////////////////////////////////////////////////////////////////////////////////////
 
 //! @brief PSC Init : Initialize the PSC according to the settings in config.h
 void PSC_Init (void)
@@ -168,7 +140,7 @@ void PSC_Init (void)
    Psc_run();
 }
 
-
+////////////////////////////////////////////////////////////////////////////////////////
 
 /***************************************************************************/
 /***************************************************************************/
@@ -176,123 +148,106 @@ void PSC_Init (void)
 /***************************************************************************/
 /***************************************************************************/
 
-/**
-* @brief Get the value of hall sensors (1 to 6)
-* @param return an unsigned char
-*  value of hall sensor
-* @pre configuration of port PB and PD
-* @post new value of position
-*/
-Hall_Position mc_get_hall(void)
-{
-  return HALL_SENSOR_VALUE();
-}
-
 //Configure interrupt vectors (each time a hall sensor state changes)
 ISR( HALL_AC() )  //Hall_A & Hall_C share the same interrupt vector byte
 {
-  mc_switch_commutation( HALL_SENSOR_VALUE() );
+  mc_commutateFETs( hall_getPosition() );
 }
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 ISR( HALL_B() )
 {
-  mc_switch_commutation( HALL_SENSOR_VALUE() ); 
+  mc_commutateFETs( hall_getPosition() ); 
   if (PINC&(1<<PINC1)) //"is Hall_B logic high?"
   {
-	mc_estimation_speed(); //estimate speed on Hall_B rising edge
+	mc_calculateSpeed(); //estimate speed on Hall_B rising edge
 	g_mc_read_enable=FALSE; // Wait 1 period
 	} else {
 	g_mc_read_enable=TRUE;
   } 
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
-* @brief Set the duty cycle values in the PSC according to the value calculate by the regulation loop
-*/
-void mc_duty_cycle(U8 level)
+//Set the duty cycle values in the PSC according to the value calculate by the regulation loop
+void mc_duty_cycle(uint8_t level)
 {
-   U8 duty;
-   duty = level;
+  uint8_t duty;
+  duty = level;
 
-#if ((CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)||(CURRENT_DECAY == FAST_DECAY_SYNCHRONOUS))
-   U8 dutydt;   /* duty with dead time */
-   if (duty >= DEADTIME) {dutydt = duty - DEADTIME;}
-#endif
+  #if ((CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)||(CURRENT_DECAY == FAST_DECAY_SYNCHRONOUS))
+    uint8_t dutydt;   /* duty with dead time */
+    if (duty >= DEADTIME) {dutydt = duty - DEADTIME;}
+  #endif
    
-   Psc_lock();
+  Psc_lock();
 
   // Duty = 0   => Duty Cycle   0%
   // Duty = 255 => Duty Cycle 100%
  
-#if (CURRENT_DECAY == FAST_DECAY)
-   Psc_set_module_A(duty,A_RA_VAL,duty);
-   Psc_set_module_B(duty,B_RA_VAL,duty);
-   Psc_set_module_C(duty,C_RA_VAL,duty);
-#else
-#if ((CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)||(CURRENT_DECAY == FAST_DECAY_SYNCHRONOUS))
-   Psc_set_module_A(duty,A_RA_VAL,dutydt);
-   Psc_set_module_B(duty,B_RA_VAL,dutydt);
-   Psc_set_module_C(duty,C_RA_VAL,dutydt);
-#else
-   Psc_set_module_A(duty,A_RA_VAL,0);
-   Psc_set_module_B(duty,B_RA_VAL,0);
-   Psc_set_module_C(duty,C_RA_VAL,0);
-#endif
+  #if (CURRENT_DECAY == FAST_DECAY)
+    Psc_set_module_A(duty,A_RA_VAL,duty);
+    Psc_set_module_B(duty,B_RA_VAL,duty);
+    Psc_set_module_C(duty,C_RA_VAL,duty);
+  #else
+  #if ((CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)||(CURRENT_DECAY == FAST_DECAY_SYNCHRONOUS))
+    Psc_set_module_A(duty,A_RA_VAL,dutydt);
+    Psc_set_module_B(duty,B_RA_VAL,dutydt);
+    Psc_set_module_C(duty,C_RA_VAL,dutydt);
+  #else
+    Psc_set_module_A(duty,A_RA_VAL,0);
+    Psc_set_module_B(duty,B_RA_VAL,0);
+    Psc_set_module_C(duty,C_RA_VAL,0);
+  #endif
 #endif
    
-   Psc_unlock();
+  Psc_unlock();
 }
 
-/**
-* @brief Set the Switching Commutation value on outputs
-*   according to sensor or estimation position
-*
-* @param position (1 to 6) and direction (FORWARD or BACKWARD)
-*/
-void mc_switch_commutation(Hall_Position position)
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Set commutation outputs based on sensor position
+void mc_commutateFETs(uint8_t hallState)
 {
-  // get the motor direction to commute the right switches.
-  char direction = mci_get_motor_direction();
-
-  // Switches are commuted only if the user start the motor
-  if ( mci_motor_is_running() )
-  {
-    mc_duty_cycle( mc_get_duty_cycle() );
-    switch(position)
+    if ( mci_motorState_get() == STOPPED )
     {
-    // cases according to rotor position
-      case HS_001:  if (direction==CCW)  {Set_Q5Q2();}
-                    else                      {Set_Q1Q6();}
-                    break;
+        turnOffAllFETs();
+    }
+    else //motor == RUNNING
+    {
+        mc_duty_cycle( pid_dutyCycle_get() );
 
-      case HS_101:  if (direction==CCW)  {Set_Q3Q2();}
-                    else                      {Set_Q1Q4();}
-                    break;
-
-      case HS_100:  if (direction==CCW)  {Set_Q3Q6();}
-                    else                      {Set_Q5Q4();}
-                    break;
-
-      case HS_110:  if (direction==CCW)  {Set_Q1Q6();}
-                    else                      {Set_Q5Q2();}
-                    break;
-
-      case HS_010:  if (direction==CCW)  {Set_Q1Q4();}
-                    else                      {Set_Q3Q2();}
-                    break;
-
-      case HS_011:  if (direction==CCW)  {Set_Q5Q4();}
-                    else                      {Set_Q3Q6();}
-                    break;
-      default : break;
-      }
-  }
-  else
-  {
-    Set_none(); // all switches are switched OFF
-  }
+        if(mci_motorDirection_get() == CCW)
+        {
+            switch(hallState)
+            {
+                case 1: Set_Q5Q2(); break;
+                case 2: Set_Q1Q4(); break;
+                case 3: Set_Q5Q4(); break;
+                case 4: Set_Q3Q6(); break;
+                case 5: Set_Q3Q2(); break;
+                case 6: Set_Q1Q6(); break;
+                default:            break;
+            }
+        }
+        else //direction == CW
+        {
+            switch(hallState)
+            {
+                case 1: Set_Q1Q6(); break;
+                case 2: Set_Q3Q2(); break;
+                case 3: Set_Q3Q6(); break;
+                case 4: Set_Q5Q4(); break;
+                case 5: Set_Q1Q4(); break;
+                case 6: Set_Q5Q2(); break;
+                default:            break;
+            }
+        }
+    }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 /******************************************************************************/
 /******************************************************************************/
@@ -306,7 +261,7 @@ void mc_switch_commutation(Hall_Position position)
  * @pre None
  * @post An interrupt all 256us
 */
-void mc_init_timer1(void)  //JTS2do: swap with counter 0, which uses software 16 bit.
+void mc_motor_init_timer1(void)  //JTS2do: swap with counter 0, which uses software 16 bit.
 {
   TCCR1A = 0; //Normal port operation + Mode CTC
   TCCR1B = 1<<WGM12 | 1<<CS11 | 1<<CS10 ; // Mode CTC + clock prescaler=64
@@ -316,15 +271,19 @@ void mc_init_timer1(void)  //JTS2do: swap with counter 0, which uses software 16
   TIMSK1=(1<<OCIE1A); // Output compare A Match interrupt Enable
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
+
 /**
   * @brief Launch the regulation loop (see main.c) .
   * @pre configuration of timer 1 registers
   * @post g_tick use in main.c for regulation loop
 */
-ISR(TIMER1_COMPA_vect) //main tick //timer configured in mc_init_timer1()
+ISR(TIMER1_COMPA_vect) //main tick //timer configured in mc_motor_init_timer1()
 {
   g_tick = TRUE;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 /******************************************************************************/
 /******************************************************************************/
@@ -338,12 +297,14 @@ ISR(TIMER1_COMPA_vect) //main tick //timer configured in mc_init_timer1()
  * @pre None
  * @post Timer0 initialized.
 */
-void mc_init_timer0(void)
+void mc_motor_init_timer0(void)
 {
   TCCR0A = 0;
   TCCR0B = (1<<CS02)|(0<<CS01)|(0<<CS00); // 256 prescaler (16us)
   TIMSK0 = (1<<TOIE0);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
   * @brief Timer0 Overflow for speed measurement
@@ -359,23 +320,19 @@ ISR(TIMER0_OVF_vect)
   if(ovf_timer >= 100)
   {
     ovf_timer = 0;
-    mc_set_measured_speed(0);
-    //if the motor was turning and no stop order
-    // was given, motor run automatically.
-    if(mci_motor_is_running())mci_retry_run();
+    mci_motor_measuredSpeed_set(0);
   }
 }
 
-/**
-* @brief estimation speed
-* @pre configuration of timer 0 \n
-*           and define or not AVERAGE_SPEED_MEASURENT in config_motor.h
-* @post new value for real speed
-*/
-void mc_estimation_speed(void) //JTS2do: This should be inlined because it's called inside ISR
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void mc_calculateSpeed(void) //JTS2do: This should be inlined because it's called inside ISR
 {
-  U16 timer_value;
-  U32 new_measured_speed;
+  uint8_t sampleCount = 1;
+  uint16_t sumOfSamples = 0;
+
+  uint16_t timer_value;
+  uint32_t new_measured_speed;
 
   if (g_mc_read_enable==TRUE)
   {
@@ -389,17 +346,17 @@ void mc_estimation_speed(void) //JTS2do: This should be inlined because it's cal
 
     #ifdef AVERAGE_SPEED_MEASUREMENT
       // To avoid noise an average is realized on 8 samples
-      average += new_measured_speed;
-      if(count >= N_SAMPLE)
+      sumOfSamples += new_measured_speed;
+      if(sampleCount >= N_SAMPLE)
       {
-        count = 1;
-        mc_set_measured_speed(average >> 3);
-        average = 0;
+        sampleCount = 1;
+        mci_motor_measuredSpeed_set(sumOfSamples >> 3);
+        sumOfSamples = 0;
       }
-      else count++;
+      else sampleCount++;
     #else
       // else get the real speed
-      mc_set_measured_speed(new_measured_speed);
+      mci_motor_measuredSpeed_set(new_measured_speed);
     #endif
 
     // Reset Timer 0 register and variables
@@ -408,6 +365,8 @@ void mc_estimation_speed(void) //JTS2do: This should be inlined because it's cal
     g_mc_read_enable=FALSE;
   }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 /******************************************************************************/
 /******************************************************************************/
@@ -422,11 +381,12 @@ void mc_estimation_speed(void) //JTS2do: This should be inlined because it's cal
 ISR(ADC_vect)
 {
   Adc_select_channel(ADC_INPUT_GND); /* release the amplified channel */
-  if(State == CONV_POT) mc_set_potentiometer_value(Adc_get_8_bits_result());
-  if(State == CONV_CURRENT) mci_store_measured_current(Adc_get_10_bits_result());
+  if(State == CONV_POT) mc_potentiometerValue_set(Adc_get_8_bits_result());
+  if(State == CONV_CURRENT) mci_motor_measuredCurrent_integrate(Adc_get_10_bits_result());
   ADC_State = FREE;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
 
 //! @brief Launch the scheduler for the ADC
 //! @post Get results for Potentiometer and current values.
@@ -444,7 +404,7 @@ void mc_ADC_Scheduler(void)
     if(ADC_State == FREE)
     {
       ADC_State = BUSY;
-      State= CONV_POT;                        //this case gets potentiometer
+      State = CONV_POT;                        //this case gets potentiometer
       Adc_left_adjust_result();
       Adc_start_conv_channel(ADC_INPUT_ADC5); /* get POT on ADC5 */
     }
@@ -462,32 +422,41 @@ void mc_ADC_Scheduler(void)
   }
 }
 
-/******************************************************************************/
-/******************************************************************************/
-/*       Over Current Configuration                                           */
-/******************************************************************************/
-/******************************************************************************/
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-//! @brief the purpose of this function is to disable \n
-//!   the overcurrent detection during startup (inrush current) \n
-void mc_disable_during_inrush(void)
+//Disable overcurrent detection during startup (inrush current)
+void mc_disableOvercurrentDuringStartup(void)
 {
-  inrush_delay = (U16) 500;
+  inrush_delay = (uint16_t) 500;
   inrush_mask_flag = TRUE;
-  Disable_over_current();
+  
+  //disable over current
+  Psc_config_input_1(PSC_OVERLAP_ENABLE,\
+                     PSC_USE_COMPARATOR,\
+                     PSC_USE_HIGH_LEVEL,\
+                     PSC_INPUT_FILTER_ENABLE,\
+                     PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
+                     PSC_INPUT_NO_ACTION);
 }
 
-//! @brief the purpose of this function is to manage the delay \n
-//!   used when the overcurrent detection is disabled \n
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+//manage delay when the overcurrent detection is disabled
 void mc_inrush_task(void)
 { 
   if (inrush_mask_flag == TRUE)
   {
     if (inrush_delay-- == 0)
     {
-      inrush_mask_flag = FALSE;
-      Enable_over_current();
+        inrush_mask_flag = FALSE;
+      
+        //enable over current
+        Psc_config_input_1(PSC_OVERLAP_ENABLE,\
+                        PSC_USE_COMPARATOR,\
+                        PSC_USE_HIGH_LEVEL,\
+                        PSC_INPUT_FILTER_ENABLE,\
+                        PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
+                        PSC_INPUT_HALT);
     }
   }
 }
@@ -502,5 +471,5 @@ __interrupt void mc_overcurrent_detect(void)
 {
   PIFR = (1<<PEV1); // clear the interrupt
   overcurrent = TRUE;
-  mci_stop();
+  mci_motor_stop();
 }

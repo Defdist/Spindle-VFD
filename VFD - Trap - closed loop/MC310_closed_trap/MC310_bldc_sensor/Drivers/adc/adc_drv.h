@@ -114,8 +114,8 @@
       //! @defgroup ADC_get_x_bits_result ADC Get x Bits Result
       //! ADC Get x Bits Result
       //! @{
-#define Adc_get_8_bits_result()          ((U8)(ADCH))
-#define Adc_get_10_bits_result()         ((U16)(ADCL+((U16)(ADCH<<8))))
+#define Adc_get_8_bits_result()          ((uint8_t)(ADCH))
+#define Adc_get_10_bits_result()         ((uint16_t)(ADCL+((uint16_t)(ADCH<<8))))
       //! @}
 
 
