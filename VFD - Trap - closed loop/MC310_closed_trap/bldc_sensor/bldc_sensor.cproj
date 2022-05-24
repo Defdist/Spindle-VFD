@@ -14,7 +14,7 @@
     <OutputFileName>bldc_sensorless</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <ToolchainFlavour>WinAVR2010</ToolchainFlavour>
+    <ToolchainFlavour>Native</ToolchainFlavour>
     <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -102,16 +102,13 @@
   </PropertyGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
   <ItemGroup>
-    <Compile Include="adc_config.h">
+    <Compile Include="a4910.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ascii.c">
+    <Compile Include="a4910.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ascii.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="compiler.h">
+    <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="conf\config.h">
@@ -123,13 +120,16 @@
     <Compile Include="conf\dac_config.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="grBLDC.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hall.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hall.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="mc_control.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="mc_control.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="mc_drv.c">
@@ -144,6 +144,12 @@
     <Compile Include="mc_interface.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="pid.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pid.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="uart\uart_bdr.h">
       <SubType>compile</SubType>
     </Compile>
@@ -151,12 +157,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="uart\uart_lib.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ushell_task.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ushell_task.h">
       <SubType>compile</SubType>
     </Compile>
     <Folder Include="conf\" />

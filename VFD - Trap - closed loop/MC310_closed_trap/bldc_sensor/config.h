@@ -118,7 +118,9 @@
     #define Clear_PC7()  (PORTC &= ~(1<<PORTC7))
     */
 
-    enum {CCW = TRUE, CW = FALSE}; //Define motor direction
+	//Define motor direction
+	#define CCW 1
+	#define CW 2
 
     #define N_SAMPLE  8 //Number of samples to calculate motor speed (if enabled)
     //#define AVERAGE_SPEED_MEASUREMENT //enable averaging
