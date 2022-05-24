@@ -17,17 +17,16 @@
 	#include <stdio.h>
 
 	#include "a4910.h"
-	#include "adc_config.h"
-	#include "compiler.h"
+	#include "Drivers\adc\adc_config.h"
+	#include "Drivers\adc\adc_drv.h"
+	#include "Drivers\dac\dac_drv.h"
+	#include "Drivers\psc\psc_drv.h"
+	#include "Drivers\pll\pll_drv.h"
+	#include "Drivers\comparator\comparator_drv.h"
+	#include "config.h"
+	#include "hall.h"
 	#include "pid.h"
 	#include "mc_drv.h"
 	#include "mc_interface.h"
-	#include "adc\adc_drv.h"
-	#include "dac\dac_drv.h"
-	#include "psc\psc_drv.h"
-	#include "pll\pll_drv.h"
-	#include "comparator\comparator_drv.h"
-	#include "config.h"
-	#include "hall.h"
 
 #endif

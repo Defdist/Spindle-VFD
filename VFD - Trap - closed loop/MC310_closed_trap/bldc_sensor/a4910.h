@@ -11,12 +11,12 @@
 #ifndef a4910_h
 	#define a4910_h
 	
-	A4910pinPB4_reset_Init();
-	A4910pinPB4_reset_Toggle();
-	A4910pinPB4_reset_Set();
-	A4910pinPB4_reset_Clear();
+	void A4910pinPB4_reset_Init(void);
+	void A4910pinPB4_reset_Toggle(void);
+	void A4910pinPB4_reset_Set(void);
+	void A4910pinPB4_reset_Clear(void);
 
-	A4910_Disable();
-	A4910_Enable();
+	void A4910_Disable(void);
+	void A4910_Enable(void);
 
 #endif

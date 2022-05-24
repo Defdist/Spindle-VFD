@@ -2,17 +2,17 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-ascii.c
+a4910.c
+
+hall.c
 
 main.c
-
-mc_control.c
 
 mc_drv.c
 
 mc_interface.c
 
-ushell_task.c
+pid.c
 
 uart\uart_lib.c
 
