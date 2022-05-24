@@ -8,8 +8,6 @@
 		#include <avr/power.h>
 		#include <avr/pgmspace.h>
 		#include <avr/interrupt.h>
-		#define Enable_interrupt() sei()
-		#define Disable_interrupt() cli()
 	#elif __ICCAVR__ // Use IAR-AVR library
    		#include <ioavr.h>
 	#else

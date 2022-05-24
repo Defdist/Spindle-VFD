@@ -11,3 +11,25 @@ inline uint8_t hall_getPosition(void)
 
     return state;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+//Configure interrupt vectors (each time a hall sensor state changes)
+ISR( HALL_AC() )  //Hall_A & Hall_C share the same interrupt vector byte
+{
+  mc_commutateFETs( hall_getPosition() );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+ISR( HALL_B() )
+{
+  mc_commutateFETs( hall_getPosition() ); 
+  if (PINC&(1<<PINC1)) //"is Hall_B logic high?"
+  {
+    mc_calculateSpeed(); //estimate speed on Hall_B rising edge
+    g_mc_read_enable=FALSE; // Wait 1 period
+    } else {
+    g_mc_read_enable=TRUE;
+  } 
+}

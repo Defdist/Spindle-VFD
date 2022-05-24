@@ -143,9 +143,9 @@
     #endif
 
     // ADC scheduler definitions
-    #define CONV_INIT     0
-    #define CONV_POT      1
-    #define CONV_CURRENT  2
+    #define ADC_UNITIALIZED           0
+    #define ADC_MEASURE_REQUESTED_RPM 1
+    #define ADC_MEASURE_CURRENT       2
 
     #define FREE  0
     #define BUSY  1
@@ -155,7 +155,7 @@
     void PSC_Init (void);
 
     // Phases commutation functions
-    void mc_duty_cycle(uint8_t level);
+    void psc_setDutyCycle(uint8_t level);
     void mc_commutateFETs(uint8_t position);
 
     // Sampling time configuration

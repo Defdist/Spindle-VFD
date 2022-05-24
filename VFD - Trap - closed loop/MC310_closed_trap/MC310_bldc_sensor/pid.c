@@ -44,7 +44,7 @@ int16_t pid_calculate_derivative(int16_t speedError)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void pid_dutyCycle_calculate(void)
+uint8_t pid_dutyCycle_calculate(void)
 {
   int32_t summedPID = 0;
 
@@ -64,4 +64,6 @@ void pid_dutyCycle_calculate(void)
   if     ( summedPID >= (int16_t)(255) ) { dutyCycle = 255;                  }
   else if( summedPID <= (int16_t)(  0) ) { dutyCycle =   0;                  }
   else                                   { dutyCycle = (uint8_t)(summedPID); }
+
+  return dutyCycle
 }

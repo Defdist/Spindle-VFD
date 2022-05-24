@@ -7,10 +7,8 @@ extern Bool overcurrent;
 
 int main(void)
 {
-  mc_motor_init();  //initialize the motor
+  mc_motor_init();
   
-  // Start the motor
-  mci_motor_desiredSpeed_set(0);
   mci_motor_run();
   
   while(1)
@@ -25,13 +23,13 @@ int main(void)
       {
         g_regulation_period = 0;
 
-        mci_motor_desiredSpeed_set(mc_potentiometerValue_get());
+        mci_motor_desiredSpeed_set( mc_goalRPM_get() );
         pid_dutyCycle_calculate();
       }
 
-      mc_duty_cycle( pid_dutyCycle_get() );
+      psc_setDutyCycle( pid_dutyCycle_get() );
       
-      mc_inrush_task();       // manage the inrush current
+      //mc_inrush_task();       // manage the inrush current
     }
 	
   /*

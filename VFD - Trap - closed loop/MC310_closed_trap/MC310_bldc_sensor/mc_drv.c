@@ -7,7 +7,7 @@
 Bool overcurrent = FALSE;
 
 static uint8_t ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits timer with 8 bits timer
-                        //JTS2do: T0 is 8 bits, while T1 is 16 bits.  Swap T0<->T1.
+                        //JTS2doNow: T0 is 8 bits, while T1 is 16 bits.  Swap T0<->T1.
 static Bool inrush_mask_flag = FALSE;
 static uint16_t inrush_delay = 0;
 
@@ -16,8 +16,8 @@ Bool g_tick = FALSE;             //!< Use for control the sampling period value
 
 Bool current_EOC = FALSE; //End Of Conversion Flag
 
-static char State = CONV_INIT; // State of the ADC scheduler
-static char ADC_State = FREE;  // ADC State : running = BUSY not running = FREE
+static char ADC_stateMachine = ADC_UNITIALIZED;
+static char ADC_hardwareStatus = FREE;  // ADC State //running = BUSY //not running = FREE
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,30 +58,31 @@ void mc_motor_init_HW(void)
   DIDR0 = (1<<ADC5D)|(1<<ADC6D); //CUR_A ADC input
   
   //vref_source(); // Select the Vref Source
-  //JTS2do: need to use 2.56 internal reference when measuring phase currents (absolute accuracy)
-  //JTS2do: need to use VCC when measuring PWM from 328p (ratiometric)
+  //JTS2doLater: need to use 2.56 internal reference when measuring phase currents (absolute accuracy)
+  //JTS2doLater: need to use VCC when measuring PWM from 328p (ratiometric)
   //The first ADC measurement after each switch should be discarded
   ADCSRB &= ~(1<<ISRCEN); //disable 100 uA current source on AREF pin.
   ADCSRB |= (1<<AREFEN); //connect AREF pin to the internal analog reference.
-  // Select the Vref Source
-//  init_vref_source ();
+  
+  //Select the Vref Source
+  init_vref_source();
 
-//  init_adc();
+  init_adc();
   Adc_config();
-  Amp1_config();
+  //Amp1_config(); //JTS2doLater: Configure phase current amplifiers
   
   // Be careful : initialize DAC and Over_Current before PWM.
   // DAC is used for over current level
-  //JTS2do: Handle overcurrent differently... AVR194 routes the DAC output to another micro
-  //JTS2do: I've disconnected the DAC register from the pin, but right now no overcurrent.
-  Dac_config();
+  //JTS2doLater: Handle overcurrent differently... AVR194 routes the DAC output to another micro
+  //JTS2doLater: I've disconnected the DAC register from the pin, but right now no overcurrent.
+  //Dac_config();
   /* set the overcurrent level */
-  Dac_set_8_bits(IMAX);
+  //Dac_set_8_bits(IMAX);
     
   mc_motor_init_timer0();
   mc_motor_init_timer1();
 
-  //JTS2do: We'll eventually use these to throttle back current, using 1V1 bandgap 
+  //JTS2doLater: We'll eventually use these to throttle back current, using 1V1 bandgap 
   Comp_0_config();
   Comp_1_config();
   Comp_2_config();
@@ -148,30 +149,12 @@ void PSC_Init (void)
 /***************************************************************************/
 /***************************************************************************/
 
-//Configure interrupt vectors (each time a hall sensor state changes)
-ISR( HALL_AC() )  //Hall_A & Hall_C share the same interrupt vector byte
-{
-  mc_commutateFETs( hall_getPosition() );
-}
 
-////////////////////////////////////////////////////////////////////////////////////////
-
-ISR( HALL_B() )
-{
-  mc_commutateFETs( hall_getPosition() ); 
-  if (PINC&(1<<PINC1)) //"is Hall_B logic high?"
-  {
-	mc_calculateSpeed(); //estimate speed on Hall_B rising edge
-	g_mc_read_enable=FALSE; // Wait 1 period
-	} else {
-	g_mc_read_enable=TRUE;
-  } 
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Set the duty cycle values in the PSC according to the value calculate by the regulation loop
-void mc_duty_cycle(uint8_t level)
+void psc_setDutyCycle(uint8_t level)
 {
   uint8_t duty;
   duty = level;
@@ -210,40 +193,37 @@ void mc_duty_cycle(uint8_t level)
 //Set commutation outputs based on sensor position
 void mc_commutateFETs(uint8_t hallState)
 {
-    if ( mci_motorState_get() == STOPPED )
-    {
-        turnOffAllFETs();
-    }
+    if ( mci_motorState_get() == STOPPED ) { turnOffAllFETs(); }
     else //motor == RUNNING
     {
-        mc_duty_cycle( pid_dutyCycle_get() );
+      psc_setDutyCycle( pid_dutyCycle_get() );
 
-        if(mci_motorDirection_get() == CCW)
-        {
-            switch(hallState)
-            {
-                case 1: Set_Q5Q2(); break;
-                case 2: Set_Q1Q4(); break;
-                case 3: Set_Q5Q4(); break;
-                case 4: Set_Q3Q6(); break;
-                case 5: Set_Q3Q2(); break;
-                case 6: Set_Q1Q6(); break;
-                default:            break;
-            }
-        }
-        else //direction == CW
-        {
-            switch(hallState)
-            {
-                case 1: Set_Q1Q6(); break;
-                case 2: Set_Q3Q2(); break;
-                case 3: Set_Q3Q6(); break;
-                case 4: Set_Q5Q4(); break;
-                case 5: Set_Q1Q4(); break;
-                case 6: Set_Q5Q2(); break;
-                default:            break;
-            }
-        }
+      if(mci_motorDirection_get() == CCW)
+      {
+          switch(hallState)
+          {
+              case 1: Set_Q5Q2(); break;
+              case 2: Set_Q1Q4(); break;
+              case 3: Set_Q5Q4(); break;
+              case 4: Set_Q3Q6(); break;
+              case 5: Set_Q3Q2(); break;
+              case 6: Set_Q1Q6(); break;
+              default: turnOffAllFETs(); break;
+          }
+      }
+      else //direction == CW
+      {
+          switch(hallState)
+          {
+              case 1: Set_Q1Q6(); break;
+              case 2: Set_Q3Q2(); break;
+              case 3: Set_Q3Q6(); break;
+              case 4: Set_Q5Q4(); break;
+              case 5: Set_Q1Q4(); break;
+              case 6: Set_Q5Q2(); break;
+              default: turnOffAllFETs(); break;
+          }
+      }
     }
 }
 
@@ -261,7 +241,7 @@ void mc_commutateFETs(uint8_t hallState)
  * @pre None
  * @post An interrupt all 256us
 */
-void mc_motor_init_timer1(void)  //JTS2do: swap with counter 0, which uses software 16 bit.
+void mc_motor_init_timer1(void)  //JTS2doNow: swap with counter 0, which uses software 16 bit.
 {
   TCCR1A = 0; //Normal port operation + Mode CTC
   TCCR1B = 1<<WGM12 | 1<<CS11 | 1<<CS10 ; // Mode CTC + clock prescaler=64
@@ -326,7 +306,8 @@ ISR(TIMER0_OVF_vect)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void mc_calculateSpeed(void) //JTS2do: This should be inlined because it's called inside ISR
+//JTS2doNow: This should be inlined because it's called inside ISR
+void mc_calculateSpeed(void)
 {
   uint8_t sampleCount = 1;
   uint16_t sumOfSamples = 0;
@@ -381,42 +362,42 @@ void mc_calculateSpeed(void) //JTS2do: This should be inlined because it's calle
 ISR(ADC_vect)
 {
   Adc_select_channel(ADC_INPUT_GND); /* release the amplified channel */
-  if(State == CONV_POT) mc_potentiometerValue_set(Adc_get_8_bits_result());
-  if(State == CONV_CURRENT) mci_motor_measuredCurrent_integrate(Adc_get_10_bits_result());
-  ADC_State = FREE;
+  if(ADC_stateMachine == ADC_MEASURE_REQUESTED_RPM) mc_goalRPM_set(Adc_get_8_bits_result());
+  if(ADC_stateMachine == ADC_MEASURE_CURRENT) mci_motor_measuredCurrent_integrate(Adc_get_10_bits_result());
+  ADC_hardwareStatus = FREE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-//! @brief Launch the scheduler for the ADC
-//! @post Get results for Potentiometer and current values.
 void mc_ADC_Scheduler(void)
 {
-  switch(State)
+  switch(ADC_stateMachine)
   {
-  case CONV_INIT :
-    ADC_State = FREE;
-    State = CONV_CURRENT;
+  case ADC_UNITIALIZED:
+    ADC_hardwareStatus = FREE;
+    ADC_stateMachine = ADC_MEASURE_CURRENT;
     break;
 
-  //JTS:Confusing: case doesn't match ADC action
-  case CONV_CURRENT :              /* previous state was CONV_CURRENT */
-    if(ADC_State == FREE)
+  //JTS2doNow: Confusing... case doesn't match ADC action
+  case ADC_MEASURE_CURRENT:
+    //ADC just finished measuring current... now we need to configure the ADC to measure desired RPM
+    if(ADC_hardwareStatus == FREE)
     {
-      ADC_State = BUSY;
-      State = CONV_POT;                        //this case gets potentiometer
+      ADC_hardwareStatus = BUSY;
       Adc_left_adjust_result();
-      Adc_start_conv_channel(ADC_INPUT_ADC5); /* get POT on ADC5 */
+      Adc_start_conv_channel(ADC_INPUT_ADC5); //configure ADC to measure desired RPM (from grbl)
+      ADC_stateMachine = ADC_MEASURE_REQUESTED_RPM;
     }
     break;
 
-  case CONV_POT :                           /* previous state was CONV_POT */
-    if(ADC_State == FREE)
+  case ADC_MEASURE_REQUESTED_RPM:
+    //ADC just finished measuring goal RPM... now we need to configure the ADC to measure current
+    if(ADC_hardwareStatus == FREE)
     {
-      ADC_State = BUSY;
-      State = CONV_CURRENT;                   //this case gets current sensor
+      ADC_hardwareStatus = BUSY;
       Adc_right_adjust_result();
       Adc_start_conv_channel(ADC_INPUT_AMP1); /* get current on amplifier 1 */
+      ADC_stateMachine = ADC_MEASURE_CURRENT; //this case gets current sensor
     }
     break;
   }
