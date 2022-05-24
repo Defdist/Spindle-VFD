@@ -2,8 +2,6 @@
 
 #include "grBLDC.h"
 
-Bool g_mc_read_enable = FALSE;  // the speed can be read when TRUE
-
 //JTS2doNow: T0 is 8 bits, while T1 is 16 bits.  Swap T0<->T1.
 static uint8_t ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits timer with 8 bits timer
 
@@ -16,10 +14,10 @@ uint8_t hall_measuredRPM_get(void) { return motorSpeed_measured; }
 
 inline uint8_t hall_getPosition(void)
 {
-	//Example: if Hall GRN & YEL are high, the result is 0b00000110
-	uint8_t state = ( (PIND & (1<<PIND1)) >> (PIND1-0) ) | //Hall BLU //LSB
-                    ( (PINC & (1<<PINC1)) >> (PINC1-1) ) | //Hall YEL
-                    ( (PIND & (1<<PIND2)) >> (PIND2-2) );  //Hall GRN //MSB
+  //Example: if Hall GRN & YEL are high, the result is 0b00000110
+  uint8_t state = ((PIND & (1<<PIND1)) >> (PIND1-0)) | //Hall BLU //LSB
+                  ((PINC & (1<<PINC1)) >> (PINC1-1)) | //Hall YEL
+                  ((PIND & (1<<PIND2)) >> (PIND2-2));   //Hall GRN //MSB
 
     return state;
 }
@@ -38,15 +36,20 @@ ISR( HALL_B() )
 {
   mc_commutateFETs( hall_getPosition() );
 
-  if (PINC&(1<<PINC1)) //"is Hall_B logic high?"
+  uint8_t hallB_state = 0;
+  static uint8_t hallB_state_previous = 0;
+
+  if (PINC & (1<<PINC1) ) { hallB_state == HALL_B_HIGH; }
+  else                    { hallB_state == HALL_B_LOW;  }
+
+  if ( (hallB_state          == HALL_B_HIGH ) &&
+       (hallB_state_previous == HALL_B_LOW  )  )
   {
+    //rising edge just occurred on Hall B
     hall_calculateRPM(); //estimate speed on Hall_B rising edge
-    g_mc_read_enable = FALSE; // Wait 1 period
   }
-  else
-  {
-    g_mc_read_enable = TRUE;
-  } 
+
+  hallB_state_previous = hallB_state;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -60,36 +63,34 @@ void hall_calculateRPM(void)
   uint16_t timer_value;
   uint32_t new_measured_speed;
 
-  if (g_mc_read_enable==TRUE)
-  {
-    // Two 8 bits variables are use to simulate a 16 bits timers
-    timer_value = (ovf_timer<<8) + TCNT0;
+  // Two 8 bits variables are use to simulate a 16 bits timers
+  timer_value = (ovf_timer<<8) + TCNT0;
 
-    if (timer_value == 0) {timer_value += 1 ;} // prevent DIV by 0 in next line
-    new_measured_speed = K_SPEED / timer_value;
-    if(new_measured_speed > 255) new_measured_speed = 255; // Variable saturation
+  if (timer_value == 0) {timer_value += 1 ;} // prevent DIV by 0 in next line
+  
+  new_measured_speed = K_SPEED / timer_value;
+  
+  if(new_measured_speed > 255) new_measured_speed = 255; // Variable saturation
 
 
-    #ifdef AVERAGE_SPEED_MEASUREMENT
-      // To avoid noise an average is realized on 8 samples
-      sumOfSamples += new_measured_speed;
-      if(sampleCount >= N_SAMPLE)
-      {
-        sampleCount = 1;
-        hall_measuredRPM_set(sumOfSamples >> 3);
-        sumOfSamples = 0;
-      }
-      else sampleCount++;
-    #else
-      // else get the real speed
-      hall_measuredRPM_set(new_measured_speed);
-    #endif
+  #ifdef AVERAGE_SPEED_MEASUREMENT
+    // To avoid noise an average is realized on 8 samples
+    sumOfSamples += new_measured_speed;
+    if(sampleCount >= NUM_SAMPLES_PER_RPM_CALCULATION)
+    {
+      sampleCount = 1;
+      hall_measuredRPM_set(sumOfSamples >> 3);
+      sumOfSamples = 0;
+    }
+    else sampleCount++;
+  #else
+    // else get the real speed
+    hall_measuredRPM_set(new_measured_speed);
+  #endif
 
-    // Reset Timer 0 register and variables
-    TCNT0=0x00;
-    ovf_timer = 0;
-    g_mc_read_enable=FALSE;
-  }
+  // Reset Timer 0 register and variables
+  TCNT0=0x00;
+  ovf_timer = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
