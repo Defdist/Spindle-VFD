@@ -23,7 +23,7 @@ int main(void)
       {
         g_regulation_period = 0;
 
-        mci_motor_desiredSpeed_set( mc_goalRPM_get() );
+        hall_desiredRPM_set( hall_goalRPM_get() );
         pid_dutyCycle_calculate();
       }
 

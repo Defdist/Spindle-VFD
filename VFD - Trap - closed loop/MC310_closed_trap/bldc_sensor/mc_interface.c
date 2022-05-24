@@ -3,9 +3,6 @@
 Bool motorDirection = CW;
 Bool motorStatus = STOPPED;
 
-uint8_t motorSpeed_desired = 0;
-uint8_t motorSpeed_measured = 0;
-
 uint32_t mci_measured_current = 0; //!<Motor Input parameter to get the motor current
 uint8_t mc_potentiometer_value = 0;//!<Motor Input to set the motor speed
 
@@ -34,11 +31,6 @@ void mci_motor_stop(void) { motorStatus = STOPPED; }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void mci_motor_desiredSpeed_set(uint8_t speed) { motorSpeed_desired = speed; }
-uint8_t mci_motor_desiredSpeed_get(void) { return motorSpeed_desired; }
-
-////////////////////////////////////////////////////////////////////////////////////////
-
 //JTS2doNow: Direction never set in code.  Fine for now.
 //JTS2doNow: If direction_now != direction_previous, need to stop motor first, then spin other way.
 void mci_motorDirection_set(uint8_t direction) { (direction == CCW) ? (motorDirection = CCW) : motorDirection = CW; }
@@ -53,11 +45,6 @@ void mci_motor_measuredCurrent_integrate(uint16_t current) { mci_measured_curren
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-uint8_t mc_goalRPM_get(void) { return mc_potentiometer_value; }
-void mc_goalRPM_set(uint8_t potentiometer) { mc_potentiometer_value = potentiometer; }
-
-////////////////////////////////////////////////////////////////////////////////////////
-
 void mc_motor_init()
 {
   mc_motor_init_HW();
@@ -65,6 +52,6 @@ void mc_motor_init()
 
   mci_motor_stop();
   mci_motorDirection_set(CW);
-  mci_motor_desiredSpeed_set(0);
+  hall_desiredRPM_set(0);
   hall_measuredRPM_set(0);
 }

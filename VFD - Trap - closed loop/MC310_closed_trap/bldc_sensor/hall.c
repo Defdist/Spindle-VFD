@@ -5,10 +5,23 @@
 //JTS2doNow: T0 is 8 bits, while T1 is 16 bits.  Swap T0<->T1.
 static uint8_t ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits timer with 8 bits timer
 
+uint8_t motorSpeed_desired = 0;
+uint8_t motorSpeed_measured = 0;
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+void hall_desiredRPM_set(uint8_t speed) { motorSpeed_desired = speed; }
+uint8_t hall_desiredRPM_get(void) { return motorSpeed_desired; }
+
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void hall_measuredRPM_set(uint8_t measured_speed) { motorSpeed_measured = measured_speed; }
 uint8_t hall_measuredRPM_get(void) { return motorSpeed_measured; }
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+uint8_t hall_goalRPM_get(void) { return mc_potentiometer_value; }
+void hall_goalRPM_set(uint8_t potentiometer) { mc_potentiometer_value = potentiometer; }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
