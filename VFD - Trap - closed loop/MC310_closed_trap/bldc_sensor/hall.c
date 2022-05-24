@@ -8,6 +8,8 @@ static uint8_t ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bi
 uint8_t motorSpeed_desired = 0;
 uint8_t motorSpeed_measured = 0;
 
+uint8_t goalRPM_ADC_value = 0;//!<Motor Input to set the motor speed
+
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void hall_desiredRPM_set(uint8_t speed) { motorSpeed_desired = speed; }
@@ -20,8 +22,8 @@ uint8_t hall_measuredRPM_get(void) { return motorSpeed_measured; }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-uint8_t hall_goalRPM_get(void) { return mc_potentiometer_value; }
-void hall_goalRPM_set(uint8_t potentiometer) { mc_potentiometer_value = potentiometer; }
+uint8_t hall_goalRPM_get(void) { return goalRPM_ADC_value; }
+void hall_goalRPM_set(uint8_t ADC_value) { goalRPM_ADC_value = ADC_value; }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 

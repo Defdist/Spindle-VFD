@@ -22,4 +22,7 @@
 	uint8_t hall_goalRPM_get(void);
 	void hall_goalRPM_set(uint8_t potentiometer);
 
+	#define HALL_B_HIGH 1
+	#define HALL_B_LOW  0
+
 #endif

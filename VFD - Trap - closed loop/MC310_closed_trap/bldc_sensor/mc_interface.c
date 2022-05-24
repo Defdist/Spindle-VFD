@@ -4,7 +4,6 @@ Bool motorDirection = CW;
 Bool motorStatus = STOPPED;
 
 uint32_t mci_measured_current = 0; //!<Motor Input parameter to get the motor current
-uint8_t mc_potentiometer_value = 0;//!<Motor Input to set the motor speed
 
 extern Bool overcurrent;
 

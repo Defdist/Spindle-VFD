@@ -15,6 +15,7 @@
 	#endif
 
 	#include <stdio.h>
+	#include <stdint.h>
 
 	#include "a4910.h"
 	#include "Drivers\adc\adc_config.h"
@@ -28,5 +29,9 @@
 	#include "pid.h"
 	#include "mc_drv.h"
 	#include "mc_interface.h"
+
+	#define TRUE 1
+	#define FALSE 0
+	
 
 #endif
