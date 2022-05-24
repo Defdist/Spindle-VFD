@@ -6,12 +6,11 @@
 
 Bool overcurrent = FALSE;
 
-static uint8_t ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits timer with 8 bits timer
-                        //JTS2doNow: T0 is 8 bits, while T1 is 16 bits.  Swap T0<->T1.
+
+                        
 static Bool inrush_mask_flag = FALSE;
 static uint16_t inrush_delay = 0;
 
-Bool g_mc_read_enable = FALSE;  // the speed can be read when TRUE
 Bool g_tick = FALSE;             //!< Use for control the sampling period value
 
 Bool current_EOC = FALSE; //End Of Conversion Flag
@@ -79,7 +78,7 @@ void mc_motor_init_HW(void)
   /* set the overcurrent level */
   //Dac_set_8_bits(IMAX);
     
-  mc_motor_init_timer0();
+  hall_init_rpm_timer0();
   mc_motor_init_timer1();
 
   //JTS2doLater: We'll eventually use these to throttle back current, using 1V1 bandgap 
@@ -261,90 +260,6 @@ void mc_motor_init_timer1(void)  //JTS2doNow: swap with counter 0, which uses so
 ISR(TIMER1_COMPA_vect) //main tick //timer configured in mc_motor_init_timer1()
 {
   g_tick = TRUE;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-/******************************************************************************/
-/******************************************************************************/
-/*         TIMER 0 : Speed Measurement                                        */
-/******************************************************************************/
-/******************************************************************************/
-
-/**
- * @brief Timer 0 Configuration
- * The timer 0 is used to generate an IT when an overflow occurs
- * @pre None
- * @post Timer0 initialized.
-*/
-void mc_motor_init_timer0(void)
-{
-  TCCR0A = 0;
-  TCCR0B = (1<<CS02)|(0<<CS01)|(0<<CS00); // 256 prescaler (16us)
-  TIMSK0 = (1<<TOIE0);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
-  * @brief Timer0 Overflow for speed measurement
-  * @pre configuration of timer 0
-  * @post generate an overflow when the motor turns too slowly
-*/
-ISR(TIMER0_OVF_vect)
-{
-  TCNT0=0x00;
-  ovf_timer++;
-  // if they are no commutation after 125 ms
-  // 125 ms = (61<<8) * 8us
-  if(ovf_timer >= 100)
-  {
-    ovf_timer = 0;
-    mci_motor_measuredSpeed_set(0);
-  }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-//JTS2doNow: This should be inlined because it's called inside ISR
-void mc_calculateSpeed(void)
-{
-  uint8_t sampleCount = 1;
-  uint16_t sumOfSamples = 0;
-
-  uint16_t timer_value;
-  uint32_t new_measured_speed;
-
-  if (g_mc_read_enable==TRUE)
-  {
-    // Two 8 bits variables are use to simulate a 16 bits timers
-    timer_value = (ovf_timer<<8) + TCNT0;
-
-    if (timer_value == 0) {timer_value += 1 ;} // prevent DIV by 0 in next line
-    new_measured_speed = K_SPEED / timer_value;
-    if(new_measured_speed > 255) new_measured_speed = 255; // Variable saturation
-
-
-    #ifdef AVERAGE_SPEED_MEASUREMENT
-      // To avoid noise an average is realized on 8 samples
-      sumOfSamples += new_measured_speed;
-      if(sampleCount >= N_SAMPLE)
-      {
-        sampleCount = 1;
-        mci_motor_measuredSpeed_set(sumOfSamples >> 3);
-        sumOfSamples = 0;
-      }
-      else sampleCount++;
-    #else
-      // else get the real speed
-      mci_motor_measuredSpeed_set(new_measured_speed);
-    #endif
-
-    // Reset Timer 0 register and variables
-    TCNT0=0x00;
-    ovf_timer = 0;
-    g_mc_read_enable=FALSE;
-  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

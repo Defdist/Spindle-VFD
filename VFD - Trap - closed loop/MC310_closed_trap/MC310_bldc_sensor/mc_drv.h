@@ -161,10 +161,6 @@
     // Sampling time configuration
     void mc_motor_init_timer1(void);
 
-    // Estimation speed
-    void mc_motor_init_timer0(void);
-    void mc_calculateSpeed(void);
-
     // ADC use for current measure and potentiometer...
     void mc_ADC_Scheduler(void);
     uint8_t mc_Get_Current(void);

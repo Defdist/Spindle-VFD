@@ -46,11 +46,6 @@ uint8_t mci_motorDirection_get(void) { return motorDirection; }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void mci_motor_measuredSpeed_set(uint8_t measured_speed) { motorSpeed_measured = measured_speed; }
-uint8_t mci_motor_measuredSpeed_get(void) { return motorSpeed_measured; }
-
-////////////////////////////////////////////////////////////////////////////////////////
-
 //JTS2doNow: We shouldn't be integrating inside these functions... do it wherever they're called
 uint16_t mci_motor_measuredCurrent_get(void) { return (mci_measured_current >> 6); } //mci_measured_current/64
 
@@ -71,5 +66,5 @@ void mc_motor_init()
   mci_motor_stop();
   mci_motorDirection_set(CW);
   mci_motor_desiredSpeed_set(0);
-  mci_motor_measuredSpeed_set(0);
+  hall_measuredRPM_set(0);
 }

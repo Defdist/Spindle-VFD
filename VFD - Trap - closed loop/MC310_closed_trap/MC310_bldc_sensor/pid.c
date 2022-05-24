@@ -50,7 +50,7 @@ uint8_t pid_dutyCycle_calculate(void)
 
   uint8_t desiredSpeed = 2 * mci_motor_desiredSpeed_get();
 
-  int16_t speedError = desiredSpeed - mci_motor_measuredSpeed_get();// value -255 <=> 255
+  int16_t speedError = desiredSpeed - hall_measuredRPM_get();// value -255 <=> 255
 
   int16_t TermPID_proportional = pid_calculate_proportional(speedError);
   int16_t TermPID_integral     = pid_calculate_integral    (speedError);
