@@ -295,7 +295,7 @@
 //! analog inputs thanks to the DIDR0 and DIDR1 registers.
 //!
 void init_adc(void);
-void init_vref_source (void);
+void init_vref_source(void);
    //! @}
 
 //! @}

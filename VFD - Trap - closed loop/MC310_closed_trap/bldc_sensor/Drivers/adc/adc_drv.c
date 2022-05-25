@@ -81,7 +81,7 @@ void init_adc(void)
 }
 #endif // USE_ADC
 
-void init_vref_source (void)
+void init_vref_source(void)
 {
 #   if (VREF_SOURCE == 2)
        Adc_enable_vcc_vref();
