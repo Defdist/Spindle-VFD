@@ -64,7 +64,7 @@ void mc_motor_init_HW(void)
   ADCSRB |= (1<<AREFEN); //connect AREF pin to the internal analog reference.
   
   //Select the Vref Source
-  init_vref_source();
+  Adc_enable_external_vref();
 
   init_adc();
   Adc_config();
