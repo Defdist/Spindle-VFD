@@ -5,9 +5,7 @@
 #define PSWAP2 4
 
 uint8_t overcurrent = FALSE;
-
-
-                        
+                      
 static uint8_t inrush_mask_flag = FALSE;
 static uint16_t inrush_delay = 0;
 

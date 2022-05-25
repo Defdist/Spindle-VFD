@@ -13,10 +13,6 @@
 
 //_____  I N C L U D E S ___________________________________________________
 
-#include "compiler.h"
-#include "iopwm324.h"
-#include "inavr.h"
-
 #ifndef _DAC_CONFIG_H_
 	#define _DAC_CONFIG_H_
 

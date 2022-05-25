@@ -17,8 +17,7 @@ mc_interface.d mc_interface.o: .././mc_interface.c .././grBLDC.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
- .././a4910.h .././Drivers\adc\adc_config.h ../grBLDC.h \
- .././Drivers\adc\adc_drv.h .././Drivers\dac\dac_drv.h \
+ .././a4910.h .././Drivers\adc\adc_drv.h .././Drivers\dac\dac_drv.h \
  .././Drivers\psc\psc_drv.h .././Drivers\pll\pll_drv.h \
  .././Drivers\comparator\comparator_drv.h .././config.h .././hall.h \
  .././pid.h .././mc_drv.h .././mc_interface.h
@@ -62,10 +61,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
 
 .././a4910.h:
-
-.././Drivers\adc\adc_config.h:
-
-../grBLDC.h:
 
 .././Drivers\adc\adc_drv.h:
 
