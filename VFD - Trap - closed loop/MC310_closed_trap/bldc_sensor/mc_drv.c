@@ -369,3 +369,19 @@ __interrupt void mc_overcurrent_detect(void)
   overcurrent = TRUE;
   mci_motor_stop();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void turnOffAllFETs(void)
+{
+  POC = ( (0<<POEN0A)|(0<<POEN0B) |
+          (0<<POEN1A)|(0<<POEN1B) |
+          (0<<POEN2A)|(0<<POEN2B) );
+
+  PORTB &= ( ~(1<<PORTB7) ); //turn off Q2
+  PORTB &= ( ~(1<<PORTB6) ); //turn off Q4
+  PORTB &= ( ~(1<<PORTB0) ); //turn off Q5
+  PORTB &= ( ~(1<<PORTB1) ); //turn off Q6
+  PORTC &= ( ~(1<<PORTC0) ); //turn off Q3
+  PORTD &= ( ~(1<<PORTD0) );  //turn off Q1
+}
