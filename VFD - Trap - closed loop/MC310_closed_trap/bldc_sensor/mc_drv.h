@@ -15,7 +15,7 @@
       (PORTB &= ( ~(1<<PORTB0) ) );\ //turn off Q5
       (PORTB &= ( ~(1<<PORTB1) ) );\ //turn off Q6
       (PORTC &= ( ~(1<<PORTC0) ) );\ //turn off Q3
-      (PORTD &= ( ~(1<<PORTD0) ) );  //turn off Q1
+      (PORTD &= ( ~(1<<PORTD0) ) );\  //turn off Q1
 	  }
 
     #if (CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)
