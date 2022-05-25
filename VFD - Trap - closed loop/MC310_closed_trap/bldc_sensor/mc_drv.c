@@ -4,16 +4,16 @@
 #define PSWAP1 3
 #define PSWAP2 4
 
-Bool overcurrent = FALSE;
+uint8_t overcurrent = FALSE;
 
 
                         
-static Bool inrush_mask_flag = FALSE;
+static uint8_t inrush_mask_flag = FALSE;
 static uint16_t inrush_delay = 0;
 
-Bool g_tick = FALSE;             //!< Use for control the sampling period value
+uint8_t g_tick = FALSE;             //!< Use for control the sampling period value
 
-Bool current_EOC = FALSE; //End Of Conversion Flag
+uint8_t current_EOC = FALSE; //End Of Conversion Flag
 
 static char ADC_stateMachine = ADC_UNITIALIZED;
 static char ADC_hardwareStatus = FREE;  // ADC State //running = BUSY //not running = FREE

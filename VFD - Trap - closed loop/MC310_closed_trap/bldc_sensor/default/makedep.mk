@@ -14,5 +14,3 @@ mc_interface.c
 
 pid.c
 
-uart\uart_lib.c
-

@@ -32,9 +32,7 @@ LIB_DEP:=
 LINKER_SCRIPT_DEP:=
 
 # Every subdirectory with source files must be described here
-SUBDIRS :=  \
-../conf/ \
-../uart
+SUBDIRS := 
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
@@ -44,8 +42,7 @@ C_SRCS +=  \
 ../main.c \
 ../mc_drv.c \
 ../mc_interface.c \
-../pid.c \
-../uart/uart_lib.c
+../pid.c
 
 
 PREPROCESSING_SRCS += 
@@ -60,8 +57,7 @@ hall.o \
 main.o \
 mc_drv.o \
 mc_interface.o \
-pid.o \
-uart/uart_lib.o
+pid.o
 
 OBJS_AS_ARGS +=  \
 a4910.o \
@@ -69,8 +65,7 @@ hall.o \
 main.o \
 mc_drv.o \
 mc_interface.o \
-pid.o \
-uart/uart_lib.o
+pid.o
 
 C_DEPS +=  \
 a4910.d \
@@ -78,8 +73,7 @@ hall.d \
 main.d \
 mc_drv.d \
 mc_interface.d \
-pid.d \
-uart/uart_lib.d
+pid.d
 
 C_DEPS_AS_ARGS +=  \
 a4910.d \
@@ -87,8 +81,7 @@ hall.d \
 main.d \
 mc_drv.d \
 mc_interface.d \
-pid.d \
-uart/uart_lib.d
+pid.d
 
 OUTPUT_FILE_PATH +=bldc_sensorless.elf
 
@@ -140,13 +133,6 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./pid.o: .././pid.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\include" -I"../../Drivers" -I"../conf" -I".." -I"../uart"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32m1 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\gcc\dev\atmega32m1" -c -gdwarf-2 -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-uart/uart_lib.o: ../uart/uart_lib.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\include" -I"../../Drivers" -I"../conf" -I".." -I"../uart"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32m1 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\gcc\dev\atmega32m1" -c -gdwarf-2 -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

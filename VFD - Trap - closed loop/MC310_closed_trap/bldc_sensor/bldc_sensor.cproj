@@ -111,15 +111,6 @@
     <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="conf\config.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="conf\config_motor.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="conf\dac_config.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="grBLDC.h">
       <SubType>compile</SubType>
     </Compile>
@@ -148,20 +139,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="pid.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="uart\uart_bdr.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="uart\uart_drv.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="uart\uart_lib.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Folder Include="conf\" />
-    <Folder Include="uart" />
-    <Compile Include="uart\uart_lib.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

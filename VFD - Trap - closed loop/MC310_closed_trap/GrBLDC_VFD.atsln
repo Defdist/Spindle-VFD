@@ -7,14 +7,37 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "bldc_sensor", "bldc_sensor\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Drivers", "Drivers", "{19E01692-1701-4CDC-A205-97ABB3047F99}"
 	ProjectSection(SolutionItems) = preProject
-		Drivers\adc\adc_drv.c = Drivers\adc\adc_drv.c
-		Drivers\adc\adc_drv.h = Drivers\adc\adc_drv.h
-		Drivers\comparator\comparator_drv.c = Drivers\comparator\comparator_drv.c
-		Drivers\comparator\comparator_drv.h = Drivers\comparator\comparator_drv.h
-		Drivers\dac\dac_drv.c = Drivers\dac\dac_drv.c
-		Drivers\dac\dac_drv.h = Drivers\dac\dac_drv.h
-		Drivers\pll\pll_drv.h = Drivers\pll\pll_drv.h
-		Drivers\psc\psc_drv.h = Drivers\psc\psc_drv.h
+		bldc_sensor\Drivers\iom32m1.h = bldc_sensor\Drivers\iom32m1.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adc", "adc", "{F01FFF5E-4639-46EA-B3FA-0438AEA12825}"
+	ProjectSection(SolutionItems) = preProject
+		bldc_sensor\Drivers\adc\adc_config.h = bldc_sensor\Drivers\adc\adc_config.h
+		bldc_sensor\Drivers\adc\adc_drv.c = bldc_sensor\Drivers\adc\adc_drv.c
+		bldc_sensor\Drivers\adc\adc_drv.h = bldc_sensor\Drivers\adc\adc_drv.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "comparator", "comparator", "{10BE8BBC-369A-43C6-9881-B828158BD6DF}"
+	ProjectSection(SolutionItems) = preProject
+		bldc_sensor\Drivers\comparator\comparator_drv.c = bldc_sensor\Drivers\comparator\comparator_drv.c
+		bldc_sensor\Drivers\comparator\comparator_drv.h = bldc_sensor\Drivers\comparator\comparator_drv.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dac", "dac", "{38D7EE9A-2A6D-45C9-A47F-2EB728B3E879}"
+	ProjectSection(SolutionItems) = preProject
+		bldc_sensor\Drivers\dac\config_dac.h = bldc_sensor\Drivers\dac\config_dac.h
+		bldc_sensor\Drivers\dac\dac_drv.c = bldc_sensor\Drivers\dac\dac_drv.c
+		bldc_sensor\Drivers\dac\dac_drv.h = bldc_sensor\Drivers\dac\dac_drv.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pll", "pll", "{BBE8A093-ACE4-46D8-872A-B06661F1DDB4}"
+	ProjectSection(SolutionItems) = preProject
+		bldc_sensor\Drivers\pll\pll_drv.h = bldc_sensor\Drivers\pll\pll_drv.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "psc", "psc", "{6BB83B8D-8AEB-46BF-86C4-31EDD341126C}"
+	ProjectSection(SolutionItems) = preProject
+		bldc_sensor\Drivers\psc\psc_drv.h = bldc_sensor\Drivers\psc\psc_drv.h
 	EndProjectSection
 EndProject
 Global
@@ -27,5 +50,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F01FFF5E-4639-46EA-B3FA-0438AEA12825} = {19E01692-1701-4CDC-A205-97ABB3047F99}
+		{10BE8BBC-369A-43C6-9881-B828158BD6DF} = {19E01692-1701-4CDC-A205-97ABB3047F99}
+		{38D7EE9A-2A6D-45C9-A47F-2EB728B3E879} = {19E01692-1701-4CDC-A205-97ABB3047F99}
+		{BBE8A093-ACE4-46D8-872A-B06661F1DDB4} = {19E01692-1701-4CDC-A205-97ABB3047F99}
+		{6BB83B8D-8AEB-46BF-86C4-31EDD341126C} = {19E01692-1701-4CDC-A205-97ABB3047F99}
 	EndGlobalSection
 EndGlobal
