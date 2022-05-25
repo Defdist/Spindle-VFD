@@ -1,3 +1,5 @@
+#include "grBLDC.h"
+
 //Spindle RPM PID controller
 
 uint8_t dutyCycle = 0;    //Closed loop speed regulation PWM Duty Cycle
@@ -65,5 +67,5 @@ uint8_t pid_dutyCycle_calculate(void)
   else if( summedPID <= (int16_t)(  0) ) { dutyCycle =   0;                  }
   else                                   { dutyCycle = (uint8_t)(summedPID); }
 
-  return dutyCycle
+  return dutyCycle;
 }

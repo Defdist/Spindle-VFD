@@ -54,8 +54,8 @@ ISR( HALL_B() )
   uint8_t hallB_state = 0;
   static uint8_t hallB_state_previous = 0;
 
-  if (PINC & (1<<PINC1) ) { hallB_state == HALL_B_HIGH; }
-  else                    { hallB_state == HALL_B_LOW;  }
+  if (PINC & (1<<PINC1) ) { hallB_state = HALL_B_HIGH; }
+  else                    { hallB_state = HALL_B_LOW;  }
 
   if ( (hallB_state          == HALL_B_HIGH ) &&
        (hallB_state_previous == HALL_B_LOW  )  )

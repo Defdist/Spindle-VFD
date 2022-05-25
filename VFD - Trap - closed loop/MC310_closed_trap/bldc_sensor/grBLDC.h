@@ -16,6 +16,7 @@
 
 	#include <stdio.h>
 	#include <stdint.h>
+	#include <stdbool.h>
 
 	#include "a4910.h"
 	#include "Drivers\adc\adc_config.h"
