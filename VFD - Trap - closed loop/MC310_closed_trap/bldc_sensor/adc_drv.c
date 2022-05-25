@@ -25,29 +25,9 @@
 void init_adc(void)
 {
 	Adc_enable();
-	#if (ADC_RIGHT_ADJUST_RESULT == 1)
-		Adc_right_adjust_result();
-	#elif (ADC_RIGHT_ADJUST_RESULT == 0)
-		Adc_left_adjust_result();
-	#else
-		#error (ADC_RIGHT_ADJUST_RESULT should be 0 or 1... See config.h file)
-	#endif
-
-	#if (ADC_HIGH_SPEED_MODE == 1)
-		Adc_enable_high_speed_mode();
-	#elif (ADC_HIGH_SPEED_MODE == 0)
-		Adc_disable_high_speed_mode();
-	#else
-		#error (ADC_HIGH_SPEED_MODE should be 0 or 1... See config.h file)
-	#endif
-
-	#if (ADC_IT == 1)
-		Adc_enable_it();
-	#elif (ADC_IT == 0)
-		Adc_disable_it();
-	#else
-		#error (ADC_IT should be 0 or 1... See config.h file)
-	#endif
+	Adc_left_adjust_result();
+	Adc_enable_high_speed_mode();
+	adc_generateInterruptAfterConversion();
 
 	#if (ADC_PRESCALER == 128)
 		Adc_set_prescaler(7);

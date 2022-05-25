@@ -71,9 +71,9 @@
 		  //! @defgroup ADC_it_configuration ADC IT Configuration
 		  //! Configure the ADC IT
 		  //! @{
-	#define Adc_enable_it()                  (ADCSRA |=  (1<<ADIE) )
-	#define Adc_disable_it()                 (ADCSRA &= ~(1<<ADIE) )
-	#define Adc_clear_flag()                 (ADCSRA &=  (1<<ADIF) )
+	#define adc_generateInterruptAfterConversion() (ADCSRA |=  (1<<ADIE) )
+	#define adc_disableInterruptAfterConversion()  (ADCSRA &= ~(1<<ADIE) )
+	#define Adc_clear_flag()                       (ADCSRA &=  (1<<ADIF) )
 		  //! @}
 
 		  //! @defgroup ADC_prescaler_configuration ADC Prescaler Configuration
