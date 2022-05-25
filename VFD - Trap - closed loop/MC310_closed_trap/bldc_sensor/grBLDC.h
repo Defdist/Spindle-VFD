@@ -19,7 +19,7 @@
 	#include <stdbool.h>
 
 	#include "a4910.h"
-	#include "Drivers\adc\adc_drv.h"
+	#include "adc_drv.h"
 	#include "Drivers\dac\dac_drv.h"
 	#include "Drivers\psc\psc_drv.h"
 	#include "Drivers\pll\pll_drv.h"
