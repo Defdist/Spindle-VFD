@@ -13,7 +13,9 @@
 
 //_____  I N C L U D E S ___________________________________________________
 
-#include "grBLDC.h"
+#include "compiler.h"
+#include "iopwm324.h"
+#include "inavr.h"
 
 #ifndef _ADC_CONFIG_H_
 	#define _ADC_CONFIG_H_
