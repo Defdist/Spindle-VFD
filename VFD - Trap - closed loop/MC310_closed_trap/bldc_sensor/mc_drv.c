@@ -320,20 +320,20 @@ void mc_ADC_Scheduler(void)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Disable overcurrent detection during startup (inrush current)
-void mc_disableOvercurrentDuringStartup(void)
-{
-  inrush_delay = (uint16_t) 500;
-  inrush_mask_flag = TRUE;
+// //Disable overcurrent detection during startup (inrush current)
+// void mc_disableOvercurrentDuringStartup(void)
+// {
+//   inrush_delay = (uint16_t) 500;
+//   inrush_mask_flag = TRUE;
   
-  //disable over current
-  Psc_config_input_1(PSC_OVERLAP_ENABLE,\
-                     PSC_USE_COMPARATOR,\
-                     PSC_USE_HIGH_LEVEL,\
-                     PSC_INPUT_FILTER_ENABLE,\
-                     PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
-                     PSC_INPUT_NO_ACTION);
-}
+//   //disable over current
+//   Psc_config_input_1(PSC_OVERLAP_ENABLE,\
+//                      PSC_USE_COMPARATOR,\
+//                      PSC_USE_HIGH_LEVEL,\
+//                      PSC_INPUT_FILTER_ENABLE,\
+//                      PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
+//                      PSC_INPUT_NO_ACTION);
+// }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 

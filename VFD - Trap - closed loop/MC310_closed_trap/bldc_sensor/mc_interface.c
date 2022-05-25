@@ -17,7 +17,7 @@ void mci_motor_run(void)
   motorStatus = RUNNING;
   psc_setDutyCycle( pid_dutyCycle_calculate() );
   mc_commutateFETs( hall_getPosition() ); //also occurs in ISR each time Hall state changes
-  mc_disableOvercurrentDuringStartup(); //JTS2doLater: Configure overcurrent
+  //mc_disableOvercurrentDuringStartup(); //JTS2doLater: Configure overcurrent
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

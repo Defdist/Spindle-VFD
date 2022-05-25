@@ -158,7 +158,7 @@
     uint8_t mc_Get_Potentiometer(void);
 
     // Over Current Detection
-    void mc_disableOvercurrentDuringStartup(void);
+    //void mc_disableOvercurrentDuringStartup(void); //JTS2doLater
     void mc_inrush_task(void); /* manage the inrush current */
 
 #endif
