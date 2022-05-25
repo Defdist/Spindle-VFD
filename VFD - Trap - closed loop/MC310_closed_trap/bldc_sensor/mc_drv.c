@@ -337,38 +337,38 @@ void mc_ADC_Scheduler(void)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-//manage delay when the overcurrent detection is disabled
-void mc_inrush_task(void)
-{ 
-  if (inrush_mask_flag == TRUE)
-  {
-    if (inrush_delay-- == 0)
-    {
-        inrush_mask_flag = FALSE;
-      
-        //enable over current
-        Psc_config_input_1(PSC_OVERLAP_ENABLE,\
-                        PSC_USE_COMPARATOR,\
-                        PSC_USE_HIGH_LEVEL,\
-                        PSC_INPUT_FILTER_ENABLE,\
-                        PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
-                        PSC_INPUT_HALT);
-    }
-  }
-}
-
-// Overcurrent detection
-#ifdef __GNUC__
-  ISR(PSC_FAULT_vect)
-#else
-#pragma vector = PSC_FAULT_vect
-__interrupt void mc_overcurrent_detect(void)
-#endif
-{
-  PIFR = (1<<PEV1); // clear the interrupt
-  overcurrent = TRUE;
-  mci_motor_stop();
-}
+////manage delay when the overcurrent detection is disabled
+//void mc_inrush_task(void)
+//{ 
+  //if (inrush_mask_flag == TRUE)
+  //{
+    //if (inrush_delay-- == 0)
+    //{
+        //inrush_mask_flag = FALSE;
+      //
+        ////enable over current
+        //Psc_config_input_1(PSC_OVERLAP_ENABLE,\
+                        //PSC_USE_COMPARATOR,\
+                        //PSC_USE_HIGH_LEVEL,\
+                        //PSC_INPUT_FILTER_ENABLE,\
+                        //PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
+                        //PSC_INPUT_HALT);
+    //}
+  //}
+//}
+//
+//// Overcurrent detection
+//#ifdef __GNUC__
+  //ISR(PSC_FAULT_vect)
+//#else
+//#pragma vector = PSC_FAULT_vect
+//__interrupt void mc_overcurrent_detect(void)
+//#endif
+//{
+  //PIFR = (1<<PEV1); // clear the interrupt
+  //overcurrent = TRUE;
+  //mci_motor_stop();
+//}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
