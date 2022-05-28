@@ -11,6 +11,12 @@
 #ifndef a4910_h
 	#define a4910_h
 	
+	#define BLDC_ENABLE_PORT PORTB
+	#define BLDC_ENABLE_DDR DDRB
+	#define BLDC_ENABLE_PIN PINB
+	#define BLDC_ENABLE_BIT 4 //PB4
+	#define BLDC_ENABLE_MASK (1<<BLDC_ENABLE_BIT)
+	
 	void A4910pinPB4_reset_Init(void);
 	void A4910pinPB4_reset_Toggle(void);
 	void A4910pinPB4_reset_Set(void);

@@ -38,6 +38,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../a4910.c \
+../adc_drv.c \
 ../hall.c \
 ../main.c \
 ../mc_drv.c \
@@ -53,6 +54,7 @@ ASM_SRCS +=
 
 OBJS +=  \
 a4910.o \
+adc_drv.o \
 hall.o \
 main.o \
 mc_drv.o \
@@ -61,6 +63,7 @@ pid.o
 
 OBJS_AS_ARGS +=  \
 a4910.o \
+adc_drv.o \
 hall.o \
 main.o \
 mc_drv.o \
@@ -69,6 +72,7 @@ pid.o
 
 C_DEPS +=  \
 a4910.d \
+adc_drv.d \
 hall.d \
 main.d \
 mc_drv.d \
@@ -77,6 +81,7 @@ pid.d
 
 C_DEPS_AS_ARGS +=  \
 a4910.d \
+adc_drv.d \
 hall.d \
 main.d \
 mc_drv.d \
@@ -98,6 +103,13 @@ LINKER_SCRIPT_DEP+=
 
 # AVR32/GNU C Compiler
 ./a4910.o: .././a4910.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\include" -I"../../Drivers" -I"../conf" -I".." -I"../uart"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32m1 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\gcc\dev\atmega32m1" -c -gdwarf-2 -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./adc_drv.o: .././adc_drv.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\include" -I"../../Drivers" -I"../conf" -I".." -I"../uart"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32m1 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\gcc\dev\atmega32m1" -c -gdwarf-2 -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

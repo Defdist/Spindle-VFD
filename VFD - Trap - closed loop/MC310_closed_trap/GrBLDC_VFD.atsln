@@ -10,13 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Drivers", "Drivers", "{19E0
 		bldc_sensor\Drivers\iom32m1.h = bldc_sensor\Drivers\iom32m1.h
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adc", "adc", "{F01FFF5E-4639-46EA-B3FA-0438AEA12825}"
-	ProjectSection(SolutionItems) = preProject
-		bldc_sensor\Drivers\adc\adc_config.h = bldc_sensor\Drivers\adc\adc_config.h
-		bldc_sensor\Drivers\adc\adc_drv.c = bldc_sensor\Drivers\adc\adc_drv.c
-		bldc_sensor\Drivers\adc\adc_drv.h = bldc_sensor\Drivers\adc\adc_drv.h
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "comparator", "comparator", "{10BE8BBC-369A-43C6-9881-B828158BD6DF}"
 	ProjectSection(SolutionItems) = preProject
 		bldc_sensor\Drivers\comparator\comparator_drv.c = bldc_sensor\Drivers\comparator\comparator_drv.c
@@ -52,7 +45,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F01FFF5E-4639-46EA-B3FA-0438AEA12825} = {19E01692-1701-4CDC-A205-97ABB3047F99}
 		{10BE8BBC-369A-43C6-9881-B828158BD6DF} = {19E01692-1701-4CDC-A205-97ABB3047F99}
 		{38D7EE9A-2A6D-45C9-A47F-2EB728B3E879} = {19E01692-1701-4CDC-A205-97ABB3047F99}
 		{BBE8A093-ACE4-46D8-872A-B06661F1DDB4} = {19E01692-1701-4CDC-A205-97ABB3047F99}

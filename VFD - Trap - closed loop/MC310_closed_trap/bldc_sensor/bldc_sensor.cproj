@@ -108,6 +108,12 @@
     <Compile Include="a4910.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="adc_drv.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="adc_drv.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>

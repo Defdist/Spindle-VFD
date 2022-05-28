@@ -4,6 +4,8 @@
 
 a4910.c
 
+adc_drv.c
+
 hall.c
 
 main.c
