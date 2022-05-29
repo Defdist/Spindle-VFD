@@ -12,13 +12,13 @@ int main(void)
   mci_motor_run();
   
   while(1)
-  {
+  {	  
     if (g_tick == TRUE) // Timer 1 generates an interrupt (which sets g_tick) every 256us
     {
       g_tick = FALSE;
       mc_ADC_Scheduler(); // Get Current or potentiometer value
       g_regulation_period += 1;
-	  
+	    
       if(g_regulation_period >= 40) //n * 256us = Te
       {
         g_regulation_period = 0;

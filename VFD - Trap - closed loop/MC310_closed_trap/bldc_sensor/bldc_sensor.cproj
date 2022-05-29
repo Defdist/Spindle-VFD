@@ -147,6 +147,12 @@
     <Compile Include="pid.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="supervisor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="supervisor.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="bldc_sensor.componentinfo.xml">

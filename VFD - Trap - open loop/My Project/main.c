@@ -8,6 +8,12 @@ FUSES = { //set 32M1's fuses.  //Requires avr/io.h
 	.extended = 0xFF
 };
 
+#define SLOWDOWN_PORT PORTC
+#define SLOWDOWN_DDR DDRC
+#define SLOWDOWN_PIN PINC
+#define SLOWDOWN_BIT 3
+#define SLOWDOWN_MASK (1<<SLOWDOWN_BIT)
+
 #define BLDC_ENABLE_PORT PORTB
 #define BLDC_ENABLE_DDR DDRB
 #define BLDC_ENABLE_PIN PINB
@@ -73,7 +79,6 @@ FUSES = { //set 32M1's fuses.  //Requires avr/io.h
 #define FET_PORTB_MASK ( (1<<FET_C_HIGH_BIT) | (1<<FET_A_LOW_BIT) | (1<<FET_B_LOW_BIT) | (1<<FET_C_LOW_BIT) )
 #define FET_PORTC_MASK (1<<FET_B_HIGH_BIT)
 #define FET_PORTD_MASK (1<<FET_A_HIGH_BIT)
-
 
 void hall_init()
 {
@@ -263,6 +268,8 @@ int main(void)
 	//adc_select_channel(ADC_CHANNEL_goalRPM); // will need to specify if more than one ADC channel monitored
 
 	while (1) {
+		setPC3_high(); //debug
+		
 		uint8_t ai_result = adc_read_latest();
 		uint8_t counter_latest = TCNT0 + 1; //count from 1 to 128
 		
@@ -275,6 +282,7 @@ int main(void)
 			}	
 		} 
 		
+		setPC3_low(); //debug
 		
 		//ai_result_delayed = scale_adc_pwm(ai_result_delayed); //LUT hack to spoof GG2 spindle RPM behavior 
 		
@@ -314,4 +322,5 @@ int main(void)
 			}
 		}
 	}
+	
 }
