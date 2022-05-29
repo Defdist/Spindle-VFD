@@ -16,9 +16,6 @@
     void hall_measuredRPM_set(uint8_t measured_speed);
 	uint8_t hall_measuredRPM_get(void);
 
-	void hall_desiredRPM_set(uint8_t speed);
-	uint8_t hall_desiredRPM_get(void);
-
 	uint8_t hall_goalRPM_get(void);
 	void hall_goalRPM_set(uint8_t potentiometer);
 

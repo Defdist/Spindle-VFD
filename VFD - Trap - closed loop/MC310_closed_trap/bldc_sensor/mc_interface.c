@@ -51,6 +51,6 @@ void mc_motor_init()
 
   mci_motor_stop();
   mci_motorDirection_set(CW);
-  hall_desiredRPM_set(0);
+  hall_goalRPM_set(0);
   hall_measuredRPM_set(0);
 }

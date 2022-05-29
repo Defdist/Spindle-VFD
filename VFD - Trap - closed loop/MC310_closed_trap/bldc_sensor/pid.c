@@ -50,7 +50,7 @@ uint8_t pid_dutyCycle_calculate(void)
 {
   int32_t summedPID = 0;
 
-  uint8_t desiredSpeed = 2 * hall_desiredRPM_get();
+  uint8_t desiredSpeed = 2 * hall_goalRPM_get();
 
   int16_t speedError = desiredSpeed - hall_measuredRPM_get();// value -255 <=> 255
 

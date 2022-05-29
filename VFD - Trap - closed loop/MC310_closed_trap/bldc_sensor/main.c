@@ -23,9 +23,11 @@ int main(void)
       {
         g_regulation_period = 0;
 
-        hall_desiredRPM_set( hall_goalRPM_get() );
         pid_dutyCycle_calculate();
       }
+
+      if( hall_goalRPM_get > 127 ) { setPC3_high(); }
+      else                         { setPC3_low(); }
 
       psc_setDutyCycle( pid_dutyCycle_get() );
       
