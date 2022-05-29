@@ -141,6 +141,10 @@
     #define FREE  0
     #define BUSY  1
 
+	//g_tick
+	uint8_t mc_drv_g_tick_get(void);
+	void mc_drv_g_tick_set(uint8_t state);
+	
     // Hardware initialization
     void mc_motor_init_HW(void);
     void PSC_Init (void);

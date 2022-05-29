@@ -5,7 +5,6 @@
 //JTS2doNow: T0 is 8 bits, while T1 is 16 bits.  Swap T0<->T1.
 static uint8_t ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits timer with 8 bits timer
 
-uint8_t motorSpeed_desired = 0;
 uint8_t goalRPM_ADC_value = 0;//!<Motor Input to set the motor speed
 
 uint8_t motorSpeed_measured = 0;

@@ -75,8 +75,8 @@
     #define FAST_DECAY_SYNCHRONOUS 3 // ATmega64M1 only
 
     //! @brief  Select here the current decay type for the application
-    //#define CURRENT_DECAY SLOW_DECAY
-    #define CURRENT_DECAY FAST_DECAY
+    #define CURRENT_DECAY SLOW_DECAY
+    //#define CURRENT_DECAY FAST_DECAY
     //#define CURRENT_DECAY SLOW_DECAY_SYNCHRONOUS
     //#define CURRENT_DECAY FAST_DECAY_SYNCHRONOUS // ATmega64M1 only
 

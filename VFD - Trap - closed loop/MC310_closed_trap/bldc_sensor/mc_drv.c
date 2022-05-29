@@ -18,12 +18,16 @@ static char ADC_hardwareStatus = FREE;  // ADC State //running = BUSY //not runn
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+uint8_t mc_drv_g_tick_get(void) { return g_tick; }
+void mc_drv_g_tick_set(uint8_t state) { g_tick = state; }
+
+////////////////////////////////////////////////////////////////////////////////////////
+
 /******************************************************************************/
 /******************************************************************************/
 /*        Hardware Initialization                                             */
 /******************************************************************************/
 /******************************************************************************/
-
 
 //! @brief mc_motor_init_HW : Hardware Initialization
 //! @post initialization of hardware
@@ -151,11 +155,8 @@ void PSC_Init (void)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Set the duty cycle values in the PSC according to the value calculate by the regulation loop
-void psc_setDutyCycle(uint8_t level)
+void psc_setDutyCycle(uint8_t duty)
 {
-  uint8_t duty;
-  duty = level;
-
   #if ((CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)||(CURRENT_DECAY == FAST_DECAY_SYNCHRONOUS))
     uint8_t dutydt;   /* duty with dead time */
     if (duty >= DEADTIME) {dutydt = duty - DEADTIME;}
@@ -257,7 +258,7 @@ void mc_motor_init_timer1(void)  //JTS2doNow: swap with counter 0, which uses so
 */
 ISR(TIMER1_COMPA_vect) //main tick //timer configured in mc_motor_init_timer1()
 {
-  g_tick = TRUE;
+  mc_drv_g_tick_set(TRUE);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -274,16 +275,21 @@ ISR(TIMER1_COMPA_vect) //main tick //timer configured in mc_motor_init_timer1()
 
 ISR(ADC_vect)
 {
+  setPC3_high();
   Adc_select_channel(ADC_INPUT_GND); /* release the amplified channel */
-  if(ADC_stateMachine == ADC_MEASURE_REQUESTED_RPM) hall_goalRPM_set(Adc_get_8_bits_result());
-  if(ADC_stateMachine == ADC_MEASURE_CURRENT) mci_motor_measuredCurrent_integrate(Adc_get_10_bits_result());
+  if(ADC_stateMachine == ADC_MEASURE_REQUESTED_RPM) { hall_goalRPM_set(Adc_get_8_bits_result()); }
+  if(ADC_stateMachine == ADC_MEASURE_CURRENT) { mci_motor_measuredCurrent_integrate(Adc_get_10_bits_result()); }
   ADC_hardwareStatus = FREE;
+  	setPC3_low();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+//JTS2doNow: Move to adc.c
 void mc_ADC_Scheduler(void)
 {
+  setPD3_high();
+  	
   switch(ADC_stateMachine)
   {
   case ADC_UNITIALIZED:
@@ -314,6 +320,7 @@ void mc_ADC_Scheduler(void)
     }
     break;
   }
+  setPD3_low();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

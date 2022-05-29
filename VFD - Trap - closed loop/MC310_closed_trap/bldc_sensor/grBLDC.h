@@ -29,6 +29,7 @@
 	#include "pid.h"
 	#include "mc_drv.h"
 	#include "mc_interface.h"
+	#include "supervisor.h"
 
 	#define TRUE 1
 	#define FALSE 0
