@@ -180,24 +180,28 @@ void psc_setDutyCycle(uint8_t duty)
   //SA_VAL: When PSC counter is less    than this value, high FET is enabled
   //SB_VAL: When PSC counter is greater than this value, low  FET is enabled
   //The difference between SA and SB sets the dead time between phases 
+  
   //RA_VAL: Not used in centered mode //can be used to synchronize ADC
   //RB_VAL: Not used in centered mode
+  
   //Psc_set_module_n(A_SA_VAL, A_RA_VAL, A_SB_VAL);
+
+  //while all six PSC phases are chopping simultaneously, only two phases are routed to output pins at the same time //see mc_commutateFETs()
   #if (CURRENT_DECAY == FAST_DECAY)
     Psc_set_module_A(duty,A_RA_VAL,duty);
     Psc_set_module_B(duty,B_RA_VAL,duty);
     Psc_set_module_C(duty,C_RA_VAL,duty);
-  #else
-  #if(CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)
+
+  #elif (CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)
     Psc_set_module_A(duty,A_RA_VAL,dutydt);
     Psc_set_module_B(duty,B_RA_VAL,dutydt);
     Psc_set_module_C(duty,C_RA_VAL,dutydt);
-  #else
+
+  #else //SLOW_DECAY
     Psc_set_module_A(duty,A_RA_VAL,0);
     Psc_set_module_B(duty,B_RA_VAL,0);
     Psc_set_module_C(duty,C_RA_VAL,0);
   #endif
-#endif
    
   Psc_unlock();
 }
@@ -212,7 +216,7 @@ void mc_commutateFETs(uint8_t hallState)
     {
       psc_setDutyCycle( pid_dutyCycle_get() );
 
-      if(mci_motorDirection_get() == CCW)
+      if(mci_motorDirection_get() == CCW) //JTS2doNow: Sample direction pin (PB3) to determine spindle direction
       {
           switch(hallState)
           {
