@@ -268,8 +268,6 @@ int main(void)
 	//adc_select_channel(ADC_CHANNEL_goalRPM); // will need to specify if more than one ADC channel monitored
 
 	while (1) {
-		setPC3_high(); //debug
-		
 		uint8_t ai_result = adc_read_latest();
 		uint8_t counter_latest = TCNT0 + 1; //count from 1 to 128
 		
@@ -281,8 +279,6 @@ int main(void)
 				if ( (ai_result < ai_result_delayed) && (ai_result_delayed > 0  ) ) { ai_result_delayed--; } //new rpm less    than old
 			}	
 		} 
-		
-		setPC3_low(); //debug
 		
 		//ai_result_delayed = scale_adc_pwm(ai_result_delayed); //LUT hack to spoof GG2 spindle RPM behavior 
 		

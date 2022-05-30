@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 0000117a  00000000  00000000  000024e0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000e2c  00000000  00000000  0000365a  2**0
+  8 .debug_line   00000e1a  00000000  00000000  0000365a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000048c  00000000  00000000  00004488  2**2
+  9 .debug_frame  0000048c  00000000  00000000  00004474  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000abf  00000000  00000000  00004914  2**0
+ 10 .debug_str    00000abf  00000000  00000000  00004900  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000005b4  00000000  00000000  000053d3  2**0
+ 11 .debug_loc    000005b4  00000000  00000000  000053bf  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000001b0  00000000  00000000  00005987  2**0
+ 12 .debug_ranges 000001b0  00000000  00000000  00005973  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -890,7 +890,7 @@ ISR(ADC_vect)
   ADC_hardwareStatus = FREE;
  4b8:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <ADC_hardwareStatus>
   	setPC3_low();
- 4bc:	0e 94 ac 03 	call	0x758	; 0x758 <setPC3_low>
+ 4bc:	0e 94 af 03 	call	0x75e	; 0x75e <setPC3_low>
 }
  4c0:	ff 91       	pop	r31
  4c2:	ef 91       	pop	r30
@@ -917,7 +917,7 @@ ISR(ADC_vect)
 void mc_ADC_Scheduler(void)
 {
   setPD3_high();
- 4e2:	0e 94 ae 03 	call	0x75c	; 0x75c <setPD3_high>
+ 4e2:	0e 94 ac 03 	call	0x758	; 0x758 <setPD3_high>
   	
   switch(ADC_stateMachine)
  4e6:	80 91 09 01 	lds	r24, 0x0109	; 0x800109 <ADC_stateMachine>
@@ -1135,7 +1135,7 @@ uint16_t mci_motor_measuredCurrent_get(void) { return (mci_measured_current >> 6
  618:	08 95       	ret
 
 0000061a <mci_motorDirection_get>:
- 61a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 61a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
  61e:	08 95       	ret
 
 00000620 <mci_motor_measuredCurrent_integrate>:
@@ -1197,7 +1197,7 @@ void mci_motor_stop(void) { motorStatus = STOPPED; }
 //JTS2doNow: If direction_now != direction_previous, need to stop motor first, then spin other way.
 void mci_motorDirection_set(uint8_t direction) { (direction == CCW) ? (motorDirection = CCW) : (motorDirection = CW); }
  67a:	82 e0       	ldi	r24, 0x02	; 2
- 67c:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 67c:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
   mc_motor_init_HW();
   sei(); //enable interrupts
 
@@ -1332,40 +1332,26 @@ uint8_t pid_dutyCycle_calculate(void)
 00000752 <setPC3_high>:
 #include "grBLDC.h"
 
-void setPC3_high(void)
-{
-	SLOWDOWN_DDR |= SLOWDOWN_MASK;
+void setPC3_high(void) { SLOWDOWN_DDR |= SLOWDOWN_MASK; SLOWDOWN_PORT |= SLOWDOWN_MASK; }
  752:	3b 9a       	sbi	0x07, 3	; 7
-	SLOWDOWN_PORT |= SLOWDOWN_MASK;
  754:	43 9a       	sbi	0x08, 3	; 8
  756:	08 95       	ret
 
-00000758 <setPC3_low>:
-}
+00000758 <setPD3_high>:
 
-void setPC3_low(void)
-{
-	SLOWDOWN_PORT &= ~(SLOWDOWN_MASK);
- 758:	43 98       	cbi	0x08, 3	; 8
- 75a:	08 95       	ret
+void setPD3_high(void) { PD3_DDR |= PD3_MASK; PD3_PORT |= PD3_MASK; }
+ 758:	53 9a       	sbi	0x0a, 3	; 10
+ 75a:	5b 9a       	sbi	0x0b, 3	; 11
+ 75c:	08 95       	ret
 
-0000075c <setPD3_high>:
-}
+0000075e <setPC3_low>:
 
-void setPD3_high(void)
-{
-	PD3_DDR |= PD3_MASK;
- 75c:	53 9a       	sbi	0x0a, 3	; 10
-	PD3_PORT |= PD3_MASK; 
- 75e:	5b 9a       	sbi	0x0b, 3	; 11
+void setPC3_low(void) { SLOWDOWN_PORT &= ~(SLOWDOWN_MASK); }
+ 75e:	43 98       	cbi	0x08, 3	; 8
  760:	08 95       	ret
 
 00000762 <setPD3_low>:
-}
 
-void setPD3_low(void)
-{
-	PD3_PORT &= ~(PD3_MASK);
  762:	5b 98       	cbi	0x0b, 3	; 11
  764:	08 95       	ret
 

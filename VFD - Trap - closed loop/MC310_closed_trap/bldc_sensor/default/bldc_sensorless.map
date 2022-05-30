@@ -506,12 +506,12 @@ END GROUP
  .text.setPC3_high
                 0x00000752        0x6 supervisor.o
                 0x00000752                setPC3_high
- .text.setPC3_low
-                0x00000758        0x4 supervisor.o
-                0x00000758                setPC3_low
  .text.setPD3_high
-                0x0000075c        0x6 supervisor.o
-                0x0000075c                setPD3_high
+                0x00000758        0x6 supervisor.o
+                0x00000758                setPD3_high
+ .text.setPC3_low
+                0x0000075e        0x4 supervisor.o
+                0x0000075e                setPC3_low
  .text.setPD3_low
                 0x00000762        0x4 supervisor.o
                 0x00000762                setPD3_low
@@ -737,7 +737,7 @@ END GROUP
  .debug_abbrev  0x00000fdb      0x14e pid.o
  .debug_abbrev  0x00001129       0x51 supervisor.o
 
-.debug_line     0x00000000      0xe2c
+.debug_line     0x00000000      0xe1a
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x151 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
  .debug_line    0x00000151      0x108 a4910.o
@@ -747,7 +747,7 @@ END GROUP
  .debug_line    0x0000063c      0x3de mc_drv.o
  .debug_line    0x00000a1a      0x1af mc_interface.o
  .debug_line    0x00000bc9      0x170 pid.o
- .debug_line    0x00000d39       0xf3 supervisor.o
+ .debug_line    0x00000d39       0xe1 supervisor.o
 
 .debug_frame    0x00000000      0x48c
  *(.debug_frame)
