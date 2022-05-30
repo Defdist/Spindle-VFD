@@ -1,104 +1,60 @@
 #ifndef _MC_DRV_H_
-    #define _MC_DRV_H_
-
-    #define Clear_Port_Q2() 
-    #define Set_Port_Q2()   (PORTB |=   (1<<PORTB1))
-    #define Set_Port_Q4()   (PORTB |=   (1<<PORTB6))
-    #define Set_Port_Q6()   (PORTB |=   (1<<PORTB7))
+  #define _MC_DRV_H_
 
   void turnOffAllFETs(void);
 
+  //////////////////////////////////////////////////////////////////////
+
+  //PORTD0: FET Q1
+  //PORTB7: FET Q2
+  //PORTC0: FET Q3
+  //PORTB6: FET Q4
+  //PORTB0: FET Q5
+  //PORTB1: FET Q6
+
+  //Select which two FETs are connected to the PSC output timers (the other four phases are disconnected in trapezoidal mode)
     #if (CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)
         #define Set_Q5Q4()                \
-          PORTB &= ( ~((1<<PORTB1)|(1<<PORTB7)));\
+          PORTB &= ( ~((1<<PORTB1)|(1<<PORTB7)));\ //Q6 & Q2 turned off
+          POC = (0<<POEN0A)|(0<<POEN0B)|\ //PhaseU highFET/lowFET //0:pins disconnected from PSC //1:connected to PSC outputs
+                (0<<POEN1A)|(0<<POEN1B)|\ //PhaseV
+                (1<<POEN2A)|(1<<POEN2B);\ //PhaseW
+          PORTB |=   (1<<PORTB6); //Q4 turned on
+
+        #define Set_Q5Q2()                \
+          PORTB &= ( ~((1<<PORTB1)|(1<<PORTB6)));\ //Q6 & Q4 turned off
           POC = (0<<POEN0A)|(0<<POEN0B)|\
                 (0<<POEN1A)|(0<<POEN1B)|\
                 (1<<POEN2A)|(1<<POEN2B);\
-          PORTB |=   (1<<PORTB6);
-
-        #define Set_Q5Q2()                \
-          PORTB &= ( ~((1<<PORTB1)|(1<<PORTB6)));\
-          POC = (0<<POEN0A)|(0<<POEN0B)|\
-                (0<<POEN1A)|(0<<POEN1B)|\
-                (1<<POEN2A)|(1<<POEN2B);\
-          PORTB |=   (1<<PORTB7);
+          PORTB |=   (1<<PORTB7); //Q2 turned on
 
         #define Set_Q3Q6()                \
-          PORTB &= ( ~((1<<PORTB6)|(1<<PORTB7)));\
+          PORTB &= ( ~((1<<PORTB6)|(1<<PORTB7)));\ //Q4 & Q2 turned off
           POC = (0<<POEN0A)|(0<<POEN0B)|\
                 (1<<POEN1A)|(1<<POEN1B)|\
                 (0<<POEN2A)|(0<<POEN2B);\
-          PORTB |=   (1<<PORTB1);
+          PORTB |=   (1<<PORTB1); //Q6 turned on
 
         #define Set_Q3Q2()                \
-          PORTB &= ( ~((1<<PORTB1)|(1<<PORTB6)));\
+          PORTB &= ( ~((1<<PORTB1)|(1<<PORTB6)));\ //Q6 & Q4 turned off
           POC = (0<<POEN0A)|(0<<POEN0B)|\
                 (1<<POEN1A)|(1<<POEN1B)|\
                 (0<<POEN2A)|(0<<POEN2B);\
-          PORTB |=   (1<<PORTB7);
+          PORTB |=   (1<<PORTB7); //Q2 turned on
 
         #define Set_Q1Q6()                \
-          PORTB &= ( ~((1<<PORTB6)|(1<<PORTB7)));\
+          PORTB &= ( ~((1<<PORTB6)|(1<<PORTB7)));\ //Q4 & Q2 turned off
           POC = (1<<POEN0A)|(1<<POEN0B)|\
                 (0<<POEN1A)|(0<<POEN1B)|\
                 (0<<POEN2A)|(0<<POEN2B);\
-          PORTB |=   (1<<PORTB1);
+          PORTB |=   (1<<PORTB1);//Q6 turned on
 
         #define Set_Q1Q4()                \
-          PORTB &= ( ~((1<<PORTB1)|(1<<PORTB7)));\
+          PORTB &= ( ~((1<<PORTB1)|(1<<PORTB7)));\ //Q6 & Q2 turned off
           POC = (1<<POEN0A)|(1<<POEN0B)|\
                 (0<<POEN1A)|(0<<POEN1B)|\
                 (0<<POEN2A)|(0<<POEN2B);\
-          PORTB |=   (1<<PORTB6);
-
-    #elif (CURRENT_DECAY == FAST_DECAY_SYNCHRONOUS)
-        #define Set_Q5Q4()                \
-          POC=0;\
-          PCTL =  (PCTL&~((1<<PSWAP2)|(1<<PSWAP1)|(1<<PSWAP0)))\
-                       | ((0<<PSWAP2)|(1<<PSWAP1)|(0<<PSWAP0));\
-          POC = (0<<POEN0A)|(0<<POEN0B)|\
-                (1<<POEN1A)|(1<<POEN1B)|\
-                (1<<POEN2A)|(1<<POEN2B);
-
-        #define Set_Q5Q2()                \
-          POC=0;\
-          PCTL =  (PCTL&~((1<<PSWAP2)|(1<<PSWAP1)|(1<<PSWAP0)))\
-                       | ((0<<PSWAP2)|(0<<PSWAP1)|(1<<PSWAP0));\
-          POC = (1<<POEN0A)|(1<<POEN0B)|\
-                (0<<POEN1A)|(0<<POEN1B)|\
-                (1<<POEN2A)|(1<<POEN2B);
-
-        #define Set_Q3Q6()                \
-          POC=0;\
-          PCTL =  (PCTL&~((1<<PSWAP2)|(1<<PSWAP1)|(1<<PSWAP0)))\
-                       | ((1<<PSWAP2)|(0<<PSWAP1)|(0<<PSWAP0));\
-          POC = (0<<POEN0A)|(0<<POEN0B)|\
-                (1<<POEN1A)|(1<<POEN1B)|\
-                (1<<POEN2A)|(1<<POEN2B);
-
-        #define Set_Q3Q2()                \
-          POC=0;\
-          PCTL =  (PCTL&~((1<<PSWAP2)|(1<<PSWAP1)|(1<<PSWAP0)))\
-                       | ((0<<PSWAP2)|(0<<PSWAP1)|(1<<PSWAP0));\
-          POC = (1<<POEN0A)|(1<<POEN0B)|\
-                (1<<POEN1A)|(1<<POEN1B)|\
-                (0<<POEN2A)|(0<<POEN2B);
-
-        #define Set_Q1Q6()                \
-          POC=0;\
-          PCTL =  (PCTL&~((1<<PSWAP2)|(1<<PSWAP1)|(1<<PSWAP0)))\
-                       | ((1<<PSWAP2)|(0<<PSWAP1)|(0<<PSWAP0));\
-          POC = (1<<POEN0A)|(1<<POEN0B)|\
-                (0<<POEN1A)|(0<<POEN1B)|\
-                (1<<POEN2A)|(1<<POEN2B);
-
-        #define Set_Q1Q4()                \
-          POC=0;\
-          PCTL =  (PCTL&~((1<<PSWAP2)|(1<<PSWAP1)|(1<<PSWAP0)))\
-                       | ((0<<PSWAP2)|(1<<PSWAP1)|(0<<PSWAP0));\
-          POC = (1<<POEN0A)|(1<<POEN0B)|\
-                (1<<POEN1A)|(1<<POEN1B)|\
-                (0<<POEN2A)|(0<<POEN2B);
+          PORTB |=   (1<<PORTB6);//Q4 turned on
 
     #else 
         // *** then SLOW_DECAY or FAST_DECAY

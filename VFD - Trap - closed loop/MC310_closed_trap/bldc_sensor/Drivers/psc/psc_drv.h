@@ -99,9 +99,9 @@
       //! set all enable in POC register
       //! @{
 #define Psc_run() \
-   PCTL = (PSC_PRESCALER<<PPRE0)| \
-          (PSC_CLOCK_SOURCE<<PCLKSEL)| \
- 		    (0<<PCCYC)| \
+   PCTL = (PSC_PRESCALER<<PPRE0)| \ //PSC input clock division factor //00:DIV1 //01:DIV4 //10:DIV32 //11:DIV256
+          (PSC_CLOCK_SOURCE<<PCLKSEL)| \ //PSC input clock source //0:CLK_IO //1:CLK_PLL
+ 		    (0<<PCCYC)| \ //0:PSC halts immediately when PRUN=0 //1:PSC completes cycle before halting
           (1<<PRUN); /* RUN !! */
       //! @}
 
@@ -129,17 +129,17 @@
       //! set all enable in POC register
       //! @{
 #define Psc_config() \
-   PCNF = (0<<PULOCK)| \
-          (PSC_MODE<<PMODE)| \
-          (PSC_OUTPUT_B_POLARITY<<POPB)| \
-          (PSC_OUTPUT_A_POLARITY<<POPA); 
+   PCNF = (0<<PULOCK)| \ //previously written PSC register values can now affect output 
+          (PSC_MODE<<PMODE)| \ //1: center-aligned mode /0: ramp mode
+          (PSC_OUTPUT_B_POLARITY<<POPB)| \ //0: outputs are active low //1: outputs are active high
+          (PSC_OUTPUT_A_POLARITY<<POPA);   //0: outputs are active low //1: outputs are active high
       //! @}
 
       //! @defgroup PSC_lock lock the update of duty registers
       //! unauthorize the update of PSC registers
       //! @{
 #define Psc_lock() \
-   PCNF = (1<<PULOCK)| \
+   PCNF = (1<<PULOCK)| \ //PSC registers ignored until unlocked
           (PSC_MODE<<PMODE)| \
           (PSC_OUTPUT_B_POLARITY<<POPB)| \
           (PSC_OUTPUT_A_POLARITY<<POPA); 
@@ -149,7 +149,7 @@
       //! authorize the update of PSC registers
       //! @{
 #define Psc_unlock() \
-   PCNF = (0<<PULOCK)| \
+   PCNF = (0<<PULOCK)| \ //PSC registers unlocked
           (PSC_MODE<<PMODE)| \
           (PSC_OUTPUT_B_POLARITY<<POPB)| \
           (PSC_OUTPUT_A_POLARITY<<POPA); 
@@ -159,12 +159,17 @@
       //! authorize the update of PSC registers
       //! @{
 #define Psc_config_input_0(v1,v2,v3,v4,v5,v6)\
-   PMIC0 = ((v1)<<POVEN0)| \
-           ((v2)<<PISEL0)| \
-           ((v3)<<PELEV0)| \
-           ((v4)<<PFLTE0)| \
-           ((v5)<<PAOC0)| \
-           ((v6)<<PRFM00);
+   PMIC0 = ((v1)<<POVEN0)| \ //0: Overlap Protection enabled //1: Deactivate A&B phase Overlap Protection
+           ((v2)<<PISEL0)| \ //0: PSCIN0 is module 0 input //1: Comparator 0 output is module 0 input
+           ((v3)<<PELEV0)| \ //0: low level on PISEL0 pin generates interrupt //1: high level generates interrupt
+           ((v4)<<PFLTE0)| \ //0: noise canceller disabled //1: noise canceller enabled (input delayed four cycles)
+           ((v5)<<PAOC0)|  \ //0: fault input acts directly on PSC module 0 outputs //1: fault input clocked
+           ((v6)<<PRFM00);   //0: PSC module 0 input mode
+                                  //000:ignore (no action)
+                                  //0x1:Deactivate 0A
+                                  //01x:Deactivate 0B 
+                                  //10x:Deactivate all PSC outputs (0/1/2)
+                                  //11x:Halt PSC and wait for software
       //! @}
 
       //! @defgroup PSC_config_input_1 configure the PMIC1 register

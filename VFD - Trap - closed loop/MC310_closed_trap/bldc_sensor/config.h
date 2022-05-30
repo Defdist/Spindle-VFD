@@ -1,12 +1,6 @@
 #ifndef _CONFIG_H_
     #define _CONFIG_H_
 
-    #define SOFT_ID 1 /* 0:unknown, 1:bldc sensor, 2:bldc sinus, 3:bldc sensorless */
-    #define REV_ID 1
-
-    /*-------------- UART LIB CONFIGURATION ---------------*/
-
-    #define BAUDRATE      38400
     #define FOSC          16000 //kHz
 
     /* DAC configuration */
@@ -73,17 +67,15 @@
     #define SLOW_DECAY 0
     #define FAST_DECAY 1
     #define SLOW_DECAY_SYNCHRONOUS 2
-    #define FAST_DECAY_SYNCHRONOUS 3 // ATmega64M1 only
 
     //! @brief  Select here the current decay type for the application
     #define CURRENT_DECAY SLOW_DECAY
     //#define CURRENT_DECAY FAST_DECAY
     //#define CURRENT_DECAY SLOW_DECAY_SYNCHRONOUS
-    //#define CURRENT_DECAY FAST_DECAY_SYNCHRONOUS // ATmega64M1 only
 
     #if (CURRENT_DECAY == FAST_DECAY)
         #define PSC_OUTPUT_B_POLARITY PSC_OUTPUT_LOW
-    #else /* SLOW_DECAY or SLOW_DECAY_SYNCHRONOUS or FAST_DECAY_SYNCHRONOUS */
+    #else // SLOW_DECAY or SLOW_DECAY_SYNCHRONOUS
         #define PSC_OUTPUT_B_POLARITY PSC_OUTPUT_HIGH
     #endif
 
