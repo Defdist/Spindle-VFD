@@ -60,14 +60,14 @@
          POCR2SBL = lowByte(sb_val); 
       //! @}
 
-      //! @defgroup PSC_set_register_RB set register RB of PSC
-      //! set all module A values
-      //! @{
-#define Psc_set_register_RB(rb_val) \
-         POCR_RBH = highByte(rb_val); \
-         POCR_RBL = lowByte(rb_val);
-      //! @}
-
+//set PSC POCR_RB register
+//This sets the max value the free-running PSC 12b counter can count up to
+//free-funning PSC 12b counter is clocked by PLL or CPU clock
+//once the free-running counter gets to this value, it either counts back down to zero, or resets to zero (depending on mode)
+#define Psc_set_register_RB(RB_VAL) \
+         POCR_RBH = highByte(RB_VAL); \
+         POCR_RBL = lowByte(RB_VAL);
+    
       //! @defgroup PSC_enable_all_outputs Enable all 6 PSC outputs
       //! set all enable in POC register
       //! @{
