@@ -275,12 +275,10 @@ ISR(TIMER1_COMPA_vect) //main tick //timer configured in mc_motor_init_timer1()
 
 ISR(ADC_vect)
 {
-  setPC3_high();
   Adc_select_channel(ADC_INPUT_GND); /* release the amplified channel */
   if(ADC_stateMachine == ADC_MEASURE_REQUESTED_RPM) { hall_goalRPM_set(Adc_get_8_bits_result()); }
   if(ADC_stateMachine == ADC_MEASURE_CURRENT) { mci_motor_measuredCurrent_integrate(Adc_get_10_bits_result()); }
   ADC_hardwareStatus = FREE;
-  	setPC3_low();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

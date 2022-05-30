@@ -28,44 +28,44 @@
       //! set all module A values
       //! @{
 #define Psc_set_module_A(sa_val,ra_val,sb_val) \
-         POCR0SAH = High(sa_val); \
-         POCR0SAL = Low(sa_val);  \
-         POCR0RAH = High(ra_val); \
-         POCR0RAL = Low(ra_val);  \
-         POCR0SBH = High(sb_val); \
-         POCR0SBL = Low(sb_val); 
+         POCR0SAH = highByte(sa_val); \
+         POCR0SAL = lowByte(sa_val);  \
+         POCR0RAH = highByte(ra_val); \
+         POCR0RAL = lowByte(ra_val);  \
+         POCR0SBH = highByte(sb_val); \
+         POCR0SBL = lowByte(sb_val); 
       //! @}
 
       //! @defgroup PSC_set_module_B set module B of PSC
       //! set all module A values
       //! @{
 #define Psc_set_module_B(sa_val,ra_val,sb_val) \
-         POCR1SAH = High(sa_val); \
-         POCR1SAL = Low(sa_val);  \
-         POCR1RAH = High(ra_val); \
-         POCR1RAL = Low(ra_val);  \
-         POCR1SBH = High(sb_val); \
-         POCR1SBL = Low(sb_val); 
+         POCR1SAH = highByte(sa_val); \
+         POCR1SAL = lowByte(sa_val);  \
+         POCR1RAH = highByte(ra_val); \
+         POCR1RAL = lowByte(ra_val);  \
+         POCR1SBH = highByte(sb_val); \
+         POCR1SBL = lowByte(sb_val); 
       //! @}
 
       //! @defgroup PSC_set_module_C set module C of PSC
       //! set all module A values
       //! @{
 #define Psc_set_module_C(sa_val,ra_val,sb_val) \
-         POCR2SAH = High(sa_val); \
-         POCR2SAL = Low(sa_val);  \
-         POCR2RAH = High(ra_val); \
-         POCR2RAL = Low(ra_val);  \
-         POCR2SBH = High(sb_val); \
-         POCR2SBL = Low(sb_val); 
+         POCR2SAH = highByte(sa_val); \
+         POCR2SAL = lowByte(sa_val);  \
+         POCR2RAH = highByte(ra_val); \
+         POCR2RAL = lowByte(ra_val);  \
+         POCR2SBH = highByte(sb_val); \
+         POCR2SBL = lowByte(sb_val); 
       //! @}
 
       //! @defgroup PSC_set_register_RB set register RB of PSC
       //! set all module A values
       //! @{
 #define Psc_set_register_RB(rb_val) \
-         POCR_RBH = High(rb_val); \
-         POCR_RBL = Low(rb_val);
+         POCR_RBH = highByte(rb_val); \
+         POCR_RBL = lowByte(rb_val);
       //! @}
 
       //! @defgroup PSC_enable_all_outputs Enable all 6 PSC outputs

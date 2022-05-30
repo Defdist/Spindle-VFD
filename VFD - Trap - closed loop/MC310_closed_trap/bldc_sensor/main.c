@@ -10,7 +10,7 @@ int main(void)
   
   mci_motor_run();
   
-  hall_goalRPM_set(255); //debug
+  //hall_goalRPM_set(255); //debug
   
   while(1)
   {	  	  
@@ -26,12 +26,6 @@ int main(void)
 
         pid_dutyCycle_calculate();
       }
-
-	  
-      //if( hall_goalRPM_get() < 64 ) { setPC3_low(); }
-	  //else                           { setPC3_high(); }
-		  
-	  
 
       //psc_setDutyCycle( pid_dutyCycle_get() );
       psc_setDutyCycle(255); //debug
