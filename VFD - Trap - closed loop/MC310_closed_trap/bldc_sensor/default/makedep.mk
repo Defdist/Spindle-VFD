@@ -4,17 +4,25 @@
 
 a4910.c
 
-adc_drv.c
+adc.c
+
+comparator.c
+
+dac.c
+
+debug.c
 
 hall.c
 
 main.c
 
-mc_drv.c
+mosfet.c
 
-mc_interface.c
+motor.c
 
 pid.c
 
-supervisor.c
+psc.c
+
+timing.c
 

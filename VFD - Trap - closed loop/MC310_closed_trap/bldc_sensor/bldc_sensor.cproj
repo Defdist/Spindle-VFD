@@ -108,13 +108,28 @@
     <Compile Include="a4910.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="adc_drv.c">
+    <Compile Include="adc.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="adc_drv.h">
+    <Compile Include="adc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="config.h">
+    <Compile Include="comparator.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="comparator.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="dac.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="dac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="debug.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="debug.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="grBLDC.h">
@@ -129,16 +144,16 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mc_drv.c">
+    <Compile Include="mosfet.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mc_drv.h">
+    <Compile Include="mosfet.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mc_interface.c">
+    <Compile Include="motor.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mc_interface.h">
+    <Compile Include="motor.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="pid.c">
@@ -147,10 +162,16 @@
     <Compile Include="pid.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="supervisor.c">
+    <Compile Include="psc.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="supervisor.h">
+    <Compile Include="psc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timing.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timing.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

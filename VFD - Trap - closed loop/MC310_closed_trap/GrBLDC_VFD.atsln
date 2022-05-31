@@ -7,6 +7,7 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "bldc_sensor", "bldc_sensor\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Drivers", "Drivers", "{19E01692-1701-4CDC-A205-97ABB3047F99}"
 	ProjectSection(SolutionItems) = preProject
+		bldc_sensor\Drivers\adc\adc_drv.h = bldc_sensor\Drivers\adc\adc_drv.h
 		bldc_sensor\Drivers\iom32m1.h = bldc_sensor\Drivers\iom32m1.h
 	EndProjectSection
 EndProject
@@ -33,6 +34,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "psc", "psc", "{6BB83B8D-8AE
 		bldc_sensor\Drivers\psc\psc_drv.h = bldc_sensor\Drivers\psc\psc_drv.h
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adc", "adc", "{9BD1A0B3-0028-4CF0-ADAE-A6F3DA874D7C}"
+	ProjectSection(SolutionItems) = preProject
+		bldc_sensor\Drivers\adc\adc_drv.h = bldc_sensor\Drivers\adc\adc_drv.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		default|AVR = default|AVR
@@ -49,5 +55,6 @@ Global
 		{38D7EE9A-2A6D-45C9-A47F-2EB728B3E879} = {19E01692-1701-4CDC-A205-97ABB3047F99}
 		{BBE8A093-ACE4-46D8-872A-B06661F1DDB4} = {19E01692-1701-4CDC-A205-97ABB3047F99}
 		{6BB83B8D-8AEB-46BF-86C4-31EDD341126C} = {19E01692-1701-4CDC-A205-97ABB3047F99}
+		{9BD1A0B3-0028-4CF0-ADAE-A6F3DA874D7C} = {19E01692-1701-4CDC-A205-97ABB3047F99}
 	EndGlobalSection
 EndGlobal
