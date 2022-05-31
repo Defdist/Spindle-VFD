@@ -2,22 +2,20 @@
 
 #include "grBLDC.h"
 
-//JTS2doNow: T0 is 8 bits, while T1 is 16 bits.  Swap T0<->T1.
-static uint8_t ovf_timer = 0; // variable "ovf_timer" is use to simulate a 16 bits timer with 8 bits timer
-
-uint8_t goalRPM_ADC_value = 0;//!<Motor Input to set the motor speed
-
-uint16_t motorSpeed_measured = 0;
-
 ////////////////////////////////////////////////////////////////////////////////////////
 
-uint8_t hall_goalRPM_get(void) { return goalRPM_ADC_value; }
-void hall_goalRPM_set(uint8_t ADC_value) { goalRPM_ADC_value = ADC_value; }
+void hall_init(void)
+{
+  // Use PCINT17 to detect change on H1 (A) sensor
+  // Use PCINT18 to detect change on H3 (C) sensor
+  PCMSK2 = ( (1<<PCINT17) | (1<<PCINT18) );
 
-////////////////////////////////////////////////////////////////////////////////////////
-
-void hall_measuredRPM_set(uint16_t measured_speed) { motorSpeed_measured = measured_speed; }
-uint16_t hall_measuredRPM_get(void) { return motorSpeed_measured; }
+  // Use PCINT9 to detect change on H2 (B) sensor
+  PCMSK1 = (1<<PCINT9);
+  
+  // Enable pin change interrupts on PCMSK1 & 2
+  PCICR = ( (1<<PCIE1) | (1<<PCIE2) );
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -37,11 +35,10 @@ inline uint8_t hall_getPosition(void)
 	  //hall states in transition
 	  state = state_previous;
 	  numConsecutiveInvalidStates++;
-	  //JTS2doLater: This would be a good spot to detect for stalled motor (to tell 328p)
   } 
   else //valid Hall state (or motor is stalled)
   {
-	  state_previous = state;
+	  state_previous = state; //store for next iteration
 	  numConsecutiveInvalidStates = 0;
   } 
 	  
@@ -51,20 +48,21 @@ inline uint8_t hall_getPosition(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //Configure interrupt vectors (each time a hall sensor state changes)
-ISR( HALL_AC() )  //Hall_A & Hall_C share the same interrupt vector byte
+ISR( HALL_AC_vect )  //Hall_A & Hall_C share the same interrupt vector byte
 {
-  mc_commutateFETs( hall_getPosition() );
+  mosfet_commutate( hall_getPosition() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-ISR( HALL_B() )
+ISR( HALL_B_vect )
 {
-  mc_commutateFETs( hall_getPosition() );
+  mosfet_commutate( hall_getPosition() );
 
   uint8_t hallB_state = 0;
   static uint8_t hallB_state_previous = 0;
 
+  //determine hallB state (high or low)
   if (PINC & (1<<PINC1) ) { hallB_state = HALL_B_HIGH; }
   else                    { hallB_state = HALL_B_LOW;  }
 
@@ -72,89 +70,9 @@ ISR( HALL_B() )
        (hallB_state_previous == HALL_B_LOW  )  )
   {
     //rising edge just occurred on Hall B
-    hall_calculateRPM(); //estimate speed on Hall_B rising edge
+    timing_calculateRPM(); //estimate speed on Hall_B rising edge
   }
 
   hallB_state_previous = hallB_state;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
-
-//JTS2doNow: This should be inlined because it's called inside ISR
-inline void hall_calculateRPM(void)
-{
-  static uint16_t sampleCount = 1;
-  static uint16_t sumOfSamples = 0;
-
-  uint16_t timer_value;
-  uint16_t new_measured_speed;
-
-  // Two 8 bits variables are use to simulate a 16b timer
-  timer_value = (ovf_timer<<8) + TCNT0;
-  
-  if (timer_value == 0) {timer_value += 1 ;} // prevent DIV by 0 in next line
-  
-  new_measured_speed = K_SPEED / timer_value;
-	
-  //if(new_measured_speed > 255) new_measured_speed = 255; // Variable saturation
-
-  #ifdef AVERAGE_SPEED_MEASUREMENT
-    // To avoid noise an average is realized on 8 samples
-    sumOfSamples += new_measured_speed;
-    if(sampleCount >= NUM_SAMPLES_PER_RPM_CALCULATION)
-    {
-      sampleCount = 1;
-      hall_measuredRPM_set(sumOfSamples >> 3);
-      sumOfSamples = 0;
-    }
-    else sampleCount++;
-  #else
-    // else get the real speed
-	hall_measuredRPM_set(new_measured_speed);	
-  #endif
-
-  // Reset Timer 0 register and variables
-  TCNT0=0x00;
-  ovf_timer = 0;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-/******************************************************************************/
-/******************************************************************************/
-/*         TIMER 0 : Speed Measurement                                        */
-/******************************************************************************/
-/******************************************************************************/
-
-/**
- * @brief Timer 0 Configuration
- * The timer 0 is used to generate an IT when an overflow occurs
- * @pre None
- * @post Timer0 initialized.
-*/
-void hall_init_rpm_timer0(void)
-{
-  TCCR0A = 0;
-  TCCR0B = (1<<CS02)|(0<<CS01)|(0<<CS00); // 256 prescaler (16us)
-  TIMSK0 = (1<<TOIE0);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-/**
-  * @brief Timer0 Overflow for speed measurement
-  * @pre configuration of timer 0
-  * @post generate an overflow when the motor turns too slowly
-*/
-ISR(TIMER0_OVF_vect)
-{
-  TCNT0=0x00;
-  ovf_timer++;
-  // if they are no commutation after 125 ms
-  // 125 ms = (61<<8) * 8us
-  if(ovf_timer >= 100)
-  {
-    ovf_timer = 0;
-    hall_measuredRPM_set(0);
-  }
-}

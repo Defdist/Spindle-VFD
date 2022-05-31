@@ -19,20 +19,27 @@
 	#include <stdbool.h>
 
 	#include "a4910.h"
-	#include "adc_drv.h"
+	#include "adc.h"
+	#include "dac.h"
+	#include "psc.h"
+	#include "motor.h"
 	#include "Drivers\dac\dac_drv.h"
 	#include "Drivers\psc\psc_drv.h"
 	#include "Drivers\pll\pll_drv.h"
 	#include "Drivers\comparator\comparator_drv.h"
-	#include "config.h"
+	#include "Drivers\adc\adc_drv.h"
 	#include "hall.h"
 	#include "pid.h"
-	#include "mc_drv.h"
-	#include "mc_interface.h"
-	#include "supervisor.h"
+	#include "debug.h"
+	#include "timing.h"
+	#include "mosfet.h"
+	#include "comparator.h"
 
 	#define TRUE 1
 	#define FALSE 0
-	
 
+    #define lowByte(data_w)  ((uint8_t)data_w)
+    #define highByte(data_w) ((uint8_t)(data_w>>8))
+
+	#define FOSC_HZ 16000000 //Hz
 #endif

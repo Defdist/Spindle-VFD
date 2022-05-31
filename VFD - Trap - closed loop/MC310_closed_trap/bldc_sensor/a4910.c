@@ -1,11 +1,14 @@
 //Allegro A4910 MOSFET driver functions
 
+//32M1 has the following connections to the A4910:
+	//RESETn (pin PB4): pull high to enable A4910
+	//DIAG   (pin PC7): A4910 outputs fault conditions on this line
+
 #include "grBLDC.h"
 
-void A4910pinPB4_reset_Init(void)   { (DDRB |= (1<<DDB4));     }
-void A4910pinPB4_reset_Toggle(void) { (PINB |= (1<<PINB4));    }
-void A4910pinPB4_reset_Set(void)    { (PORTB |= (1<<PORTB4));  }
-void A4910pinPB4_reset_Clear(void)  { (PORTB &= ~(1<<PORTB4)); }
+void a4910_init(void)   { (DDRB |= (1<<DDB4)); } //set pin to output
 
-void A4910_Disable(void) { A4910pinPB4_reset_Clear(); }
-void A4910_Enable(void)  { A4910pinPB4_reset_Set();   }
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void a4910_disable(void) { (PORTB &= ~(1<<PORTB4)); } //set RESETn pin low
+void a4910_enable(void)  { (PORTB |= (1<<PORTB4));  } //set RESETn pin high

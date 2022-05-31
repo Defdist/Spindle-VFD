@@ -298,6 +298,6 @@
 	//! Take care that you have to select the ports which will be converted as
 	//! analog inputs thanks to the DIDR0 and DIDR1 registers.
 	//!
-	void init_adc(void);
+	
 
 #endif  // ADC_DRV_H

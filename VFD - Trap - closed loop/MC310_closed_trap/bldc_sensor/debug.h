@@ -13,10 +13,10 @@
 	#define PD3_BIT 3
 	#define PD3_MASK (1<<PD3_BIT)
 
-	void setPC3_high(void);
-	void setPC3_low(void);
+	void unoPinA4_high(void);
+	void unoPinA4_low(void);
 	
-	void setPD3_high(void);
-	void setPD3_low(void);
+	void unoPinA2_high(void);
+	void unoPinA2_low(void);
 
 #endif

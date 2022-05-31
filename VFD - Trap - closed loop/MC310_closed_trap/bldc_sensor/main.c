@@ -1,48 +1,46 @@
 #include "grBLDC.h"
 
-//_____ D E C L A R A T I O N S ____________________________________________
-uint16_t g_regulation_period = 0;  //sampling period
-extern uint8_t overcurrent;
-
 int main(void)
 {
-  mc_motor_init();
+  psc_init();
+  adc_init();
+  motor_init();
+  hall_init();
+  mosfet_init();
+  a4910_init(); //configure pin to digital output
+  timing_timer0_init();
+  timing_timer1_init();
+
+  Start_pll_64_mega(); // Start the 64 MHz PLL
+  Wait_pll_ready();
   
-  mci_motor_run();
+  a4910_enable(); //enable MOSFET driver
+  motor_run();
+
+  sei(); //enable interrupts
   
-  //hall_goalRPM_set(255); //debug
-  
+  //adc_goalRPM_set(255); //debug
+
   while(1)
   {	  	  
-    if (mc_drv_g_tick_get() == TRUE) // Timer 1 generates an interrupt (which sets g_tick) every 256us
-    {		
-      mc_drv_g_tick_set(FALSE);
-      mc_ADC_Scheduler(); // Get Current or potentiometer value
-      g_regulation_period += 1;
-	    
-      if(g_regulation_period >= 40) //n * 256us = Te
-      {
-        g_regulation_period = 0;
-
-        pid_dutyCycle_calculate();
-      }
+    if (timing_gTick_get() == TRUE) // Timer 1 interrupt sets gTick=TRUE every 256us
+    {	
+      timing_gTick_set(FALSE); //acknowledge interrupt
+      
+      // adc_Scheduler(); // Get Current or potentiometer value
+      
+      // static uint16_t g_regulation_period = 0; //sampling period
+	    // 
+      // if(++g_regulation_period >= 40) //n * 256us = Te //40: update PID every 10.24 ms
+      // {
+      //   pid_dutyCycle_calculate();
+      //   g_regulation_period = 0;
+      // }
 
       //psc_setDutyCycle( pid_dutyCycle_get() );
       psc_setDutyCycle(255); //debug
 	  
       //mc_inrush_task();       // manage the inrush current
     }
-	
-  /*
-    if (overcurrent==0)
-    {
-	    A4910_Enable();
-    }
-    else
-    {
-	    A4910_Disable();
-    }
-  */
-
   }
 }

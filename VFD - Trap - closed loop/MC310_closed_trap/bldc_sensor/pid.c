@@ -49,7 +49,7 @@ int16_t pid_calculate_derivative(int16_t speedError)
 uint8_t pid_dutyCycle_calculate(void)
 {
   int16_t summedPID = 0;
-  int16_t speedError = hall_goalRPM_get() - hall_measuredRPM_get();
+  int16_t speedError = adc_goalRPM_get() - timing_measuredRPM_get();
 
   int16_t TermPID_proportional = pid_calculate_proportional(speedError);
   int16_t TermPID_integral     = pid_calculate_integral    (speedError);
