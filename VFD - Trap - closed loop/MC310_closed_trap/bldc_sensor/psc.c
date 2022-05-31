@@ -19,7 +19,7 @@ void psc_init (void)
    Psc_config();
 
    Psc_config_input_0(PSC_OVERLAP_ENABLE,\
-                      PSC_USE_PIN,\
+                      PSC_USE_COMPARATOR,\
                       PSC_USE_LOW_LEVEL,\
                       PSC_INPUT_FILTER_ENABLE,\
                       PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
@@ -33,7 +33,7 @@ void psc_init (void)
                       PSC_INPUT_NO_ACTION);
 
    Psc_config_input_2(PSC_OVERLAP_ENABLE,\
-                      PSC_USE_PIN,\
+                      PSC_USE_COMPARATOR,\
                       PSC_USE_LOW_LEVEL,\
                       PSC_INPUT_FILTER_ENABLE,\
                       PSC_SYNCHRONOUS_OUTPUT_CONTROL,\

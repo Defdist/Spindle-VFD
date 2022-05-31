@@ -16,9 +16,9 @@ void    timing_runControlLoop_set(uint8_t state) { runControlLoop = state; }
 //interrupt occurs when timer value hit OCR0A
 void timing_timer0_init(void)
 {
-  TCCR0A = (1<<WGM01) //set timer mode=CTC, don't connect timer to any output pins
+  TCCR0A = (1<<WGM01); //set timer mode=CTC, don't connect timer to any output pins
   TCCR0B = (1<<CS01)|(1<<CS00); //CPU/64 prescaler
-  OCR0A  = 63; // f ocra = 1/(16MHz/64)*(63+1) = 256 us tick
+  OCR0A  = 7; // f_interrupt = 1/(16MHz/64DIV)*(OCR0A+1) = //OCR0A=7: 32 us tick (512 clocks @ 16 MHz)
   TIMSK0 = (1<<OCIE0A); // Output compare A Match interrupt Enable
 }
 

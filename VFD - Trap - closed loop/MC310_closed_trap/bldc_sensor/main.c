@@ -39,7 +39,8 @@ int main(void)
       // }
 
       //psc_setDutyCycle( pid_dutyCycle_get() );
-      psc_setDutyCycle(255); //debug
+	  psc_setDutyCycle(255); //debug
+      
 	  
       //mc_inrush_task();       // manage the inrush current
     }

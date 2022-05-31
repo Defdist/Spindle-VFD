@@ -74,6 +74,7 @@ ISR( HALL_B_vect )
       //rising edge just occurred on Hall B
       //timing_calculateRPM(); //estimate speed on Hall_B rising edge //debug
     }
+  }
 
   else //hallB_state == HALL_B_LOW
   {
