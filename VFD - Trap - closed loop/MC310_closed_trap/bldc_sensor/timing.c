@@ -17,7 +17,7 @@ void    timing_runControlLoop_set(uint8_t state) { runControlLoop = state; }
 void timing_timer0_init(void)
 {
   TCCR0A = 0; //set timer mode=normal, don't connect timer to any output pins
-  TCCR0B = (1<<WGM01)|(1<<CS01)|(1<<CS00); // Mode CTC + clock prescaler=64
+  TCCR0B = (1<<WGM01)|(1<<CS01)|(1<<CS00); // Mode CTC //CPU/64 prescaler
   TIMSK0 = (1<<OCIE0A); // Output compare A Match interrupt Enable
   OCR0A = 63; // f ocra = 1/(16MHz/64)*(63+1) = 256 us tick
 }
@@ -55,20 +55,10 @@ ISR(TIMER1_OVF_vect)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-uint16_t timer1Count_get16bit(void)
-{
-  uint8_t tempLoByte = TCNT1L; //must read low byte first! //latches high byte into shared register
-  uint8_t tempHiByte = TCNT1H; //then read high byte (from shared register)
-
-  return ( (tempHiByte<<8) + tempLoByte );
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-
 inline void timing_calculateRPM(void)
 {
   
-  uint16_t timerCount = timer1Count_get16bit();
+  uint16_t timerCount = TCNT1; //retrive 16b timer value
   
   if (timerCount == 0) { timerCount = 1; } // prevent divide-by-0 in next line
   
