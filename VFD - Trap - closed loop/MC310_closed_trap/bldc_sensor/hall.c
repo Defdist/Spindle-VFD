@@ -66,11 +66,18 @@ ISR( HALL_B_vect )
   if (PINC & (1<<PINC1) ) { hallB_state = HALL_B_HIGH; }
   else                    { hallB_state = HALL_B_LOW;  }
 
-  if ( (hallB_state          == HALL_B_HIGH ) &&
-       (hallB_state_previous == HALL_B_LOW  )  )
+  if(hallB_state == HALL_B_HIGH)
   {
-    //rising edge just occurred on Hall B
-    //timing_calculateRPM(); //estimate speed on Hall_B rising edge
+    unoPinA4_high();
+    if(hallB_state_previous == HALL_B_LOW) 
+    {
+      //rising edge just occurred on Hall B
+      //timing_calculateRPM(); //estimate speed on Hall_B rising edge //debug
+    }
+
+  else //hallB_state == HALL_B_LOW
+  {
+    unoPinA4_low();
   }
 
   hallB_state_previous = hallB_state;
