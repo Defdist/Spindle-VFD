@@ -1,8 +1,8 @@
 #ifndef _TIMING_H_
 	#define _TIMING_H_
 
-	uint8_t timing_gTick_get(void);
-	void    timing_gTick_set(uint8_t state);
+	uint8_t timing_runControlLoop_get(void);
+	void    timing_runControlLoop_set(uint8_t state);
 
 	void timing_timer0_init(void);
 	void timing_timer1_init(void);

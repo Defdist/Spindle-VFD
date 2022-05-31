@@ -23,9 +23,9 @@ int main(void)
 
   while(1)
   {	  	  
-    if (timing_gTick_get() == TRUE) // Timer 1 interrupt sets gTick=TRUE every 256us
+    if (timing_runControlLoop_get() == TRUE)
     {	
-      timing_gTick_set(FALSE); //acknowledge interrupt
+      timing_runControlLoop_set(FALSE); //prevent control loop from running again until timer interrupt occurs
       
       // adc_Scheduler(); // Get Current or potentiometer value
       
