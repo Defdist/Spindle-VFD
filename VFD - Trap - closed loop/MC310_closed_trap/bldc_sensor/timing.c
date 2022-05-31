@@ -12,14 +12,14 @@ void    timing_runControlLoop_set(uint8_t state) { runControlLoop = state; }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Configure 8b Timer0
-//counter increments every 16 microseconds
+//counter increments every 4 microseconds
 //interrupt occurs when timer value hit OCR0A
 void timing_timer0_init(void)
 {
-  TCCR0A = 0; //set timer mode=normal, don't connect timer to any output pins
-  TCCR0B = (1<<WGM01)|(1<<CS01)|(1<<CS00); // Mode CTC //CPU/64 prescaler
+  TCCR0A = (1<<WGM01) //set timer mode=CTC, don't connect timer to any output pins
+  TCCR0B = (1<<CS01)|(1<<CS00); //CPU/64 prescaler
+  OCR0A  = 63; // f ocra = 1/(16MHz/64)*(63+1) = 256 us tick
   TIMSK0 = (1<<OCIE0A); // Output compare A Match interrupt Enable
-  OCR0A = 63; // f ocra = 1/(16MHz/64)*(63+1) = 256 us tick
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ ISR(TIMER0_COMPA_vect) { timing_runControlLoop_set(TRUE); }
 void timing_timer1_init(void)
 {
   TCCR1A = 0; //set timer mode=normal, don't connect timer to any output pins
-  TCCR1B = (1<<CS02)|(0<<CS01)|(0<<CS00); // prescale Timer0 clock to CPU/256 prescaler // counter increments every 16us ( 1/[16MHz/256] )
+  TCCR1B = (1<<CS12)|(0<<CS11)|(0<<CS10); // prescale Timer0 clock to CPU/256 prescaler // counter increments every 16us ( 1/[16MHz/256] )
   TIMSK1 = (1<<TOIE1); //generate interrupt each time an overflow occurs (every 4.096 ms, unless the hall state has changed)
 }
 
