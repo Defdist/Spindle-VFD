@@ -73,9 +73,9 @@ inline void timing_calculateRPM(void)
     //hallFrequency_Hz = 1 / (timeSinceLastInterrupt_us * 1E-6)
     //shaftRPM_BLDC = (hallFrequency_Hz / BLDC_NUM_POLE_PAIRS) * SECONDS_PER_MINUTE
     //spindleRPM = shaftRPM_BLDC * SHEAVE_RATIO
-  #define TIMER1_SPINDLE_RPM_CONSTANT (SHEAVE_RATIO / (BLDC_NUM_POLE_PAIRS * TIMER1_TICK_PERIOD_us) * MICROSECONDS_PER_SECOND * SECONDS_PER_MINUTE)
+  #define TIMER1_SPINDLE_RPM_CONSTANT (uint32_t)((SHEAVE_RATIO * MICROSECONDS_PER_SECOND * SECONDS_PER_MINUTE) / (BLDC_NUM_POLE_PAIRS * TIMER1_TICK_PERIOD_us))
   
-  uint16_t spindleRPM_measured = (uint32_t)TIMER1_SPINDLE_RPM_CONSTANT / timerCount; //JTS2doNow: See how fast this executes
+  uint16_t spindleRPM_measured = TIMER1_SPINDLE_RPM_CONSTANT / timerCount; //JTS2doNow: See how fast this executes
   //Examples:
     //when spindleRPM_measured is 10000, timerCount was   750
     //when spindleRPM_measured is  9987, timerCount was   751

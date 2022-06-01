@@ -16,8 +16,6 @@ uint8_t ADC_hardwareStatus = ADCFREE;  //ADC is available to perform conversions
 //with just one channel, we could set the ADC to free running mode (and remove this ISR)
 ISR(ADC_vect)
 {
-  unoPinA2_high();
-
   if(ADC_stateMachine == ADC_MEASURING_GOAL_RPM)
   {
     uint16_t adcResult_counts = Adc_get_10_bits_result(); //~520 counts max (grBLDC goalRPM has DIV2 voltage divider LPF)
@@ -25,6 +23,7 @@ ISR(ADC_vect)
     #define ADC_COUNTS_TO_RPM__GAIN     14
     #define ADC_COUNTS_TO_RPM__OFFSET 1360
     //y=mx+b //see ../Documentation/RPM LUT.ods
+	
     uint16_t adcResultScaled_RPM = (uint16_t)(ADC_COUNTS_TO_RPM__GAIN * adcResult_counts) + ADC_COUNTS_TO_RPM__OFFSET;
 
     adc_goalRPM_set(adcResultScaled_RPM);
@@ -36,8 +35,6 @@ ISR(ADC_vect)
   // }
   
   ADC_hardwareStatus = ADCFREE;
-
-  unoPinA2_low();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

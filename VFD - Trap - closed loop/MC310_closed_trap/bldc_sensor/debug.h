@@ -1,5 +1,5 @@
-#ifndef _SUPERVISOR_H_
-	#define _SUPERVISOR_H_
+#ifndef _DEBUG_H_
+	#define _DEBUG_H_
 
 	#define SLOWDOWN_PORT PORTC
 	#define SLOWDOWN_DDR DDRC
