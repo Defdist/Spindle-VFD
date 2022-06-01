@@ -25,7 +25,7 @@ int main(void)
     {	
       timing_runControlLoop_set(FALSE); //prevent control loop from running again until timer interrupt occurs
       
-      // adc_Scheduler(); // Get Current or potentiometer value
+      adc_Scheduler(); // Get Current or potentiometer value
       
       // static uint16_t g_regulation_period = 0; //sampling period
 	    // 

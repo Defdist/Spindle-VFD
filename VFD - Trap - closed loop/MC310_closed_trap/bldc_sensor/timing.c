@@ -75,7 +75,7 @@ inline void timing_calculateRPM(void)
     //spindleRPM = shaftRPM_BLDC * SHEAVE_RATIO
   #define TIMER1_SPINDLE_RPM_CONSTANT (SHEAVE_RATIO / (BLDC_NUM_POLE_PAIRS * TIMER1_TICK_PERIOD_us) * MICROSECONDS_PER_SECOND * SECONDS_PER_MINUTE)
   
-  uint16_t spindleRPM_measured = TIMER1_SPINDLE_RPM_CONSTANT / timerCount; //JTS2doNow: See how fast this executes
+  uint16_t spindleRPM_measured = (uint32_t)TIMER1_SPINDLE_RPM_CONSTANT / timerCount; //JTS2doNow: See how fast this executes
   //Examples:
     //when spindleRPM_measured is 10000, timerCount was   750
     //when spindleRPM_measured is  9987, timerCount was   751
@@ -105,7 +105,7 @@ inline void timing_calculateRPM(void)
     }
   
   #else
-    timing_measuredRPM_set(new_measured_speed); 
+    timing_measuredRPM_set(spindleRPM_measured); 
   #endif
 }
 
