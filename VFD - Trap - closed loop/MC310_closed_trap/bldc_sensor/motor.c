@@ -30,7 +30,7 @@ void motor_run(void)
   if (!(PCTL & (1<<PRUN))) { psc_init(); } //starts PSC stage, if not already started
   
   motorStatus = RUNNING;
-  psc_setDutyCycle( pid_dutyCycle_calculate() );
+  psc_configureOutputWaveforms( pid_dutyCycle_calculate() );
   mosfet_commutate( hall_getPosition() ); //also occurs in ISR each time Hall state changes
   //mc_disableOvercurrentDuringStartup(); //JTS2doLater: Configure overcurrent
 }

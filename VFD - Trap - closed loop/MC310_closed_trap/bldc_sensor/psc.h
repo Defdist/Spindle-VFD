@@ -48,7 +48,7 @@
 
     void psc_init (void);
 
-    void psc_setDutyCycle(uint8_t level);
+    void psc_configureOutputWaveforms(uint8_t level);
 
     // Over Current Detection
     //void mc_disableOvercurrentDuringStartup(void); //JTS2doLater

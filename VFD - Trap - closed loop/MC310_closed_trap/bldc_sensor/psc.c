@@ -53,7 +53,7 @@ void psc_init (void)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Set the duty cycle values in the PSC according to the value calculate by the regulation loop
-void psc_setDutyCycle(uint8_t duty)
+void psc_configureOutputWaveforms(uint8_t duty)
 {
   #if(CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)
     uint8_t dutydt;   /* duty with dead time */
@@ -75,22 +75,79 @@ void psc_setDutyCycle(uint8_t duty)
   //Psc_set_module_n(A_SA_VAL, A_RA_VAL, A_SB_VAL);
 
   //while all six PSC phases are chopping simultaneously, only two phases are routed to output pins at the same time //see mosfet_commutate()
-  #if (CURRENT_DECAY == FAST_DECAY)
-    Psc_set_module_A(duty,A_RA_VAL,duty);
-    Psc_set_module_B(duty,B_RA_VAL,duty);
-    Psc_set_module_C(duty,C_RA_VAL,duty);
+  // #if (CURRENT_DECAY == FAST_DECAY)
+  //   Psc_set_module_A(duty,A_RA_VAL,duty);
+  //   Psc_set_module_B(duty,B_RA_VAL,duty);
+  //   Psc_set_module_C(duty,C_RA_VAL,duty);
 
-  #elif (CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)
-    Psc_set_module_A(duty,A_RA_VAL,dutydt);
-    Psc_set_module_B(duty,B_RA_VAL,dutydt);
-    Psc_set_module_C(duty,C_RA_VAL,dutydt);
+  // #elif (CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)
+  //   Psc_set_module_A(duty,A_RA_VAL,dutydt);
+  //   Psc_set_module_B(duty,B_RA_VAL,dutydt);
+  //   Psc_set_module_C(duty,C_RA_VAL,dutydt);
 
-  #else //SLOW_DECAY
-    Psc_set_module_A(duty,A_RA_VAL,0);
-    Psc_set_module_B(duty,B_RA_VAL,0);
-    Psc_set_module_C(duty,C_RA_VAL,0);
-  #endif
+  // #else //SLOW_DECAY
+  //   Psc_set_module_A(duty,A_RA_VAL,0);
+  //   Psc_set_module_B(duty,B_RA_VAL,0);
+  //   Psc_set_module_C(duty,C_RA_VAL,0);
+  // #endif
    
+  if(motor_direction_get() == CCW) //JTS2doNow: Sample direction pin (PB3) to determine spindle direction
+  {
+      // switch(hallState)
+      // {
+      //     case 1: Set_Q5Q2(); break;  
+      //     case 2: Set_Q1Q4(); break;
+      //     case 3: Set_Q5Q4(); break;
+      //     case 4: Set_Q3Q6(); break;
+      //     case 5: Set_Q3Q2(); break;
+      //     case 6: Set_Q1Q6(); break;
+      //     default: mosfet_turnOffAll(); break;
+      // }
+  }
+  else //direction == CW
+  {
+      switch(hallState)
+      {
+          case 1: //Set_Q1Q6(); //0A 2B
+            Psc_set_module_A(duty,A_RA_VAL,0);
+            Psc_set_module_B(0,B_RA_VAL,0);
+            Psc_set_module_C(0,C_RA_VAL,duty);
+          break;
+
+          case 2: //Set_Q3Q2(); 1A 0B
+            Psc_set_module_A(0,A_RA_VAL,duty);
+            Psc_set_module_B(duty,B_RA_VAL,0);
+            Psc_set_module_C(0,C_RA_VAL,0);
+          break;
+
+          case 3: //Set_Q3Q6(); 1A 2B
+            Psc_set_module_A(0,A_RA_VAL,0);
+            Psc_set_module_B(duty,B_RA_VAL,0);
+            Psc_set_module_C(0,C_RA_VAL,duty);
+          break;
+
+          case 4: //Set_Q5Q4(); 2A 1B
+            Psc_set_module_A(0,A_RA_VAL,0);
+            Psc_set_module_B(0,B_RA_VAL,duty);
+            Psc_set_module_C(duty,C_RA_VAL,0);
+          break;
+
+          case 5: //Set_Q1Q4(); 0A 1B
+            Psc_set_module_A(duty,A_RA_VAL,0);
+            Psc_set_module_B(0,B_RA_VAL,duty);
+            Psc_set_module_C(0,C_RA_VAL,0);
+          break;
+
+          case 6: //Set_Q5Q2(); 2A 0B
+            Psc_set_module_A(0,A_RA_VAL,duty);
+            Psc_set_module_B(0,B_RA_VAL,0);
+            Psc_set_module_C(duty,C_RA_VAL,0);
+          break;
+          
+          default: /*mosfet_turnOffAll();*/ break;
+      }
+  }
+
   Psc_unlock();
 }
 

@@ -18,6 +18,8 @@ void mosfet_init(void)
 	DDRB = (1<<DDB7)|(1<<DDB6)|(1<<DDB1)|(1<<DDB0);
 	DDRC = (1<<DDC0);
 	DDRD = (1<<DDD0);
+
+  mosfet_connectAll_toPSC(); //debug
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,34 +30,34 @@ void mosfet_commutate(uint8_t hallState)
     if ( motor_state_get() == STOPPED ) { mosfet_turnOffAll(); }
     else //motor == RUNNING
     {
-      psc_setDutyCycle( pid_dutyCycle_get() );
+      psc_configureOutputWaveforms( pid_dutyCycle_get() );
 
-      if(motor_direction_get() == CCW) //JTS2doNow: Sample direction pin (PB3) to determine spindle direction
-      {
-          switch(hallState)
-          {
-              case 1: Set_Q5Q2(); break;
-              case 2: Set_Q1Q4(); break;
-              case 3: Set_Q5Q4(); break;
-              case 4: Set_Q3Q6(); break;
-              case 5: Set_Q3Q2(); break;
-              case 6: Set_Q1Q6(); break;
-              default: mosfet_turnOffAll(); break;
-          }
-      }
-      else //direction == CW
-      {
-          switch(hallState)
-          {
-              case 1: Set_Q1Q6(); break;
-              case 2: Set_Q3Q2(); break;
-              case 3: Set_Q3Q6(); break;
-              case 4: Set_Q5Q4(); break;
-              case 5: Set_Q1Q4(); break;
-              case 6: Set_Q5Q2(); break;
-              default: mosfet_turnOffAll(); break;
-          }
-      }
+      // if(motor_direction_get() == CCW) //JTS2doNow: Sample direction pin (PB3) to determine spindle direction
+      // {
+      //     switch(hallState)
+      //     {
+      //         case 1: Set_Q5Q2(); break;
+      //         case 2: Set_Q1Q4(); break;
+      //         case 3: Set_Q5Q4(); break;
+      //         case 4: Set_Q3Q6(); break;
+      //         case 5: Set_Q3Q2(); break;
+      //         case 6: Set_Q1Q6(); break;
+      //         default: mosfet_turnOffAll(); break;
+      //     }
+      // }
+      // else //direction == CW
+      // {
+      //     switch(hallState)
+      //     {
+      //         case 1: Set_Q1Q6(); break;
+      //         case 2: Set_Q3Q2(); break;
+      //         case 3: Set_Q3Q6(); break;
+      //         case 4: Set_Q5Q4(); break;
+      //         case 5: Set_Q1Q4(); break;
+      //         case 6: Set_Q5Q2(); break;
+      //         default: mosfet_turnOffAll(); break;
+      //     }
+      // }
     }
 }
 
@@ -71,4 +73,15 @@ void mosfet_turnOffAll(void)
   PORTB &= ( ~((1<<PORTB7)|(1<<PORTB6)|(1<<PORTB0)|(1<<PORTB1)) ); //Turn off Q2/Q4/Q5/Q6, respectively
   PORTC &= ( ~(1<<PORTC0) ); //turn off Q3
   PORTD &= ( ~(1<<PORTD0) ); //turn off Q1
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+//used if PSCs are controlling commutation
+void mosfet_connectAll_toPSC(void)
+{
+  //POC: PSC output configuration
+  POC = ( (1<<POEN0A)|(1<<POEN0B) |  //0:disconnect PSC outputs 0A & 0B from I/O pins //1:connect PSC output
+          (1<<POEN1A)|(1<<POEN1B) |  //0:disconnect PSC outputs 1A & 1B from I/O pins //1:connect PSC output
+          (1<<POEN2A)|(1<<POEN2B) ); //0:disconnect PSC outputs 2A & 2B from I/O pins //1:connect PSC output
 }

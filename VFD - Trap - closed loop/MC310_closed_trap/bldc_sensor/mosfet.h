@@ -7,6 +7,8 @@
 
     void mosfet_turnOffAll(void);
 
+    void mosfet_connectAll_toPSC(void);
+
     //////////////////////////////////////////////////////////////////////
 
     //Select which two FETs are connected to the PSC output timers (the other four phases are disconnected (trapezoidal)
