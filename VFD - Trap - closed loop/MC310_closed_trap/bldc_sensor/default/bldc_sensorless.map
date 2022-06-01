@@ -48,6 +48,10 @@ Discarded input sections
  .text          0x00000000        0x0 debug.o
  .data          0x00000000        0x0 debug.o
  .bss           0x00000000        0x0 debug.o
+ .text.unoPinA4_high
+                0x00000000        0x6 debug.o
+ .text.unoPinA4_low
+                0x00000000        0x4 debug.o
  .text          0x00000000        0x0 hall.o
  .data          0x00000000        0x0 hall.o
  .bss           0x00000000        0x0 hall.o
@@ -276,7 +280,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x6d2
+.text           0x00000000      0x696
  *(.vectors)
  .vectors       0x00000000       0x7c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
                 0x00000000                __vector_default
@@ -384,104 +388,98 @@ END GROUP
  .text.adc_goalRPM_set
                 0x000001ca        0xa adc.o
                 0x000001ca                adc_goalRPM_set
- .text.unoPinA4_high
-                0x000001d4        0x6 debug.o
-                0x000001d4                unoPinA4_high
  .text.unoPinA2_high
-                0x000001da        0x6 debug.o
-                0x000001da                unoPinA2_high
- .text.unoPinA4_low
-                0x000001e0        0x4 debug.o
-                0x000001e0                unoPinA4_low
+                0x000001d4        0x6 debug.o
+                0x000001d4                unoPinA2_high
  .text.unoPinA2_low
-                0x000001e4        0x4 debug.o
-                0x000001e4                unoPinA2_low
+                0x000001da        0x4 debug.o
+                0x000001da                unoPinA2_low
  .text.hall_init
-                0x000001e8       0x12 hall.o
-                0x000001e8                hall_init
+                0x000001de       0x12 hall.o
+                0x000001de                hall_init
  .text.hall_getPosition
-                0x000001fa       0x3a hall.o
-                0x000001fa                hall_getPosition
+                0x000001f0       0x3a hall.o
+                0x000001f0                hall_getPosition
  .text.__vector_24
-                0x00000234       0x4c hall.o
-                0x00000234                __vector_24
+                0x0000022a       0x4c hall.o
+                0x0000022a                __vector_24
  .text.__vector_23
-                0x00000280       0x66 hall.o
-                0x00000280                __vector_23
+                0x00000276       0x66 hall.o
+                0x00000276                __vector_23
  .text.startup.main
-                0x000002e6       0x4e main.o
-                0x000002e6                main
+                0x000002dc       0x4e main.o
+                0x000002dc                main
  .text.mosfet_init
-                0x00000334       0x16 mosfet.o
-                0x00000334                mosfet_init
+                0x0000032a       0x16 mosfet.o
+                0x0000032a                mosfet_init
  .text.mosfet_turnOffAll
-                0x0000034a       0x10 mosfet.o
-                0x0000034a                mosfet_turnOffAll
+                0x00000340       0x10 mosfet.o
+                0x00000340                mosfet_turnOffAll
  .text.mosfet_commutate
-                0x0000035a       0x78 mosfet.o
-                0x0000035a                mosfet_commutate
+                0x00000350       0x78 mosfet.o
+                0x00000350                mosfet_commutate
  .text.motor_state_get
-                0x000003d2        0x6 motor.o
-                0x000003d2                motor_state_get
+                0x000003c8        0x6 motor.o
+                0x000003c8                motor_state_get
  .text.motor_init
-                0x000003d8       0x1a motor.o
-                0x000003d8                motor_init
+                0x000003ce       0x1a motor.o
+                0x000003ce                motor_init
  .text.motor_run
-                0x000003f2       0x20 motor.o
-                0x000003f2                motor_run
+                0x000003e8       0x20 motor.o
+                0x000003e8                motor_run
  .text.motor_direction_get
-                0x00000412        0x6 motor.o
-                0x00000412                motor_direction_get
+                0x00000408        0x6 motor.o
+                0x00000408                motor_direction_get
  .text.pid_dutyCycle_get
-                0x00000418        0x6 pid.o
-                0x00000418                pid_dutyCycle_get
+                0x0000040e        0x6 pid.o
+                0x0000040e                pid_dutyCycle_get
  .text.pid_calculate_integral
-                0x0000041e       0x52 pid.o
-                0x0000041e                pid_calculate_integral
+                0x00000414       0x52 pid.o
+                0x00000414                pid_calculate_integral
  .text.pid_dutyCycle_calculate
-                0x00000470       0x56 pid.o
-                0x00000470                pid_dutyCycle_calculate
+                0x00000466       0x56 pid.o
+                0x00000466                pid_dutyCycle_calculate
  .text.psc_init
-                0x000004c6       0x7c psc.o
-                0x000004c6                psc_init
+                0x000004bc       0x7c psc.o
+                0x000004bc                psc_init
  .text.psc_setDutyCycle
-                0x00000542       0x58 psc.o
-                0x00000542                psc_setDutyCycle
+                0x00000538       0x58 psc.o
+                0x00000538                psc_setDutyCycle
  .text.timing_runControlLoop_get
-                0x0000059a        0x6 timing.o
-                0x0000059a                timing_runControlLoop_get
+                0x00000590        0x6 timing.o
+                0x00000590                timing_runControlLoop_get
  .text.timing_runControlLoop_set
-                0x000005a0        0x6 timing.o
-                0x000005a0                timing_runControlLoop_set
+                0x00000596        0x6 timing.o
+                0x00000596                timing_runControlLoop_set
  .text.timing_timer0_init
-                0x000005a6       0x12 timing.o
-                0x000005a6                timing_timer0_init
+                0x0000059c       0x12 timing.o
+                0x0000059c                timing_timer0_init
  .text.__vector_15
-                0x000005b8       0x1e timing.o
-                0x000005b8                __vector_15
+                0x000005ae       0x1e timing.o
+                0x000005ae                __vector_15
  .text.timing_timer1_init
-                0x000005d6       0x12 timing.o
-                0x000005d6                timing_timer1_init
+                0x000005cc       0x12 timing.o
+                0x000005cc                timing_timer1_init
  .text.__vector_14
-                0x000005e8       0x24 timing.o
-                0x000005e8                __vector_14
+                0x000005de       0x24 timing.o
+                0x000005de                __vector_14
  .text.timing_calculateRPM
-                0x0000060c       0x6a timing.o
-                0x0000060c                timing_calculateRPM
+                0x00000602       0x38 timing.o
+                0x00000602                timing_calculateRPM
  .text.timing_measuredRPM_get
-                0x00000676        0xa timing.o
-                0x00000676                timing_measuredRPM_get
+                0x0000063a        0xa timing.o
+                0x0000063a                timing_measuredRPM_get
  .text.timing_measuredRPM_set
-                0x00000680        0xa timing.o
-                0x00000680                timing_measuredRPM_set
+                0x00000644        0xa timing.o
+                0x00000644                timing_measuredRPM_set
  .text.libgcc.div
-                0x0000068a       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodsi4.o)
-                0x0000068a                __udivmodsi4
-                0x000006ce                . = ALIGN (0x2)
+                0x0000064e       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodsi4.o)
+                0x0000064e                __udivmodsi4
+                0x00000692                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000006ce        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x000006ce                _exit
-                0x000006ce                exit
+ .fini9         0x00000692        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00000692                _exit
+                0x00000692                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -500,11 +498,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000006ce        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000692        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000006d2                _etext = .
+                0x00000696                _etext = .
 
-.data           0x00800100        0x2 load address 0x000006d2
+.data           0x00800100        0x2 load address 0x00000696
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -554,8 +552,8 @@ END GROUP
                 0x0080010e                runControlLoop
  *(COMMON)
                 0x0080010f                PROVIDE (__bss_end, .)
-                0x000006d2                __data_load_start = LOADADDR (.data)
-                0x000006d4                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000696                __data_load_start = LOADADDR (.data)
+                0x00000698                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0080010f        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -661,7 +659,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x197e
+.debug_info     0x00000000     0x1952
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xa40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
  .debug_info    0x00000a40       0xb6 a4910.o
@@ -673,7 +671,7 @@ END GROUP
  .debug_info    0x000011d2      0x23a motor.o
  .debug_info    0x0000140c      0x229 pid.o
  .debug_info    0x00001635       0xb0 psc.o
- .debug_info    0x000016e5      0x299 timing.o
+ .debug_info    0x000016e5      0x26d timing.o
 
 .debug_abbrev   0x00000000     0x11a5
  *(.debug_abbrev)
@@ -689,7 +687,7 @@ END GROUP
  .debug_abbrev  0x00001007       0x78 psc.o
  .debug_abbrev  0x0000107f      0x126 timing.o
 
-.debug_line     0x00000000      0xe7a
+.debug_line     0x00000000      0xe4f
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x151 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
  .debug_line    0x00000151       0xcc a4910.o
@@ -701,9 +699,9 @@ END GROUP
  .debug_line    0x000008a3      0x188 motor.o
  .debug_line    0x00000a2b      0x16f pid.o
  .debug_line    0x00000b9a      0x108 psc.o
- .debug_line    0x00000ca2      0x1d8 timing.o
+ .debug_line    0x00000ca2      0x1ad timing.o
 
-.debug_frame    0x00000000      0x478
+.debug_frame    0x00000000      0x464
  *(.debug_frame)
  .debug_frame   0x00000000       0x44 a4910.o
  .debug_frame   0x00000044       0x94 adc.o
@@ -714,7 +712,7 @@ END GROUP
  .debug_frame   0x00000280       0x74 motor.o
  .debug_frame   0x000002f4       0x70 pid.o
  .debug_frame   0x00000364       0x34 psc.o
- .debug_frame   0x00000398       0xe0 timing.o
+ .debug_frame   0x00000398       0xcc timing.o
 
 .debug_str      0x00000000      0xa06
  *(.debug_str)
@@ -738,9 +736,9 @@ END GROUP
  .debug_str     0x00000978       0x10 psc.o
                                 0x1be (size before relaxing)
  .debug_str     0x00000988       0x7e timing.o
-                                0x2f3 (size before relaxing)
+                                0x2d8 (size before relaxing)
 
-.debug_loc      0x00000000      0x5dc
+.debug_loc      0x00000000      0x5c2
  *(.debug_loc)
  .debug_loc     0x00000000       0xe4 adc.o
  .debug_loc     0x000000e4      0x1d8 hall.o
@@ -748,7 +746,7 @@ END GROUP
  .debug_loc     0x00000323       0x35 motor.o
  .debug_loc     0x00000358      0x119 pid.o
  .debug_loc     0x00000471       0x2d psc.o
- .debug_loc     0x0000049e      0x13e timing.o
+ .debug_loc     0x0000049e      0x124 timing.o
 
 .debug_macinfo
  *(.debug_macinfo)
