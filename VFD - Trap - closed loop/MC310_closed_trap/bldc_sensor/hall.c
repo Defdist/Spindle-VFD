@@ -58,7 +58,7 @@ ISR( HALL_AC_vect )  //Hall_A & Hall_C share the same interrupt vector byte
 
 ISR( HALL_B_vect )
 {
-  psc_commutateOutputWaveforms( pid_dutyCycle_get() );
+  psc_commutateOutputWaveforms( pid_dutyCycle_get() ); //JTS2doNow: How to start motor?
 
   uint8_t hallB_state = 0;
   static uint8_t hallB_state_previous = 0;

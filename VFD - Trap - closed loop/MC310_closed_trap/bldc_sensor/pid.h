@@ -6,8 +6,8 @@
     #define SPEED_PID_INTEGRAL_COEF 30
     #define SPEED_PID_DIFFERENTIAL_COEF 0
 
-    #define SPINDLE_MODE SPINDLE_OPEN_LOOP
-    //#define SPINDLE_MODE SPINDLE_CLOSED_LOOP
+    #define SPINDLE_MODE_OPEN_LOOP
+    //#define SPINDLE_MODE_CLOSED_LOOP
 
     #define OPEN_LOOP_STATIC_PSC_DUTY_CYCLE 255 //0: 0% PWM //255: 100% PWM
 
@@ -29,7 +29,9 @@
     //   with alpha = 60 / (n * K_SPEED * t_timer0)
 
 	uint8_t pid_dutyCycle_calculate(void);
+	
 	uint8_t pid_dutyCycle_get(void);
+	void    pid_dutyCycle_set(uint8_t newDuty);
 
     void pid_scheduler(void);
 

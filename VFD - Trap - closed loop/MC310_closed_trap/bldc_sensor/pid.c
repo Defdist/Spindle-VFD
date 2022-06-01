@@ -2,11 +2,17 @@
 
 //Spindle RPM PID controller
 
-uint8_t dutyCycle = 0;    //Closed loop speed regulation PWM Duty Cycle
+#ifdef SPINDLE_MODE_OPEN_LOOP
+	uint8_t dutyPID = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;
+#elif defined SPINDLE_MODE_CLOSED_LOOP
+	uint8_t dutyPID = 0; //Closed loop PSC PWM Duty Cycle //0:255
+#else 
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-uint8_t pid_dutyCycle_get() { return dutyCycle; }
+uint8_t pid_dutyCycle_get() { return dutyPID; }
+void pid_dutyCycle_set(uint8_t newDuty) { dutyPID = newDuty; } 
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,7 +54,7 @@ int16_t pid_calculate_derivative(int16_t speedError)
 
 uint8_t pid_dutyCycle_calculate(void)
 {
-  #if (SPINDLE_MODE == SPINDLE_CLOSED_LOOP) 
+  #ifdef SPINDLE_MODE_CLOSED_LOOP 
     int16_t summedPID = 0;
     int16_t speedError = adc_goalRPM_get() - timing_measuredRPM_get();
 
@@ -61,15 +67,15 @@ uint8_t pid_dutyCycle_calculate(void)
     summedPID = summedPID >> K_SPEED_SCALAR;
 
     // Bound max/min PWM value
-    if     ( summedPID >= (int16_t)(255) ) { dutyCycle = 255;                  }
-    else if( summedPID <= (int16_t)(  0) ) { dutyCycle =   0;                  }
-    else                                   { dutyCycle = (uint8_t)(summedPID); }
+    if     ( summedPID >= (int16_t)(255) ) { dutyPID = 255;                  }
+    else if( summedPID <= (int16_t)(  0) ) { dutyPID =   0;                  }
+    else                                   { dutyPID = (uint8_t)(summedPID); }
   
-  #else //(SPINDLE_MODE == SPINDLE_OPEN_LOOP)
-    dutyCycle = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;
+  #elif defined SPINDLE_MODE_OPEN_LOOP
+    dutyPID = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;
   #endif
 
-  return dutyCycle;
+  return dutyPID;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

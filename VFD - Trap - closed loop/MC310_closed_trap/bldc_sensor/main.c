@@ -29,6 +29,7 @@ int main(void)
       pid_scheduler();
 
       //psc_commutateOutputWaveforms( pid_dutyCycle_get() ); //debug
+	  //psc_commutateOutputWaveforms(255);
 	  
       //mc_inrush_task();       // manage the inrush current
     }

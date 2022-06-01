@@ -11,7 +11,7 @@
     #define PSC_MODE PSC_MODE_CENTERED
 
     #define PSC_OUTPUT_A_POLARITY PSC_OUTPUT_HIGH
-    #define PSC_OUTPUT_B_POLARITY PSC_OUTPUT_LOW
+	#define PSC_OUTPUT_B_POLARITY PSC_OUTPUT_LOW
 
     #define A_SA_VAL 0 //!< POCR0SA = 0 for no pulse at init
     #define A_RA_VAL 1 //!< POCR0RA = 1 to synchronize the ADC at the center of the waveform

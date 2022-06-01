@@ -44,7 +44,6 @@ C_SRCS +=  \
 ../debug.c \
 ../hall.c \
 ../main.c \
-../mosfet.c \
 ../motor.c \
 ../pid.c \
 ../psc.c \
@@ -65,7 +64,6 @@ dac.o \
 debug.o \
 hall.o \
 main.o \
-mosfet.o \
 motor.o \
 pid.o \
 psc.o \
@@ -79,7 +77,6 @@ dac.o \
 debug.o \
 hall.o \
 main.o \
-mosfet.o \
 motor.o \
 pid.o \
 psc.o \
@@ -93,7 +90,6 @@ dac.d \
 debug.d \
 hall.d \
 main.d \
-mosfet.d \
 motor.d \
 pid.d \
 psc.d \
@@ -107,7 +103,6 @@ dac.d \
 debug.d \
 hall.d \
 main.d \
-mosfet.d \
 motor.d \
 pid.d \
 psc.d \
@@ -170,13 +165,6 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./main.o: .././main.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\include" -I"../../Drivers" -I"../conf" -I".." -I"../uart"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32m1 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\gcc\dev\atmega32m1" -c -gdwarf-2 -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-./mosfet.o: .././mosfet.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\include" -I"../../Drivers" -I"../conf" -I".." -I"../uart"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32m1 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.331\gcc\dev\atmega32m1" -c -gdwarf-2 -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

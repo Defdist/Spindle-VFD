@@ -16,8 +16,6 @@ hall.c
 
 main.c
 
-mosfet.c
-
 motor.c
 
 pid.c

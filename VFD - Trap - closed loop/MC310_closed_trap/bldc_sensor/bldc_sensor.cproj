@@ -144,12 +144,6 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mosfet.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="mosfet.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="motor.c">
       <SubType>compile</SubType>
     </Compile>

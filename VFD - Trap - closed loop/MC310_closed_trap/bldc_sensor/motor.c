@@ -28,7 +28,8 @@ void motor_stop(void) { motorStatus = STOPPED; }
 void motor_run(void)
 {
   motorStatus = RUNNING;
-  psc_commutateOutputWaveforms( pid_dutyCycle_calculate() ); //JTS2doNow: Is this required to start motor?
+  pid_dutyCycle_set(255); //kickstart motor
+  psc_commutateOutputWaveforms( pid_dutyCycle_get() ); 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
