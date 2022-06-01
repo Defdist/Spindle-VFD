@@ -1,6 +1,10 @@
 #ifndef _TIMING_H_
 	#define _TIMING_H_
 
+	//#define AVERAGE_RPM_MEASUREMENT //enable averaging
+	//#define NUM_SAMPLES_PER_RPM_CALCULATION 8 //Number of samples to calculate motor speed (if enabled)
+	//#define POWER_OF__NUM_SAMPLES_PER_RPM_CALCULATION 3 //2 ^ n = NUM_SAMPLES_PER_RPM_CALCULATION 
+
 	uint8_t timing_runControlLoop_get(void);
 	void    timing_runControlLoop_set(uint8_t state);
 

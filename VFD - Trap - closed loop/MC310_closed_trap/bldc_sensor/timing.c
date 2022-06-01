@@ -11,6 +11,7 @@ void    timing_runControlLoop_set(uint8_t state) { runControlLoop = state; }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+//used to time main control loop
 //Configure 8b Timer0
 //counter increments every 4 microseconds
 //interrupt occurs when timer value hit OCR0A
@@ -18,7 +19,7 @@ void timing_timer0_init(void)
 {
   TCCR0A = (1<<WGM01); //set timer mode=CTC, don't connect timer to any output pins
   TCCR0B = (1<<CS01)|(1<<CS00); //CPU/64 prescaler
-  OCR0A  = 7; // f_interrupt = 1/(16MHz/64DIV)*(OCR0A+1) = //OCR0A=7: 32 us tick (512 clocks @ 16 MHz)
+  OCR0A  = 7; // f_interrupt = 1/(16MHz/64DIV)*(OCR0A+1) //OCR0A=7: 32us tick (512 clocks @ 16 MHz)
   TIMSK0 = (1<<OCIE0A); // Output compare A Match interrupt Enable
 }
 
@@ -31,63 +32,90 @@ ISR(TIMER0_COMPA_vect) { timing_runControlLoop_set(TRUE); }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 //configure 16b Timer1
-//increment counter every 16 microseconds
+//counter increments every 4 microseconds
 //used to calculate RPM
 void timing_timer1_init(void)
 {
   TCCR1A = 0; //set timer mode=normal, don't connect timer to any output pins
-  TCCR1B = (1<<CS12)|(0<<CS11)|(0<<CS10); // prescale Timer0 clock to CPU/256 prescaler // counter increments every 16us ( 1/[16MHz/256] )
+  TCCR1B = (0<<CS12)|(1<<CS11)|(1<<CS10); // prescale Timer0 clock to CPU/64 prescaler
   TIMSK1 = (1<<TOIE1); //generate interrupt each time an overflow occurs (every 4.096 ms, unless the hall state has changed)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-//Timer1 interrupt occurs when timer overflows //~1.05 seconds ( 2^16 * 1/[16MHz/256] )
-//if the motor is spinning, then this interrupt should never occur (the Hall_B interrupt should occur first)
-//The value on Timer1 is the time between each Hall_B rising edge //used to determine actual RPM
+//used to determine actual spindle RPM
+//Timer1 increments every 4us ( 1/[16MHz/64] )
+//Timer1 overflow interrupt occurs if no HallB rising edge occurs after ~262 milliseconds (2^16 * 4us) //HallB interrupt resets TCNT1 to zero)
+//The value on Timer1 is the time between each Hall_B rising edge
 ISR(TIMER1_OVF_vect)
 {
-  //motor isn't spinning
+  //timer1 timed out
   TCNT1=0x00; //set Timer1 value to 0
   
-  timing_measuredRPM_set(0);
+  timing_measuredRPM_set(0); //motor isn't spinning
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 inline void timing_calculateRPM(void)
 {
-  
   uint16_t timerCount = TCNT1; //retrive 16b timer value
+  TCNT1 = 0x00; //reset Timer 1 ASAP (to minimize jitter)
   
-  if (timerCount == 0) { timerCount = 1; } // prevent divide-by-0 in next line
-  
-  uint16_t new_measured_speed = K_SPEED / timerCount;
-  
-  //if(new_measured_speed > 255) new_measured_speed = 255; // Variable saturation
+  #define TIMER1_TICK_PERIOD_us 4
+  #define MICROSECONDS_PER_SECOND 1000000
+  #define SECONDS_PER_MINUTE 60
+  #define BLDC_NUM_POLE_PAIRS 4
+  #define SHEAVE_RATIO 2
 
-  #ifdef AVERAGE_SPEED_MEASUREMENT
-    // To avoid noise an average is realized on 8 samples
-    static uint16_t sampleCount = 1;
-    static uint16_t sumOfSamples = 0;
+  //Derivation:
+    //timeSinceLastInterrupt_us = timerCount * TIMER1_TICK_PERIOD_us = timerCount * 4
+    //hallFrequency_Hz = 1 / (timeSinceLastInterrupt_us * 1E-6)
+    //shaftRPM_BLDC = (hallFrequency_Hz / BLDC_NUM_POLE_PAIRS) * SECONDS_PER_MINUTE
+    //spindleRPM = shaftRPM_BLDC * SHEAVE_RATIO
+  #define TIMER1_SPINDLE_RPM_CONSTANT (SHEAVE_RATIO / (BLDC_NUM_POLE_PAIRS * TIMER1_TICK_PERIOD_us) * MICROSECONDS_PER_SECOND * SECONDS_PER_MINUTE)
+  
+  uint16_t spindleRPM_measured = TIMER1_SPINDLE_RPM_CONSTANT / timerCount; //JTS2doNow: See how fast this executes
+  //Examples:
+    //when spindleRPM_measured is 10000, timerCount was   750
+    //when spindleRPM_measured is  9987, timerCount was   751
+    //when spindleRPM_measured is  9973, timerCount was   752
+    //when spindleRPM_measured is  9000, timerCount was   834
+    //when spindleRPM_measured is  8000, timerCount was   938
+    //when spindleRPM_measured is  7987, timerCount was   939   
+    //when spindleRPM_measured is  7000, timerCount was  1071
+    //when spindleRPM_measured is  6000, timerCount was  1250
+    //when spindleRPM_measured is  5000, timerCount was  1500
+    //when spindleRPM_measured is  4000, timerCount was  1875
+    //when spindleRPM_measured is  3000, timerCount was  2500
+    //when spindleRPM_measured is  2000, timerCount was  3750
+    //when spindleRPM_measured is  1000, timerCount was  7500
+    //when spindleRPM_measured is   115, timerCount was 65217 //close to 2^16 counter limit
 
-    sumOfSamples += new_measured_speed;
-    if(sampleCount >= NUM_SAMPLES_PER_RPM_CALCULATION)
+  #ifdef AVERAGE_RPM_MEASUREMENT
+    static uint8_t sampleCount = 0;
+    static uint32_t sumOfSamples = 0;
+
+    sumOfSamples += spindleRPM_measured;
+    if(++sampleCount > NUM_SAMPLES_PER_RPM_CALCULATION)
     {
-      sampleCount = 1;
-      timing_measuredRPM_set(sumOfSamples >> 3);
+      sampleCount = 0;
+      timing_measuredRPM_set(sumOfSamples>>POWER_OF__NUM_SAMPLES_PER_RPM_CALCULATION);
       sumOfSamples = 0;
     }
-    else sampleCount++;
+  
   #else
-    // else get the real speed
-  timing_measuredRPM_set(new_measured_speed); 
+    timing_measuredRPM_set(new_measured_speed); 
   #endif
-
-  TCNT1 = 0x00; // Reset Timer 1 value to zero
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void     timing_measuredRPM_set(uint16_t measured_speed) { motorRPM_measured = measured_speed; }
 uint16_t timing_measuredRPM_get(void) { return motorRPM_measured; }
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+void timing_measuredRPM_set(uint16_t measured_speed) { motorRPM_measured = measured_speed; }
+
+
+

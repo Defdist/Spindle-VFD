@@ -18,14 +18,11 @@ int main(void)
   motor_run();
 
   sei(); //enable interrupts
-  
-  //adc_goalRPM_set(255); //debug
 
   while(1)
   {	  	  
     if (timing_runControlLoop_get() == TRUE)
     {	
-      unoPinA2_high();
       timing_runControlLoop_set(FALSE); //prevent control loop from running again until timer interrupt occurs
       
       // adc_Scheduler(); // Get Current or potentiometer value
@@ -39,14 +36,9 @@ int main(void)
       // }
 
       //psc_setDutyCycle( pid_dutyCycle_get() );
-	  psc_setDutyCycle(255); //debug
-      
+      psc_setDutyCycle(255); //debug
 	  
       //mc_inrush_task();       // manage the inrush current
-    }
-    else
-    {
-      unoPinA2_low();
     }
   }
 }

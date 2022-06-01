@@ -21,14 +21,6 @@
 #ifndef _ADC_DRV_H_
 	#define _ADC_DRV_H_
 
-	#define _USE_ADC_LIB_
-
-	#define ADC_RIGHT_ADJUST_RESULT 0 //!< 0: Result left adjusted  1: Result right adjusted
-	#define ADC_HIGH_SPEED_MODE     1 //
-	#define VREF_SOURCE             0 //!< 0: External Vref         1: Internal Vref  2: Vref is connected to Vcc
-	#define ADC_IT                  1 //!< 0: No ADC End of Conv IT 1: ADC End of conversion generates an IT
-	#define ADC_PRESCALER           4 //!< 2, 4, 8, 16, 32, 64, 128  : The input ADC frequency is the system clock frequency divided by the const value
-
 	//_____ I N C L U D E S ____________________________________________________
 	//! @defgroup ADC_module ADC Module
 	//! ADC Module
@@ -140,20 +132,21 @@
 		  //! @defgroup Configuration of the ADC
 		  //! Configure the ADC
 		  //! @{
-	//JTS2do: Properly configure ADC
-	#define Adc_config() \
-	  ADMUX  = (ADC_REF_SOURCE<<REFS0)| \
-			   (ADC_ADLAR_VALUE<<ADLAR)| \
-			   (ADC_CHANNEL<<MUX0); \
-	  ADCSRA = (ADC_ENABLE_BIT_VALUE<<ADEN)| \
-			   (0<<ADSC)| \
-			   (ADC_AUTO_TRIG_ENABLE_VALUE<<ADATE)| \
-			   (0<<ADIF)| \
-			   (ADC_INTERRUPT_ENABLE_VALUE<<ADIE)| \
-			   (ADC_PRESCALER_SELECT_VALUE<<ADPS0); \
-	  ADCSRB = (ADC_HIGH_SPEED_MODE_VALUE<<ADHSM)| \
-			   (ADC_AREF_PIN_ENABLE_VALUE<<AREFEN)| \
-			   (ADC_AUTO_TRIG_SOURCE<<ADTS0);
+	
+	//JTS: These are the various registers that need to be set to use the ADC //adc_init() does the same thing with functions 
+	// #define Adc_config() \
+	//   ADMUX  = (ADC_REF_SOURCE<<REFS0)| \
+	// 		   (ADC_ADLAR_VALUE<<ADLAR)| \
+	// 		   (ADC_CHANNEL<<MUX0); \
+	//   ADCSRA = (ADC_ENABLE_BIT_VALUE<<ADEN)| \
+	// 		   (0<<ADSC)| \
+	// 		   (ADC_AUTO_TRIG_ENABLE_VALUE<<ADATE)| \
+	// 		   (0<<ADIF)| \
+	// 		   (ADC_INTERRUPT_ENABLE_VALUE<<ADIE)| \
+	// 		   (ADC_PRESCALER_SELECT_VALUE<<ADPS0); \
+	//   ADCSRB = (ADC_HIGH_SPEED_MODE_VALUE<<ADHSM)| \
+	// 		   (ADC_AREF_PIN_ENABLE_VALUE<<AREFEN)| \
+	// 		   (ADC_AUTO_TRIG_SOURCE<<ADTS0);
 		  //! @}
 
 		  //! @defgroup Configuration of the Amplifier 0

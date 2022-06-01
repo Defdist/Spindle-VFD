@@ -14,7 +14,7 @@
             #elif (DAC_INPUT_RIGHT_ADJUST == 0)
                 Dac_left_adjust_input();
             #else
-                #error (ADC_RIGHT_ADJUST_RESULT should be 0 or 1... See config.h file)
+                #error (DAC_RIGHT_ADJUST_RESULT should be 0 or 1... See config.h file)
             #endif
 
             #if (DAC_OUTPUT_DRIVER == 1)
