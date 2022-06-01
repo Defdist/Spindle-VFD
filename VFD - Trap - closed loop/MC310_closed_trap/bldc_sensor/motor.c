@@ -27,17 +27,13 @@ void motor_stop(void) { motorStatus = STOPPED; }
 
 void motor_run(void)
 {
-  if (!(PCTL & (1<<PRUN))) { psc_init(); } //starts PSC stage, if not already started
-  
   motorStatus = RUNNING;
-  psc_configureOutputWaveforms( pid_dutyCycle_calculate() );
-  mosfet_commutate( hall_getPosition() ); //also occurs in ISR each time Hall state changes
-  //mc_disableOvercurrentDuringStartup(); //JTS2doLater: Configure overcurrent
+  psc_commutateOutputWaveforms( pid_dutyCycle_calculate() ); //JTS2doNow: Is this required to start motor?
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //JTS2doNow: Direction never set in code.  Fine for now.
-//JTS2doNow: If direction_now != direction_previous, need to stop motor first, then spin other way.
+//JTS2doNow: If direction_now != direction_previous, need to stop motor first, then spin other way. //PID loop might take care of this automatically
 void    motor_direction_set(uint8_t direction) { (direction == CCW) ? (motorDirection = CCW) : (motorDirection = CW); }
 uint8_t motor_direction_get(void) { return motorDirection; }

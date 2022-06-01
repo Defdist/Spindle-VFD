@@ -10,7 +10,7 @@
 
     void adc_init(void);
 
-    void adc_Scheduler(void);
+    void adc_scheduler(void);
 
     uint16_t adc_goalRPM_get(void);
     void     adc_goalRPM_set(uint16_t adcResult_RPM);

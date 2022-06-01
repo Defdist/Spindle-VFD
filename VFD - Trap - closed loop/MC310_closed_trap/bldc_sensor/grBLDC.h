@@ -32,7 +32,6 @@
 	#include "pid.h"
 	#include "debug.h"
 	#include "timing.h"
-	#include "mosfet.h"
 	#include "comparator.h"
 
 	#define TRUE 1

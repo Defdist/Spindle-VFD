@@ -6,6 +6,23 @@
 
 void psc_init (void)
 {
+  // Output Pin configuration (used by PSC outputs)
+  // PD0 => UH     PB7 => UL
+  // PC0 => VH     PB6 => VL
+  // PB0 => WH     PB1 => WL
+
+  // Set MOSFET Drive pins low (soo all FETs are off when set to output in next step)
+  PORTB &= ~(1<<PORTB7 | 1<<PORTB6 | 1<<PORTB1 | 1<<PORTB0);
+  PORTC &= ~(1<<PORTC0);
+  PORTD &= ~(1<<PORTD0);
+
+  // Configure MOSFET pins to output
+  DDRB = (1<<DDB7)|(1<<DDB6)|(1<<DDB1)|(1<<DDB0);
+  DDRC = (1<<DDC0);
+  DDRD = (1<<DDD0);
+
+  psc_connectAllMOSFETs(); //debug
+
    //SA_VAL: When PSC counter is less    than this value, high FET is enabled
    //SB_VAL: When PSC counter is greater than this value, low  FET is enabled
    //The difference between SA and SB sets the dead time between phases 
@@ -53,102 +70,108 @@ void psc_init (void)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Set the duty cycle values in the PSC according to the value calculate by the regulation loop
-void psc_configureOutputWaveforms(uint8_t duty)
+  // duty =   0: Duty Cycle   0%
+  // duty = 255: Duty Cycle 100%
+void psc_commutateOutputWaveforms(uint8_t duty)
+{ 
+  if ( motor_state_get() == STOPPED )
+  {
+    psc_disconnectAllMOSFETs();
+
+    //disable PWM on all FETs
+    Psc_set_module_A(0,A_RA_VAL,0);
+    Psc_set_module_B(0,B_RA_VAL,0);
+    Psc_set_module_C(0,C_RA_VAL,0);
+    //Syntax:
+      //Psc_set_module_n(A_SA_VAL, A_RA_VAL, A_SB_VAL);
+      //SA_VAL: When PSC counter is less    than this value, high FET is enabled
+      //SB_VAL: When PSC counter is greater than this value, low  FET is enabled
+      //The difference between SA and SB sets the dead time between phases 
+      
+      //RA_VAL: Not used in centered mode //can be used to synchronize ADC
+      //RB_VAL: Not used in centered mode 
+  }
+  else //(motor_state_get() == RUNNING)
+  {
+    psc_connectAllMOSFETs();
+    
+    uint8_t hallState = hall_getPosition();
+
+    //JTS2doNow: Sample direction pin (PB3) to determine spindle direction
+    if(motor_direction_get() == CCW) { hallState = (~hallState) & (0b00000111); } //flip hall bits (6->1, 5->2. 4->3, 3->4, 2->5, 1->6)
+
+    Psc_lock();
+
+    //Determine which two PSC outputs will generate PWM waveforms 
+    switch(hallState)
+    {
+      case 1:  
+        Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
+        Psc_set_module_B(0,B_RA_VAL,0);
+        Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
+      break;
+
+      case 2: //Set_Q3Q2(); 1A 0B
+        Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
+        Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
+        Psc_set_module_C(0,C_RA_VAL,0);
+      break;
+
+      case 3: //Set_Q3Q6(); 1A 2B
+        Psc_set_module_A(0,A_RA_VAL,0);
+        Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
+        Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
+      break;
+
+      case 4: //Set_Q5Q4(); 2A 1B
+        Psc_set_module_A(0,A_RA_VAL,0);
+        Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
+        Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
+      break;
+
+      case 5: //Set_Q1Q4(); 0A 1B
+        Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
+        Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
+        Psc_set_module_C(0,C_RA_VAL,0);
+      break;
+
+      case 6: //Set_Q5Q2(); 2A 0B
+        Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
+        Psc_set_module_B(0,B_RA_VAL,0);
+        Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
+      break;
+      
+      default: /*psc_disconnectAllMOSFETs();*/ break; //JTS2doNow: Is this needed?
+    }
+
+    Psc_unlock();
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void psc_disconnectAllMOSFETs(void)
 {
-  #if(CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)
-    uint8_t dutydt;   /* duty with dead time */
-    if (duty >= DEADTIME) {dutydt = duty - DEADTIME;}
-  #endif
-   
-  Psc_lock();
+  //set standard pin outputs low
+  PORTB &= ( ~((1<<PORTB7)|(1<<PORTB6)|(1<<PORTB0)|(1<<PORTB1)) ); //Turn off Q2/Q4/Q5/Q6, respectively
+  PORTC &= ( ~(1<<PORTC0) ); //turn off Q3
+  PORTD &= ( ~(1<<PORTD0) ); //turn off Q1
 
-  // Duty = 0   => Duty Cycle   0%
-  // Duty = 255 => Duty Cycle 100%
- 
-  //SA_VAL: When PSC counter is less    than this value, high FET is enabled
-  //SB_VAL: When PSC counter is greater than this value, low  FET is enabled
-  //The difference between SA and SB sets the dead time between phases 
-  
-  //RA_VAL: Not used in centered mode //can be used to synchronize ADC
-  //RB_VAL: Not used in centered mode
-  
-  //Psc_set_module_n(A_SA_VAL, A_RA_VAL, A_SB_VAL);
+  //POC: PSC output configuration
+  POC = ( (0<<POEN0A)|(0<<POEN0B) |  //0:disconnect PSC outputs 0A & 0B from I/O pins //1:connect PSC output
+          (0<<POEN1A)|(0<<POEN1B) |  //0:disconnect PSC outputs 1A & 1B from I/O pins //1:connect PSC output
+          (0<<POEN2A)|(0<<POEN2B) ); //0:disconnect PSC outputs 2A & 2B from I/O pins //1:connect PSC output
+}
 
-  //while all six PSC phases are chopping simultaneously, only two phases are routed to output pins at the same time //see mosfet_commutate()
-  // #if (CURRENT_DECAY == FAST_DECAY)
-  //   Psc_set_module_A(duty,A_RA_VAL,duty);
-  //   Psc_set_module_B(duty,B_RA_VAL,duty);
-  //   Psc_set_module_C(duty,C_RA_VAL,duty);
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // #elif (CURRENT_DECAY == SLOW_DECAY_SYNCHRONOUS)
-  //   Psc_set_module_A(duty,A_RA_VAL,dutydt);
-  //   Psc_set_module_B(duty,B_RA_VAL,dutydt);
-  //   Psc_set_module_C(duty,C_RA_VAL,dutydt);
-
-  // #else //SLOW_DECAY
-  //   Psc_set_module_A(duty,A_RA_VAL,0);
-  //   Psc_set_module_B(duty,B_RA_VAL,0);
-  //   Psc_set_module_C(duty,C_RA_VAL,0);
-  // #endif
-   
-  if(motor_direction_get() == CCW) //JTS2doNow: Sample direction pin (PB3) to determine spindle direction
-  {
-      // switch(hallState)
-      // {
-      //     case 1: Set_Q5Q2(); break;  
-      //     case 2: Set_Q1Q4(); break;
-      //     case 3: Set_Q5Q4(); break;
-      //     case 4: Set_Q3Q6(); break;
-      //     case 5: Set_Q3Q2(); break;
-      //     case 6: Set_Q1Q6(); break;
-      //     default: mosfet_turnOffAll(); break;
-      // }
-  }
-  else //direction == CW
-  {
-      switch(hallState)
-      {
-          case 1: //Set_Q1Q6(); //0A 2B
-            Psc_set_module_A(duty,A_RA_VAL,0);
-            Psc_set_module_B(0,B_RA_VAL,0);
-            Psc_set_module_C(0,C_RA_VAL,duty);
-          break;
-
-          case 2: //Set_Q3Q2(); 1A 0B
-            Psc_set_module_A(0,A_RA_VAL,duty);
-            Psc_set_module_B(duty,B_RA_VAL,0);
-            Psc_set_module_C(0,C_RA_VAL,0);
-          break;
-
-          case 3: //Set_Q3Q6(); 1A 2B
-            Psc_set_module_A(0,A_RA_VAL,0);
-            Psc_set_module_B(duty,B_RA_VAL,0);
-            Psc_set_module_C(0,C_RA_VAL,duty);
-          break;
-
-          case 4: //Set_Q5Q4(); 2A 1B
-            Psc_set_module_A(0,A_RA_VAL,0);
-            Psc_set_module_B(0,B_RA_VAL,duty);
-            Psc_set_module_C(duty,C_RA_VAL,0);
-          break;
-
-          case 5: //Set_Q1Q4(); 0A 1B
-            Psc_set_module_A(duty,A_RA_VAL,0);
-            Psc_set_module_B(0,B_RA_VAL,duty);
-            Psc_set_module_C(0,C_RA_VAL,0);
-          break;
-
-          case 6: //Set_Q5Q2(); 2A 0B
-            Psc_set_module_A(0,A_RA_VAL,duty);
-            Psc_set_module_B(0,B_RA_VAL,0);
-            Psc_set_module_C(duty,C_RA_VAL,0);
-          break;
-          
-          default: /*mosfet_turnOffAll();*/ break;
-      }
-  }
-
-  Psc_unlock();
+//used if PSCs are controlling commutation
+void psc_connectAllMOSFETs(void)
+{
+  //POC: PSC output configuration
+  POC = ( (1<<POEN0A)|(1<<POEN0B) |  //0:disconnect PSC outputs 0A & 0B from I/O pins //1:connect PSC output
+          (1<<POEN1A)|(1<<POEN1B) |  //0:disconnect PSC outputs 1A & 1B from I/O pins //1:connect PSC output
+          (1<<POEN2A)|(1<<POEN2B) ); //0:disconnect PSC outputs 2A & 2B from I/O pins //1:connect PSC output
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

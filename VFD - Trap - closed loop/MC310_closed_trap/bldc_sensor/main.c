@@ -6,7 +6,6 @@ int main(void)
   adc_init();
   motor_init();
   hall_init();
-  mosfet_init();
   a4910_init(); //configure pin to digital output
   timing_timer0_init();
   timing_timer1_init();
@@ -21,22 +20,15 @@ int main(void)
 
   while(1)
   {	  	  
-    if (timing_runControlLoop_get() == TRUE)
+    if (timing_runControlLoop_get() == TRUE) //controlled by Timer0 interrupt
     {	
-      timing_runControlLoop_set(FALSE); //prevent control loop from running again until timer interrupt occurs
+      timing_runControlLoop_set(FALSE); //prevent control loop from running again until next Timer0 interrupt occurs
       
-      adc_Scheduler(); // Get Current or potentiometer value
+      adc_scheduler(); //JTS2doLater: This only needs to run when 328p is updating goalRPM
       
-      // static uint16_t g_regulation_period = 0; //sampling period
-	    // 
-      // if(++g_regulation_period >= 40) //n * 256us = Te //40: update PID every 10.24 ms
-      // {
-      //   pid_dutyCycle_calculate();
-      //   g_regulation_period = 0;
-      // }
+      pid_scheduler();
 
-      //psc_configureOutputWaveforms( pid_dutyCycle_get() );
-      //psc_configureOutputWaveforms(255); //debug
+      //psc_commutateOutputWaveforms( pid_dutyCycle_get() ); //debug
 	  
       //mc_inrush_task();       // manage the inrush current
     }

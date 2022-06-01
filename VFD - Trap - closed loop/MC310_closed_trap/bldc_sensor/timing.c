@@ -9,17 +9,16 @@ uint16_t motorRPM_measured = 0;
 uint8_t timing_runControlLoop_get(void)          { return runControlLoop; }
 void    timing_runControlLoop_set(uint8_t state) { runControlLoop = state; }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
 
-//used to time main control loop
-//Configure 8b Timer0
-//counter increments every 4 microseconds
-//interrupt occurs when timer value hit OCR0A
+//Configure 8b Timer0 //count up to OCR0A
+//interrupt occurs when timer value is OCR0A
+//interrupt causes main control loop to execute
 void timing_timer0_init(void)
 {
   TCCR0A = (1<<WGM01); //set timer mode=CTC, don't connect timer to any output pins
-  TCCR0B = (1<<CS01)|(1<<CS00); //CPU/64 prescaler
-  OCR0A  = 7; // f_interrupt = 1/(16MHz/64DIV)*(OCR0A+1) //OCR0A=7: 32us tick (512 clocks @ 16 MHz)
+  TCCR0B = (1<<CS01)|(1<<CS00); //prescale Timer0 clock to CPU/64 prescaler //MUST also change TIMER0_TICK_PERIOD_us constant!
+  OCR0A  = TIMER0_COUNTS_TO; // f_interrupt = 1/(16MHz/64DIV)*(OCR0A+1) //OCR0A=7: 32us tick (512 clocks @ 16 MHz)
   TIMSK0 = (1<<OCIE0A); // Output compare A Match interrupt Enable
 }
 
@@ -29,16 +28,16 @@ void timing_timer0_init(void)
 //used to run main control loop 
 ISR(TIMER0_COMPA_vect) { timing_runControlLoop_set(TRUE); }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
 
-//configure 16b Timer1
-//counter increments every 4 microseconds
-//used to calculate RPM
+//configure 16b Timer1: count up to 2^16
+//used to calculate RPM (by measuring time between HallB rising edges)
 void timing_timer1_init(void)
 {
   TCCR1A = 0; //set timer mode=normal, don't connect timer to any output pins
-  TCCR1B = (0<<CS12)|(1<<CS11)|(1<<CS10); // prescale Timer0 clock to CPU/64 prescaler
-  TIMSK1 = (1<<TOIE1); //generate interrupt each time an overflow occurs (every 4.096 ms, unless the hall state has changed)
+  TCCR1B = (0<<CS12)|(1<<CS11)|(1<<CS10); //prescale Timer1 clock to CPU/64 prescaler //MUST also change TIMER1_TICK_PERIOD_us constant!
+  TIMSK1 = (1<<TOIE1); //generate interrupt each time an overflow occurs
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +61,6 @@ inline void timing_calculateRPM(void)
   uint16_t timerCount = TCNT1; //retrive 16b timer value
   TCNT1 = 0x00; //reset Timer 1 ASAP (to minimize jitter)
   
-  #define TIMER1_TICK_PERIOD_us 4
   #define MICROSECONDS_PER_SECOND 1000000
   #define SECONDS_PER_MINUTE 60
   #define BLDC_NUM_POLE_PAIRS 4
