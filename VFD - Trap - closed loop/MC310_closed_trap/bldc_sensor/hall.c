@@ -73,9 +73,6 @@ ISR( HALL_B_vect )
     {
       //rising edge just occurred on Hall B
       timing_calculateRPM();
-
-      //if( timing_measuredRPM_get() > 6000 ) { unoPinA4_high(); }
-      //else                                  { unoPinA4_low();  } //debug
     }
   }
 

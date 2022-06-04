@@ -18,6 +18,12 @@ int main(void)
 
   sei(); //enable interrupts
 
+	unoPinA2_high(); //debug
+	unoPinA2_low();
+	
+	unoPinA4_high(); //debug
+	unoPinA4_low();
+
   while(1)
   {	  	  
     if (timing_runControlLoop_get() == TRUE) //controlled by Timer0 interrupt

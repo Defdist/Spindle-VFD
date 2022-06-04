@@ -28,7 +28,9 @@ void motor_stop(void) { motorStatus = STOPPED; }
 void motor_run(void)
 {
   motorStatus = RUNNING;
+
   pid_dutyCycle_set(255); //kickstart motor
+
   psc_commutateOutputWaveforms( pid_dutyCycle_get() ); 
 }
 

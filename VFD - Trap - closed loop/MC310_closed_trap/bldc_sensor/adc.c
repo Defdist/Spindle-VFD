@@ -24,9 +24,15 @@ ISR(ADC_vect)
     #define ADC_COUNTS_TO_RPM__OFFSET 1360
     //y=mx+b //see ../Documentation/RPM LUT.ods
 	
-    uint16_t adcResultScaled_RPM = (uint16_t)(ADC_COUNTS_TO_RPM__GAIN * adcResult_counts) + ADC_COUNTS_TO_RPM__OFFSET;
+    uint16_t adcResultScaled_goalRPM = (uint16_t)(ADC_COUNTS_TO_RPM__GAIN * adcResult_counts) + ADC_COUNTS_TO_RPM__OFFSET;
 
-    adc_goalRPM_set(adcResultScaled_RPM);
+    adc_goalRPM_set(adcResultScaled_goalRPM);
+	
+	if(adcResultScaled_goalRPM > 7500) { unoPinA4_high(); } //goalRPM is greater than 7500 rpm
+	else                              { unoPinA4_low(); }
+	
+	if(adcResultScaled_goalRPM < 2000) { unoPinA2_high(); } //goalRPM is less than 2000 rpm
+	else                               { unoPinA2_low(); }
   }
 
   // else if(ADC_stateMachine == ADC_MEASURING_CURRENT)

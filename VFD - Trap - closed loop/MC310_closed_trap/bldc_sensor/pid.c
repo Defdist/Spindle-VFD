@@ -55,25 +55,30 @@ int16_t pid_calculate_derivative(int16_t speedError)
 uint8_t pid_dutyCycle_calculate(void)
 {
   #ifdef SPINDLE_MODE_CLOSED_LOOP 
-    int16_t summedPID = 0;
-    int16_t speedError = adc_goalRPM_get() - timing_measuredRPM_get();
+    static int16_t summedPID = 0;
+    int32_t error_actualRPM_minus_goalRPM = (int32_t)timing_measuredRPM_get() - (int32_t)adc_goalRPM_get();
 
-    int16_t TermPID_proportional = pid_calculate_proportional(speedError);
-    int16_t TermPID_integral     = pid_calculate_integral    (speedError);
-    int16_t TermPID_derivative   = pid_calculate_derivative  (speedError);
+	if(error_actualRPM_minus_goalRPM > 0) { summedPID--; }
+	else               { summedPID++; }
+
+    //int16_t TermPID_proportional = pid_calculate_proportional(speedError);
+    //int16_t TermPID_integral     = pid_calculate_integral    (speedError);
+    //int16_t TermPID_derivative   = pid_calculate_derivative  (speedError);
 
     // Duty Cycle calculation
-    summedPID = TermPID_proportional + TermPID_integral + TermPID_derivative;
-    summedPID = summedPID >> K_SPEED_SCALAR;
+    //summedPID = TermPID_proportional + TermPID_integral + TermPID_derivative;
+    //summedPID = error_actualRPM_minus_goalRPM;
 
     // Bound max/min PWM value
-    if     ( summedPID >= (int16_t)(255) ) { dutyPID = 255;                  }
-    else if( summedPID <= (int16_t)(  0) ) { dutyPID =   0;                  }
-    else                                   { dutyPID = (uint8_t)(summedPID); }
+    if     ( summedPID > (int16_t)(255) ) { summedPID = 255;                  }
+    else if( summedPID < (int16_t)(175) ) { summedPID =   175;                  }
+    //else                                  { /*dutyPID = (uint8_t)(summedPID)*/; }
   
   #elif defined SPINDLE_MODE_OPEN_LOOP
     dutyPID = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;
   #endif
+	
+  dutyPID = summedPID;	
 
   return dutyPID;
 }
