@@ -2,7 +2,7 @@
 	#define _PID_H_
 
     //PID control coefficients
-    #define SPEED_PID_PROPERTIONAL_COEF 30
+    #define SPEED_PID_PROPERTIONAL_COEF 1
     #define SPEED_PID_INTEGRAL_COEF 30
     #define SPEED_PID_DIFFERENTIAL_COEF 0
 

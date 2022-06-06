@@ -11,6 +11,21 @@ uint8_t ADC_hardwareStatus = ADCFREE;  //ADC is available to perform conversions
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+//prevent noise from affecting requested RPM
+//to do this, send highest RPM value received since last 'reset'
+//'reset' occurs when s0 sent via grbl //this is a debug tool for now
+uint16_t filteredValue_counts(uint16_t latest10bSample)
+{
+		static uint16_t max10bSample;
+		
+		if(latest10bSample < 10) { max10bSample = 0; }
+		else if(latest10bSample > max10bSample) { max10bSample = latest10bSample; }
+		
+		return max10bSample;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 //Interrupt generated each time ADC conversion finishes
 //using an interrupt so we can add other ADC channels later
 //with just one channel, we could set the ADC to free running mode (and remove this ISR)
@@ -18,7 +33,9 @@ ISR(ADC_vect)
 {
   if(ADC_stateMachine == ADC_MEASURING_GOAL_RPM)
   {
-    uint16_t adcResult_counts = Adc_get_10_bits_result(); //~520 counts max (grBLDC goalRPM has DIV2 voltage divider LPF)
+	uint16_t adcResult_counts = Adc_get_10_bits_result(); //~520 counts max (grBLDC goalRPM has DIV2 voltage divider LPF)
+
+	adcResult_counts = filteredValue_counts(adcResult_counts);
 
     #define ADC_COUNTS_TO_RPM__GAIN     14
     #define ADC_COUNTS_TO_RPM__OFFSET 1360

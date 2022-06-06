@@ -33,11 +33,6 @@ int main(void)
       adc_scheduler(); //JTS2doLater: This only needs to run when 328p is updating goalRPM
       
       pid_scheduler();
-
-      //psc_commutateOutputWaveforms( pid_dutyCycle_get() ); //debug
-	  //psc_commutateOutputWaveforms(255);
-	  
-      //mc_inrush_task();       // manage the inrush current
     }
   }
 }

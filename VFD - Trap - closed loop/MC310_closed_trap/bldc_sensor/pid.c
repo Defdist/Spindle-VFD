@@ -56,10 +56,11 @@ uint8_t pid_dutyCycle_calculate(void)
 {
   #ifdef SPINDLE_MODE_CLOSED_LOOP 
     static int16_t summedPID = 0;
-    int32_t error_actualRPM_minus_goalRPM = (int32_t)timing_measuredRPM_get() - (int32_t)adc_goalRPM_get();
+    int16_t error_actualMinusGoal_RPM = (int16_t)timing_measuredRPM_get() - (int16_t)adc_goalRPM_get();
+	//int16_t error_actualMinusGoal_RPM = (int16_t)timing_measuredRPM_get() - (int16_t)3000; //JTS2doNow: Only ADC goalRPM when told to (by grbl)
 
-	if(error_actualRPM_minus_goalRPM > 0) { summedPID--; }
-	else               { summedPID++; }
+	if(error_actualMinusGoal_RPM > 0) { summedPID--; }
+	else                              { summedPID++; }
 
     //int16_t TermPID_proportional = pid_calculate_proportional(speedError);
     //int16_t TermPID_integral     = pid_calculate_integral    (speedError);
@@ -70,9 +71,8 @@ uint8_t pid_dutyCycle_calculate(void)
     //summedPID = error_actualRPM_minus_goalRPM;
 
     // Bound max/min PWM value
-    if     ( summedPID > (int16_t)(255) ) { summedPID = 255;                  }
-    else if( summedPID < (int16_t)(175) ) { summedPID =   175;                  }
-    //else                                  { /*dutyPID = (uint8_t)(summedPID)*/; }
+    if     ( summedPID > (int16_t)(255) ) { summedPID = 255; }
+    else if( summedPID < (int16_t)(100) ) { summedPID = 100; }
   
   #elif defined SPINDLE_MODE_OPEN_LOOP
     dutyPID = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;
