@@ -32,7 +32,7 @@ int main(void)
       
       adc_scheduler(); //JTS2doLater: This only needs to run when 328p is updating goalRPM
       
-      pid_scheduler();
+      //pid_scheduler();
     }
   }
 }

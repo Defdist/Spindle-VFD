@@ -72,7 +72,7 @@ uint8_t pid_dutyCycle_calculate(void)
 
     // Bound max/min PWM value
     if     ( summedPID > (int16_t)(255) ) { summedPID = 255; }
-    else if( summedPID < (int16_t)(100) ) { summedPID = 100; }
+    else if( summedPID < (int16_t)(150) ) { summedPID = 150; }
   
   #elif defined SPINDLE_MODE_OPEN_LOOP
     dutyPID = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;

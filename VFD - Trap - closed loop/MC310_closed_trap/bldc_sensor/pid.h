@@ -11,7 +11,7 @@
 
     #define OPEN_LOOP_STATIC_PSC_DUTY_CYCLE 255 //0: 0% PWM //255: 100% PWM
 
-    #define PID_UPDATE_PERIOD_MICROSECONDS 10240
+    #define PID_UPDATE_PERIOD_MICROSECONDS 1000
 
 	uint8_t pid_dutyCycle_get(void);
 	void    pid_dutyCycle_set(uint8_t newDuty);

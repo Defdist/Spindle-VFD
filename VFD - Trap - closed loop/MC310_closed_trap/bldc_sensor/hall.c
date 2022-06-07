@@ -73,6 +73,7 @@ ISR( HALL_B_vect )
     {
       //rising edge just occurred on Hall B
       timing_calculateRPM();
+	  pid_dutyCycle_calculate();
     }
   }
 
