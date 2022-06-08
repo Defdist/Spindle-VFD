@@ -97,7 +97,7 @@ void psc_commutateOutputWaveforms(uint8_t duty)
     
     uint8_t hallState = hall_getPosition();
 
-	//JTS2doNow: Does this work with CW motion?
+    //JTS2doNow: Does this work with CW motion?
     //JTS2doNow: Sample direction pin (PB3) to determine spindle direction
     if(motor_direction_get() == CCW) { hallState = (~hallState) & (0b00000111); } //flip hall bits (6->1, 5->2. 4->3, 3->4, 2->5, 1->6)
 
@@ -142,7 +142,7 @@ void psc_commutateOutputWaveforms(uint8_t duty)
         Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
       break;
       
-      default: /*psc_disconnectAllMOSFETs();*/ break; //JTS2doNow: Is this needed?
+      default: psc_disconnectAllMOSFETs(); break;
     }
 
     Psc_unlock();

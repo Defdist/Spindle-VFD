@@ -21,7 +21,11 @@ void motor_init()
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void motor_stop(void) { motorStatus = STOPPED; }
+void motor_stop(void)
+{
+  motorStatus = STOPPED;
+  a4910_disable();
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,6 +33,8 @@ void motor_run(void)
 {
   motorStatus = RUNNING;
 
+  a4910_enable();
+  
   pid_dutyCycle_set(255); //kickstart motor
 
   psc_commutateOutputWaveforms( pid_dutyCycle_get() ); 

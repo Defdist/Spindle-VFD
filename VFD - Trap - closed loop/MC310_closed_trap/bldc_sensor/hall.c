@@ -19,7 +19,7 @@ void hall_init(void)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-uint8_t hall_getPosition(void) //JTS2doNow: Inline required?
+uint8_t hall_getPosition(void)
 {
   static uint8_t state_previous = 0;
   static uint8_t numConsecutiveInvalidStates = 0;	
@@ -35,7 +35,6 @@ uint8_t hall_getPosition(void) //JTS2doNow: Inline required?
 	  //hall states in transition
 	  state = state_previous;
 	  numConsecutiveInvalidStates++;
-    //JTS2doNow: UnoPinA2_high(); //see if this ever occurs
   } 
   else //valid Hall state (or motor is stalled)
   {
@@ -58,7 +57,7 @@ ISR( HALL_AC_vect )  //Hall_A & Hall_C share the same interrupt vector byte
 
 ISR( HALL_B_vect )
 {
-  psc_commutateOutputWaveforms( pid_dutyCycle_get() ); //JTS2doNow: How to start motor?
+  psc_commutateOutputWaveforms( pid_dutyCycle_get() );
 
   uint8_t hallB_state = 0;
   static uint8_t hallB_state_previous = 0;

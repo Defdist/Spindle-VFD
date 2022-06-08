@@ -49,8 +49,12 @@ void timing_timer1_init(void)
 ISR(TIMER1_OVF_vect)
 {
   //timer1 timed out
-  //TCNT1=0x00; //set Timer1 value to 0
+  TCNT1=0x00; //set Timer1 value to 0
   
+  a4910_disable();
+  psc_commutateOutputWaveforms(255);
+  a4910_enable();
+
   timing_measuredRPM_set(0); //motor isn't spinning
 }
 
