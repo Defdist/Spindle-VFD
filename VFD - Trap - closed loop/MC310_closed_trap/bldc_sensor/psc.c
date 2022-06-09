@@ -98,7 +98,7 @@ void psc_commutateOutputWaveforms(uint8_t duty)
     uint8_t hallState = hall_getPosition();
 
 	//flip hall bits (6->1, 5->2. 4->3, 3->4, 2->5, 1->6)
-    if(motor_direction_get() == MOTOR_CCW) { hallState = ((~hallState) & 0b00000111); }
+    if(motor_direction_get() == MOTOR_CW) { hallState = ((~hallState) & 0b00000111); }
 
     Psc_lock();
 
