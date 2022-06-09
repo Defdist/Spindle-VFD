@@ -71,7 +71,7 @@ uint8_t pid_dutyCycle_calculate(void)
 
     // Bound max/min PWM value
     if     ( summedPID > (int16_t)(255) ) { summedPID = 255; }
-    else if( summedPID < (int16_t)(150) ) { summedPID = 150; }
+    else if( summedPID < (int16_t)(125) ) { summedPID = 125; }
     
     dutyPID = summedPID;
 

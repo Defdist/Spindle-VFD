@@ -35,9 +35,8 @@ void motor_run(void)
 
   a4910_enable();
   
-  pid_dutyCycle_set(255); //kickstart motor
-
-  psc_commutateOutputWaveforms( pid_dutyCycle_get() ); 
+  pid_dutyCycle_set(175); //kickstart motor
+  psc_commutateOutputWaveforms( 175 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

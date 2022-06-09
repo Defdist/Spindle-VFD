@@ -49,11 +49,13 @@ void timing_timer1_init(void)
 ISR(TIMER1_OVF_vect)
 {
   //timer1 timed out
-  TCNT1=0x00; //set Timer1 value to 0
+  //TCNT1=0x00; //set Timer1 value to 0
   
-  a4910_disable();
-  psc_commutateOutputWaveforms(255);
-  a4910_enable();
+  //a4910_disable();
+  //a4910_enable();
+  
+  //pid_dutyCycle_set(175);
+  //for(uint16_t ii=0; ii<1000; ii++) { psc_commutateOutputWaveforms( 175 ); } 
 
   timing_measuredRPM_set(0); //motor isn't spinning
 }

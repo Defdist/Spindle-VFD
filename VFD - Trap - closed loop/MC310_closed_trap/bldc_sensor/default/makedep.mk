@@ -14,6 +14,8 @@ debug.c
 
 hall.c
 
+interface.c
+
 main.c
 
 motor.c

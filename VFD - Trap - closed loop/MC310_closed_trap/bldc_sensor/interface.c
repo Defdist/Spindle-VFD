@@ -16,7 +16,7 @@ void interface_init(void)
   PCMSK0 = (1<<PCINT3);
   
   // Enable pin change interrupts on PCMSK0
-  PCICR = (1<<PCIE0);
+  PCICR |= (1<<PCIE0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ void interface_handler(void)
 		
 		if(motor_state_get() == STOPPED) { motor_run(); } //JTS2doNow: Where should this go?
 
-		#define GOALRPM_LPF_SETTLING_TIME_us 50000 //lowpass filter settles in 30 ms... wait longer
+		#define GOALRPM_LPF_SETTLING_TIME_us 40000 //lowpass filter settles in 30 ms... wait longer
 		#define NUM_ITERATIONS_FOR_LPF_TO_SETTLE (GOALRPM_LPF_SETTLING_TIME_us / CONTROL_LOOP_PERIOD_us) //division handled to pre-processor
 
 		static uint16_t iterationCount = 0;

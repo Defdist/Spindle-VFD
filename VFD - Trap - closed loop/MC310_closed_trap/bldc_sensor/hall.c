@@ -14,7 +14,7 @@ void hall_init(void)
   PCMSK1 = (1<<PCINT9);
   
   // Enable pin change interrupts on PCMSK1 & 2
-  PCICR = ( (1<<PCIE1) | (1<<PCIE2) );
+  PCICR |= ( (1<<PCIE1) | (1<<PCIE2) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

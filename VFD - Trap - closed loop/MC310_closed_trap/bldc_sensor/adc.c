@@ -14,12 +14,13 @@ uint8_t ADC_hardwareStatus = ADCFREE;  //ADC is available to perform conversions
 //average out noise to prevent rapid RPM hunting
 uint16_t filteredValue_counts(uint16_t latest10bSample)
 {
-    #define NUM_ADC_SAMPLES_TO_AVERAGE 32
-    #define POWER_OF__NUM_ADC_SAMPLES_TO_AVERAGE 5
+#if 1    
+	#define NUM_ADC_SAMPLES_TO_AVERAGE 16
+    #define POWER_OF__NUM_ADC_SAMPLES_TO_AVERAGE 4
 
     static uint16_t lastN_samples[NUM_ADC_SAMPLES_TO_AVERAGE] = {0};
 
-    uint8_t index_latestSample = 0;
+    static uint8_t index_latestSample = 0;
 
     lastN_samples[index_latestSample] = latest10bSample; //store latest sample
     if(++index_latestSample == NUM_ADC_SAMPLES_TO_AVERAGE) { index_latestSample = 0; } //circular buffer rollover
@@ -29,6 +30,9 @@ uint16_t filteredValue_counts(uint16_t latest10bSample)
     for(uint8_t ii=0; ii<NUM_ADC_SAMPLES_TO_AVERAGE; ii++) { sumOfArrayElements += lastN_samples[ii]; }
 
     return (sumOfArrayElements>>POWER_OF__NUM_ADC_SAMPLES_TO_AVERAGE);
+#else
+	return latest10bSample;
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +95,7 @@ void adc_scheduler(uint8_t channel)
 { 
   if(ADC_hardwareStatus == ADCFREE)
   {
-    ADC_hardwareStatus == ADCBUSY;
+    ADC_hardwareStatus = ADCBUSY;
 
     switch(channel)
     {
