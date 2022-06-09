@@ -28,19 +28,23 @@ ISR( DIRECTION_PIN_CHANGE_vect )
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//see if the direction pin has changed
 void interface_checkForDirectionChange(void)
 {
-	static uint8_t grblDirection_previous = 0;
+	static uint8_t grblDirection_previous = 2;
 	uint8_t grblDirection_now = ((PINB & (1<<PINB3)) >> (PINB3)); //0: CW //1: CCW
 
 	if(grblDirection_now != grblDirection_previous)
 	{
-		while(timing_measuredRPM_get() > 2000) { A4910_disable(); } //coast motor until it slows down enough to change direction
+		while(timing_measuredRPM_get() > 500) { a4910_disable(); } //coast motor until it slows down enough to change direction
 
-		A4910_enable(); //turn FETs back on
+		a4910_enable(); //turn FETs back on
 
 		if(grblDirection_now == 0) { motor_direction_set(MOTOR_CW); }
 		else                       { motor_direction_set(MOTOR_CCW); }
+			
+		pid_dutyCycle_set(0);
+		//adc_goalRPM_set(0); //don't set this here //ADC won't sample again until next grbl interrupt occurs (e.g. 'S3000')
 
 		grblDirection_previous = grblDirection_now;
 	}
@@ -50,7 +54,7 @@ void interface_checkForDirectionChange(void)
 
 void interface_handler(void)
 {
-	if (goalRPM_status == GOALRPM_LPF_CHANGING)
+	if (goalRPM_status == GOALRPM_LPF_CHANGING) //set inside interrupt when grbl direction pin toggles
 	{
 		unoPinA2_high(); //debug
 
@@ -68,8 +72,6 @@ void interface_handler(void)
 			goalRPM_status = GOALRPM_LPF_SETTLED;
 			iterationCount = 0;
 		}
-
-		//JTS2doNow: Store direction pin
 	}
 	else
 	{

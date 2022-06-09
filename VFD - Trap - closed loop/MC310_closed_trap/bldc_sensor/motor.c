@@ -14,7 +14,6 @@ uint8_t motor_state_get(void) { return motorStatus; }
 void motor_init()
 {
   motor_stop();
-  motor_direction_set(MOTOR_CW);
   adc_goalRPM_set(0);
   timing_measuredRPM_set(0);
 }
