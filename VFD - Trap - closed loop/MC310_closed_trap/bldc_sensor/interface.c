@@ -28,11 +28,31 @@ ISR( DIRECTION_PIN_CHANGE_vect )
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+void interface_checkForDirectionChange(void)
+{
+	static uint8_t grblDirection_previous = 0;
+	uint8_t grblDirection_now = ((PINB & (1<<PINB3)) >> (PINB3)); //0: CW //1: CCW
+
+	if(grblDirection_now != grblDirection_previous)
+	{
+		while(timing_measuredRPM_get() > 2000) { A4910_disable(); } //coast motor until it slows down enough to change direction
+
+		A4910_enable(); //turn FETs back on
+
+		if(grblDirection_now == 0) { motor_direction_set(MOTOR_CW); }
+		else                       { motor_direction_set(MOTOR_CCW); }
+
+		grblDirection_previous = grblDirection_now;
+	}
+} 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void interface_handler(void)
 {
 	if (goalRPM_status == GOALRPM_LPF_CHANGING)
 	{
-		unoPinA2_high();
+		unoPinA2_high(); //debug
 
 		adc_scheduler(ADC_MEASURING_GOAL_RPM);
 		
@@ -53,6 +73,8 @@ void interface_handler(void)
 	}
 	else
 	{
-		unoPinA2_low();
+		unoPinA2_low(); //debug
+
+		interface_checkForDirectionChange();
 	}
 }

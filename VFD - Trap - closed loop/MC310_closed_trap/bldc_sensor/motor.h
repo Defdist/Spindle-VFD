@@ -5,8 +5,8 @@
     #define STOPPED 0
 
     //Define motor direction
-    #define CCW 1
-    #define CW 2
+    #define MOTOR_CCW 1
+    #define MOTOR_CW 2
 
     void motor_init(void);
     void motor_stop(void);

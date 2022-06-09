@@ -99,7 +99,7 @@ void psc_commutateOutputWaveforms(uint8_t duty)
 
     //JTS2doNow: Does this work with CW motion?
     //JTS2doNow: Sample direction pin (PB3) to determine spindle direction
-    //if(motor_direction_get() == CCW) { hallState = (~hallState) & (0b00000111); } //flip hall bits (6->1, 5->2. 4->3, 3->4, 2->5, 1->6)
+    if(motor_direction_get() == MOTOR_CCW) { hallState = (~hallState) & (0b00000111); } //flip hall bits (6->1, 5->2. 4->3, 3->4, 2->5, 1->6)
 
     Psc_lock();
 
