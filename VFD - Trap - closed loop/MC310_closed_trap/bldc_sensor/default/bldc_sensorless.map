@@ -282,7 +282,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x8f0
+.text           0x00000000      0x906
  *(.vectors)
  .vectors       0x00000000       0x7c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.331/gcc/dev/atmega32m1/avr5/crtatmega32m1.o
                 0x00000000                __vector_default
@@ -411,100 +411,100 @@ END GROUP
                 0x00000252       0x18 hall.o
                 0x00000252                hall_init
  .text.hall_getPosition
-                0x0000026a       0x3a hall.o
+                0x0000026a       0x50 hall.o
                 0x0000026a                hall_getPosition
  .text.__vector_24
-                0x000002a4       0x4c hall.o
-                0x000002a4                __vector_24
+                0x000002ba       0x4c hall.o
+                0x000002ba                __vector_24
  .text.__vector_23
-                0x000002f0       0x6a hall.o
-                0x000002f0                __vector_23
+                0x00000306       0x6a hall.o
+                0x00000306                __vector_23
  .text.interface_init
-                0x0000035a       0x12 interface.o
-                0x0000035a                interface_init
+                0x00000370       0x12 interface.o
+                0x00000370                interface_init
  .text.__vector_22
-                0x0000036c       0x1e interface.o
-                0x0000036c                __vector_22
+                0x00000382       0x1e interface.o
+                0x00000382                __vector_22
  .text.interface_checkForDirectionChange
-                0x0000038a       0x48 interface.o
-                0x0000038a                interface_checkForDirectionChange
+                0x000003a0       0x48 interface.o
+                0x000003a0                interface_checkForDirectionChange
  .text.interface_handler
-                0x000003d2       0x50 interface.o
-                0x000003d2                interface_handler
+                0x000003e8       0x50 interface.o
+                0x000003e8                interface_handler
  .text.startup.main
-                0x00000422       0x58 main.o
-                0x00000422                main
+                0x00000438       0x58 main.o
+                0x00000438                main
  .text.motor_state_get
-                0x0000047a        0x6 motor.o
-                0x0000047a                motor_state_get
+                0x00000490        0x6 motor.o
+                0x00000490                motor_state_get
  .text.motor_stop
-                0x00000480        0x8 motor.o
-                0x00000480                motor_stop
+                0x00000496        0x8 motor.o
+                0x00000496                motor_stop
  .text.motor_init
-                0x00000488       0x14 motor.o
-                0x00000488                motor_init
+                0x0000049e       0x14 motor.o
+                0x0000049e                motor_init
  .text.motor_run
-                0x0000049c       0x16 motor.o
-                0x0000049c                motor_run
+                0x000004b2       0x16 motor.o
+                0x000004b2                motor_run
  .text.motor_direction_set
-                0x000004b2        0xc motor.o
-                0x000004b2                motor_direction_set
+                0x000004c8        0xc motor.o
+                0x000004c8                motor_direction_set
  .text.motor_direction_get
-                0x000004be        0x6 motor.o
-                0x000004be                motor_direction_get
+                0x000004d4        0x6 motor.o
+                0x000004d4                motor_direction_get
  .text.pid_dutyCycle_get
-                0x000004c4        0x6 pid.o
-                0x000004c4                pid_dutyCycle_get
+                0x000004da        0x6 pid.o
+                0x000004da                pid_dutyCycle_get
  .text.pid_dutyCycle_set
-                0x000004ca        0x6 pid.o
-                0x000004ca                pid_dutyCycle_set
+                0x000004e0        0x6 pid.o
+                0x000004e0                pid_dutyCycle_set
  .text.pid_dutyCycle_calculate
-                0x000004d0       0x68 pid.o
-                0x000004d0                pid_dutyCycle_calculate
+                0x000004e6       0x68 pid.o
+                0x000004e6                pid_dutyCycle_calculate
  .text.psc_init
-                0x00000538       0x92 psc.o
-                0x00000538                psc_init
+                0x0000054e       0x92 psc.o
+                0x0000054e                psc_init
  .text.psc_disconnectAllMOSFETs
-                0x000005ca       0x10 psc.o
-                0x000005ca                psc_disconnectAllMOSFETs
+                0x000005e0       0x10 psc.o
+                0x000005e0                psc_disconnectAllMOSFETs
  .text.psc_commutateOutputWaveforms
-                0x000005da      0x22a psc.o
-                0x000005da                psc_commutateOutputWaveforms
+                0x000005f0      0x22a psc.o
+                0x000005f0                psc_commutateOutputWaveforms
  .text.timing_runControlLoop_get
-                0x00000804        0x6 timing.o
-                0x00000804                timing_runControlLoop_get
+                0x0000081a        0x6 timing.o
+                0x0000081a                timing_runControlLoop_get
  .text.timing_runControlLoop_set
-                0x0000080a        0x6 timing.o
-                0x0000080a                timing_runControlLoop_set
+                0x00000820        0x6 timing.o
+                0x00000820                timing_runControlLoop_set
  .text.timing_timer0_init
-                0x00000810       0x12 timing.o
-                0x00000810                timing_timer0_init
+                0x00000826       0x12 timing.o
+                0x00000826                timing_timer0_init
  .text.__vector_15
-                0x00000822       0x1e timing.o
-                0x00000822                __vector_15
+                0x00000838       0x1e timing.o
+                0x00000838                __vector_15
  .text.timing_timer1_init
-                0x00000840       0x12 timing.o
-                0x00000840                timing_timer1_init
+                0x00000856       0x12 timing.o
+                0x00000856                timing_timer1_init
  .text.__vector_14
-                0x00000852       0x1c timing.o
-                0x00000852                __vector_14
+                0x00000868       0x1c timing.o
+                0x00000868                __vector_14
  .text.timing_calculateRPM
-                0x0000086e       0x26 timing.o
-                0x0000086e                timing_calculateRPM
+                0x00000884       0x26 timing.o
+                0x00000884                timing_calculateRPM
  .text.timing_measuredRPM_get
-                0x00000894        0xa timing.o
-                0x00000894                timing_measuredRPM_get
+                0x000008aa        0xa timing.o
+                0x000008aa                timing_measuredRPM_get
  .text.timing_measuredRPM_set
-                0x0000089e        0xa timing.o
-                0x0000089e                timing_measuredRPM_set
+                0x000008b4        0xa timing.o
+                0x000008b4                timing_measuredRPM_set
  .text.libgcc.div
-                0x000008a8       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodsi4.o)
-                0x000008a8                __udivmodsi4
-                0x000008ec                . = ALIGN (0x2)
+                0x000008be       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodsi4.o)
+                0x000008be                __udivmodsi4
+                0x00000902                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000008ec        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x000008ec                _exit
-                0x000008ec                exit
+ .fini9         0x00000902        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00000902                _exit
+                0x00000902                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -523,11 +523,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000008ec        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000902        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000008f0                _etext = .
+                0x00000906                _etext = .
 
-.data           0x00800100        0x4 load address 0x000008f0
+.data           0x00800100        0x4 load address 0x00000906
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -587,8 +587,8 @@ END GROUP
                 0x00800133                runControlLoop
  *(COMMON)
                 0x00800134                PROVIDE (__bss_end, .)
-                0x000008f0                __data_load_start = LOADADDR (.data)
-                0x000008f4                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000906                __data_load_start = LOADADDR (.data)
+                0x0000090a                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800134        0x0
                 [!provide]                PROVIDE (__noinit_start, .)

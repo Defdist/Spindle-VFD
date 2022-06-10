@@ -32,7 +32,7 @@ ISR( DIRECTION_PIN_CHANGE_vect )
 void interface_checkForDirectionChange(void)
 {
 	static uint8_t grblDirection_previous = 2;
-	uint8_t grblDirection_now = ((PINB & (1<<PINB3)) >> (PINB3)); //0: CW //1: CCW
+	uint8_t grblDirection_now = ((PINB & (1<<PINB3)) >> (PINB3)); //0: CW (M3) //1: CCW (M4)
 
 	if(grblDirection_now != grblDirection_previous)
 	{

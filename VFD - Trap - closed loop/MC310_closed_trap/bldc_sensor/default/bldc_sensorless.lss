@@ -3,31 +3,31 @@ bldc_sensorless.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000004  00800100  000008f0  00000984  2**0
+  0 .data         00000004  00800100  00000906  0000099a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000008f0  00000000  00000000  00000094  2**1
+  1 .text         00000906  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000030  00800104  00800104  00000988  2**0
+  2 .bss          00000030  00800104  00800104  0000099e  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000988  2**0
+  3 .comment      00000030  00000000  00000000  0000099e  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000009b8  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000009d0  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000278  00000000  00000000  000009f8  2**0
+  5 .debug_aranges 00000278  00000000  00000000  00000a10  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001bd6  00000000  00000000  00000c70  2**0
+  6 .debug_info   00001bd6  00000000  00000000  00000c88  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000127e  00000000  00000000  00002846  2**0
+  7 .debug_abbrev 0000127e  00000000  00000000  0000285e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001065  00000000  00000000  00003ac4  2**0
+  8 .debug_line   00001065  00000000  00000000  00003adc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000050c  00000000  00000000  00004b2c  2**2
+  9 .debug_frame  0000050c  00000000  00000000  00004b44  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000b42  00000000  00000000  00005038  2**0
+ 10 .debug_str    00000b42  00000000  00000000  00005050  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000064b  00000000  00000000  00005b7a  2**0
+ 11 .debug_loc    0000064b  00000000  00000000  00005b92  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000001d8  00000000  00000000  000061c5  2**0
+ 12 .debug_ranges 000001d8  00000000  00000000  000061dd  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -47,17 +47,17 @@ Disassembly of section .text:
   2c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
   30:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
   34:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
-  38:	0c 94 29 04 	jmp	0x852	; 0x852 <__vector_14>
-  3c:	0c 94 11 04 	jmp	0x822	; 0x822 <__vector_15>
+  38:	0c 94 34 04 	jmp	0x868	; 0x868 <__vector_14>
+  3c:	0c 94 1c 04 	jmp	0x838	; 0x838 <__vector_15>
   40:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
   44:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
   48:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
   4c:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
   50:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
   54:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
-  58:	0c 94 b6 01 	jmp	0x36c	; 0x36c <__vector_22>
-  5c:	0c 94 78 01 	jmp	0x2f0	; 0x2f0 <__vector_23>
-  60:	0c 94 52 01 	jmp	0x2a4	; 0x2a4 <__vector_24>
+  58:	0c 94 c1 01 	jmp	0x382	; 0x382 <__vector_22>
+  5c:	0c 94 83 01 	jmp	0x306	; 0x306 <__vector_23>
+  60:	0c 94 5d 01 	jmp	0x2ba	; 0x2ba <__vector_24>
   64:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
   68:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <__bad_interrupt>
   6c:	0c 94 87 00 	jmp	0x10e	; 0x10e <__vector_27>
@@ -77,8 +77,8 @@ Disassembly of section .text:
   88:	11 e0       	ldi	r17, 0x01	; 1
   8a:	a0 e0       	ldi	r26, 0x00	; 0
   8c:	b1 e0       	ldi	r27, 0x01	; 1
-  8e:	e0 ef       	ldi	r30, 0xF0	; 240
-  90:	f8 e0       	ldi	r31, 0x08	; 8
+  8e:	e6 e0       	ldi	r30, 0x06	; 6
+  90:	f9 e0       	ldi	r31, 0x09	; 9
   92:	02 c0       	rjmp	.+4      	; 0x98 <__do_copy_data+0x10>
   94:	05 90       	lpm	r0, Z+
   96:	0d 92       	st	X+, r0
@@ -99,8 +99,8 @@ Disassembly of section .text:
   a8:	a4 33       	cpi	r26, 0x34	; 52
   aa:	b2 07       	cpc	r27, r18
   ac:	e1 f7       	brne	.-8      	; 0xa6 <.do_clear_bss_loop>
-  ae:	0e 94 11 02 	call	0x422	; 0x422 <main>
-  b2:	0c 94 76 04 	jmp	0x8ec	; 0x8ec <_exit>
+  ae:	0e 94 1c 02 	call	0x438	; 0x438 <main>
+  b2:	0c 94 81 04 	jmp	0x902	; 0x902 <_exit>
 
 000000b6 <__bad_interrupt>:
   b6:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -452,1162 +452,1173 @@ void hall_init(void)
   static uint8_t numConsecutiveInvalidStates = 0;	
 	  
   //Example: if Hall GRN & YEL are high, the result is 0b00000110
-  uint8_t state = ((PIND & (1<<PIND1)) >> (PIND1-0)) | //Hall BLU //LSB
- 26a:	99 b1       	in	r25, 0x09	; 9
-                  ((PINC & (1<<PINC1)) >> (PINC1-1)) | //Hall YEL
- 26c:	86 b1       	in	r24, 0x06	; 6
-                  ((PIND & (1<<PIND2)) >> (PIND2-2));   //Hall GRN //MSB
- 26e:	29 b1       	in	r18, 0x09	; 9
+  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //LSB
+ 26a:	69 b1       	in	r22, 0x09	; 9
+                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL
+ 26c:	96 b1       	in	r25, 0x06	; 6
+                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN //MSB
+ 26e:	89 b1       	in	r24, 0x09	; 9
 {
   static uint8_t state_previous = 0;
   static uint8_t numConsecutiveInvalidStates = 0;	
 	  
   //Example: if Hall GRN & YEL are high, the result is 0b00000110
-  uint8_t state = ((PIND & (1<<PIND1)) >> (PIND1-0)) | //Hall BLU //LSB
- 270:	38 2f       	mov	r19, r24
- 272:	32 70       	andi	r19, 0x02	; 2
- 274:	82 2f       	mov	r24, r18
- 276:	84 70       	andi	r24, 0x04	; 4
- 278:	83 2b       	or	r24, r19
- 27a:	96 95       	lsr	r25
- 27c:	91 70       	andi	r25, 0x01	; 1
- 27e:	89 2b       	or	r24, r25
-                  ((PINC & (1<<PINC1)) >> (PINC1-1)) | //Hall YEL
-                  ((PIND & (1<<PIND2)) >> (PIND2-2));   //Hall GRN //MSB
+  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //LSB
+ 270:	61 fb       	bst	r22, 1
+ 272:	44 27       	eor	r20, r20
+ 274:	40 f9       	bld	r20, 0
+ 276:	50 e0       	ldi	r21, 0x00	; 0
+ 278:	44 0f       	add	r20, r20
+ 27a:	55 1f       	adc	r21, r21
+ 27c:	44 0f       	add	r20, r20
+ 27e:	55 1f       	adc	r21, r21
+ 280:	82 fb       	bst	r24, 2
+ 282:	22 27       	eor	r18, r18
+ 284:	20 f9       	bld	r18, 0
+ 286:	30 e0       	ldi	r19, 0x00	; 0
+ 288:	22 0f       	add	r18, r18
+ 28a:	33 1f       	adc	r19, r19
+ 28c:	24 2b       	or	r18, r20
+ 28e:	96 95       	lsr	r25
+ 290:	91 70       	andi	r25, 0x01	; 1
+ 292:	82 2f       	mov	r24, r18
+ 294:	89 2b       	or	r24, r25
+                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL
+                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN //MSB
 
   if( ((state == 0b00000000) || (state == 0b00000111)) && //invalid Hall state (due to H->L or L->H transition)
- 280:	11 f0       	breq	.+4      	; 0x286 <hall_getPosition+0x1c>
- 282:	87 30       	cpi	r24, 0x07	; 7
- 284:	51 f4       	brne	.+20     	; 0x29a <hall_getPosition+0x30>
+ 296:	11 f0       	breq	.+4      	; 0x29c <hall_getPosition+0x32>
+ 298:	87 30       	cpi	r24, 0x07	; 7
+ 29a:	51 f4       	brne	.+20     	; 0x2b0 <hall_getPosition+0x46>
       (numConsecutiveInvalidStates < 10)                ) 
- 286:	90 91 2a 01 	lds	r25, 0x012A	; 0x80012a <numConsecutiveInvalidStates.2068>
+ 29c:	90 91 2a 01 	lds	r25, 0x012A	; 0x80012a <numConsecutiveInvalidStates.2068>
   //Example: if Hall GRN & YEL are high, the result is 0b00000110
-  uint8_t state = ((PIND & (1<<PIND1)) >> (PIND1-0)) | //Hall BLU //LSB
-                  ((PINC & (1<<PINC1)) >> (PINC1-1)) | //Hall YEL
-                  ((PIND & (1<<PIND2)) >> (PIND2-2));   //Hall GRN //MSB
+  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //LSB
+                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL
+                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN //MSB
 
   if( ((state == 0b00000000) || (state == 0b00000111)) && //invalid Hall state (due to H->L or L->H transition)
- 28a:	9a 30       	cpi	r25, 0x0A	; 10
- 28c:	30 f4       	brcc	.+12     	; 0x29a <hall_getPosition+0x30>
+ 2a0:	9a 30       	cpi	r25, 0x0A	; 10
+ 2a2:	30 f4       	brcc	.+12     	; 0x2b0 <hall_getPosition+0x46>
       (numConsecutiveInvalidStates < 10)                ) 
   {
 	  //hall states in transition
 	  state = state_previous;
- 28e:	80 91 29 01 	lds	r24, 0x0129	; 0x800129 <state_previous.2067>
+ 2a4:	80 91 29 01 	lds	r24, 0x0129	; 0x800129 <state_previous.2067>
 	  numConsecutiveInvalidStates++;
- 292:	9f 5f       	subi	r25, 0xFF	; 255
- 294:	90 93 2a 01 	sts	0x012A, r25	; 0x80012a <numConsecutiveInvalidStates.2068>
- 298:	08 95       	ret
+ 2a8:	9f 5f       	subi	r25, 0xFF	; 255
+ 2aa:	90 93 2a 01 	sts	0x012A, r25	; 0x80012a <numConsecutiveInvalidStates.2068>
+ 2ae:	08 95       	ret
   } 
   else //valid Hall state (or motor is stalled)
   {
 	  state_previous = state; //store for next iteration
- 29a:	80 93 29 01 	sts	0x0129, r24	; 0x800129 <state_previous.2067>
+ 2b0:	80 93 29 01 	sts	0x0129, r24	; 0x800129 <state_previous.2067>
 	  numConsecutiveInvalidStates = 0;
- 29e:	10 92 2a 01 	sts	0x012A, r1	; 0x80012a <numConsecutiveInvalidStates.2068>
+ 2b4:	10 92 2a 01 	sts	0x012A, r1	; 0x80012a <numConsecutiveInvalidStates.2068>
   } 
 	  
   return state;
 }
- 2a2:	08 95       	ret
+ 2b8:	08 95       	ret
 
-000002a4 <__vector_24>:
+000002ba <__vector_24>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //Configure interrupt vectors (each time a hall sensor state changes)
 ISR( HALL_AC_vect )  //Hall_A & Hall_C share the same interrupt vector byte
 {
- 2a4:	1f 92       	push	r1
- 2a6:	0f 92       	push	r0
- 2a8:	0f b6       	in	r0, 0x3f	; 63
- 2aa:	0f 92       	push	r0
- 2ac:	11 24       	eor	r1, r1
- 2ae:	2f 93       	push	r18
- 2b0:	3f 93       	push	r19
- 2b2:	4f 93       	push	r20
- 2b4:	5f 93       	push	r21
- 2b6:	6f 93       	push	r22
- 2b8:	7f 93       	push	r23
- 2ba:	8f 93       	push	r24
- 2bc:	9f 93       	push	r25
- 2be:	af 93       	push	r26
- 2c0:	bf 93       	push	r27
- 2c2:	ef 93       	push	r30
- 2c4:	ff 93       	push	r31
+ 2ba:	1f 92       	push	r1
+ 2bc:	0f 92       	push	r0
+ 2be:	0f b6       	in	r0, 0x3f	; 63
+ 2c0:	0f 92       	push	r0
+ 2c2:	11 24       	eor	r1, r1
+ 2c4:	2f 93       	push	r18
+ 2c6:	3f 93       	push	r19
+ 2c8:	4f 93       	push	r20
+ 2ca:	5f 93       	push	r21
+ 2cc:	6f 93       	push	r22
+ 2ce:	7f 93       	push	r23
+ 2d0:	8f 93       	push	r24
+ 2d2:	9f 93       	push	r25
+ 2d4:	af 93       	push	r26
+ 2d6:	bf 93       	push	r27
+ 2d8:	ef 93       	push	r30
+ 2da:	ff 93       	push	r31
   psc_commutateOutputWaveforms( pid_dutyCycle_get() );
- 2c6:	0e 94 62 02 	call	0x4c4	; 0x4c4 <pid_dutyCycle_get>
- 2ca:	0e 94 ed 02 	call	0x5da	; 0x5da <psc_commutateOutputWaveforms>
+ 2dc:	0e 94 6d 02 	call	0x4da	; 0x4da <pid_dutyCycle_get>
+ 2e0:	0e 94 f8 02 	call	0x5f0	; 0x5f0 <psc_commutateOutputWaveforms>
 }
- 2ce:	ff 91       	pop	r31
- 2d0:	ef 91       	pop	r30
- 2d2:	bf 91       	pop	r27
- 2d4:	af 91       	pop	r26
- 2d6:	9f 91       	pop	r25
- 2d8:	8f 91       	pop	r24
- 2da:	7f 91       	pop	r23
- 2dc:	6f 91       	pop	r22
- 2de:	5f 91       	pop	r21
- 2e0:	4f 91       	pop	r20
- 2e2:	3f 91       	pop	r19
- 2e4:	2f 91       	pop	r18
- 2e6:	0f 90       	pop	r0
- 2e8:	0f be       	out	0x3f, r0	; 63
- 2ea:	0f 90       	pop	r0
- 2ec:	1f 90       	pop	r1
- 2ee:	18 95       	reti
+ 2e4:	ff 91       	pop	r31
+ 2e6:	ef 91       	pop	r30
+ 2e8:	bf 91       	pop	r27
+ 2ea:	af 91       	pop	r26
+ 2ec:	9f 91       	pop	r25
+ 2ee:	8f 91       	pop	r24
+ 2f0:	7f 91       	pop	r23
+ 2f2:	6f 91       	pop	r22
+ 2f4:	5f 91       	pop	r21
+ 2f6:	4f 91       	pop	r20
+ 2f8:	3f 91       	pop	r19
+ 2fa:	2f 91       	pop	r18
+ 2fc:	0f 90       	pop	r0
+ 2fe:	0f be       	out	0x3f, r0	; 63
+ 300:	0f 90       	pop	r0
+ 302:	1f 90       	pop	r1
+ 304:	18 95       	reti
 
-000002f0 <__vector_23>:
+00000306 <__vector_23>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 ISR( HALL_B_vect )
 {
- 2f0:	1f 92       	push	r1
- 2f2:	0f 92       	push	r0
- 2f4:	0f b6       	in	r0, 0x3f	; 63
- 2f6:	0f 92       	push	r0
- 2f8:	11 24       	eor	r1, r1
- 2fa:	2f 93       	push	r18
- 2fc:	3f 93       	push	r19
- 2fe:	4f 93       	push	r20
- 300:	5f 93       	push	r21
- 302:	6f 93       	push	r22
- 304:	7f 93       	push	r23
- 306:	8f 93       	push	r24
- 308:	9f 93       	push	r25
- 30a:	af 93       	push	r26
- 30c:	bf 93       	push	r27
- 30e:	ef 93       	push	r30
- 310:	ff 93       	push	r31
+ 306:	1f 92       	push	r1
+ 308:	0f 92       	push	r0
+ 30a:	0f b6       	in	r0, 0x3f	; 63
+ 30c:	0f 92       	push	r0
+ 30e:	11 24       	eor	r1, r1
+ 310:	2f 93       	push	r18
+ 312:	3f 93       	push	r19
+ 314:	4f 93       	push	r20
+ 316:	5f 93       	push	r21
+ 318:	6f 93       	push	r22
+ 31a:	7f 93       	push	r23
+ 31c:	8f 93       	push	r24
+ 31e:	9f 93       	push	r25
+ 320:	af 93       	push	r26
+ 322:	bf 93       	push	r27
+ 324:	ef 93       	push	r30
+ 326:	ff 93       	push	r31
   psc_commutateOutputWaveforms( pid_dutyCycle_get() );
- 312:	0e 94 62 02 	call	0x4c4	; 0x4c4 <pid_dutyCycle_get>
- 316:	0e 94 ed 02 	call	0x5da	; 0x5da <psc_commutateOutputWaveforms>
+ 328:	0e 94 6d 02 	call	0x4da	; 0x4da <pid_dutyCycle_get>
+ 32c:	0e 94 f8 02 	call	0x5f0	; 0x5f0 <psc_commutateOutputWaveforms>
 
   uint8_t hallB_state = 0;
   static uint8_t hallB_state_previous = 0;
 
   //determine hallB state (high or low)
   if (PINC & (1<<PINC1) ) { hallB_state = HALL_B_HIGH; }
- 31a:	31 99       	sbic	0x06, 1	; 6
- 31c:	02 c0       	rjmp	.+4      	; 0x322 <__vector_23+0x32>
+ 330:	31 99       	sbic	0x06, 1	; 6
+ 332:	02 c0       	rjmp	.+4      	; 0x338 <__vector_23+0x32>
   else                    { hallB_state = HALL_B_LOW;  }
- 31e:	80 e0       	ldi	r24, 0x00	; 0
- 320:	09 c0       	rjmp	.+18     	; 0x334 <__vector_23+0x44>
+ 334:	80 e0       	ldi	r24, 0x00	; 0
+ 336:	09 c0       	rjmp	.+18     	; 0x34a <__vector_23+0x44>
 
   if(hallB_state == HALL_B_HIGH)
   {
     if(hallB_state_previous == HALL_B_LOW) 
- 322:	80 91 28 01 	lds	r24, 0x0128	; 0x800128 <hallB_state_previous.2081>
- 326:	81 11       	cpse	r24, r1
- 328:	04 c0       	rjmp	.+8      	; 0x332 <__vector_23+0x42>
+ 338:	80 91 28 01 	lds	r24, 0x0128	; 0x800128 <hallB_state_previous.2081>
+ 33c:	81 11       	cpse	r24, r1
+ 33e:	04 c0       	rjmp	.+8      	; 0x348 <__vector_23+0x42>
     {
       //rising edge just occurred on Hall B
       timing_calculateRPM();
- 32a:	0e 94 37 04 	call	0x86e	; 0x86e <timing_calculateRPM>
+ 340:	0e 94 42 04 	call	0x884	; 0x884 <timing_calculateRPM>
 	  pid_dutyCycle_calculate();
- 32e:	0e 94 68 02 	call	0x4d0	; 0x4d0 <pid_dutyCycle_calculate>
+ 344:	0e 94 73 02 	call	0x4e6	; 0x4e6 <pid_dutyCycle_calculate>
 
   uint8_t hallB_state = 0;
   static uint8_t hallB_state_previous = 0;
 
   //determine hallB state (high or low)
   if (PINC & (1<<PINC1) ) { hallB_state = HALL_B_HIGH; }
- 332:	81 e0       	ldi	r24, 0x01	; 1
+ 348:	81 e0       	ldi	r24, 0x01	; 1
       timing_calculateRPM();
 	  pid_dutyCycle_calculate();
     }
   }
 
   hallB_state_previous = hallB_state;
- 334:	80 93 28 01 	sts	0x0128, r24	; 0x800128 <hallB_state_previous.2081>
+ 34a:	80 93 28 01 	sts	0x0128, r24	; 0x800128 <hallB_state_previous.2081>
 }
- 338:	ff 91       	pop	r31
- 33a:	ef 91       	pop	r30
- 33c:	bf 91       	pop	r27
- 33e:	af 91       	pop	r26
- 340:	9f 91       	pop	r25
- 342:	8f 91       	pop	r24
- 344:	7f 91       	pop	r23
- 346:	6f 91       	pop	r22
- 348:	5f 91       	pop	r21
- 34a:	4f 91       	pop	r20
- 34c:	3f 91       	pop	r19
- 34e:	2f 91       	pop	r18
- 350:	0f 90       	pop	r0
- 352:	0f be       	out	0x3f, r0	; 63
- 354:	0f 90       	pop	r0
- 356:	1f 90       	pop	r1
- 358:	18 95       	reti
+ 34e:	ff 91       	pop	r31
+ 350:	ef 91       	pop	r30
+ 352:	bf 91       	pop	r27
+ 354:	af 91       	pop	r26
+ 356:	9f 91       	pop	r25
+ 358:	8f 91       	pop	r24
+ 35a:	7f 91       	pop	r23
+ 35c:	6f 91       	pop	r22
+ 35e:	5f 91       	pop	r21
+ 360:	4f 91       	pop	r20
+ 362:	3f 91       	pop	r19
+ 364:	2f 91       	pop	r18
+ 366:	0f 90       	pop	r0
+ 368:	0f be       	out	0x3f, r0	; 63
+ 36a:	0f 90       	pop	r0
+ 36c:	1f 90       	pop	r1
+ 36e:	18 95       	reti
 
-0000035a <interface_init>:
+00000370 <interface_init>:
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void interface_init(void)
 {
   // Use PCINT3 to detect change on PB3 (direction pin)
   PCMSK0 = (1<<PCINT3);
- 35a:	88 e0       	ldi	r24, 0x08	; 8
- 35c:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <__TEXT_REGION_LENGTH__+0x7f806a>
+ 370:	88 e0       	ldi	r24, 0x08	; 8
+ 372:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <__TEXT_REGION_LENGTH__+0x7f806a>
   
   // Enable pin change interrupts on PCMSK0
   PCICR |= (1<<PCIE0);
- 360:	e8 e6       	ldi	r30, 0x68	; 104
- 362:	f0 e0       	ldi	r31, 0x00	; 0
- 364:	80 81       	ld	r24, Z
- 366:	81 60       	ori	r24, 0x01	; 1
- 368:	80 83       	st	Z, r24
- 36a:	08 95       	ret
+ 376:	e8 e6       	ldi	r30, 0x68	; 104
+ 378:	f0 e0       	ldi	r31, 0x00	; 0
+ 37a:	80 81       	ld	r24, Z
+ 37c:	81 60       	ori	r24, 0x01	; 1
+ 37e:	80 83       	st	Z, r24
+ 380:	08 95       	ret
 
-0000036c <__vector_22>:
+00000382 <__vector_22>:
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ISR( DIRECTION_PIN_CHANGE_vect )
 {
- 36c:	1f 92       	push	r1
- 36e:	0f 92       	push	r0
- 370:	0f b6       	in	r0, 0x3f	; 63
- 372:	0f 92       	push	r0
- 374:	11 24       	eor	r1, r1
- 376:	8f 93       	push	r24
+ 382:	1f 92       	push	r1
+ 384:	0f 92       	push	r0
+ 386:	0f b6       	in	r0, 0x3f	; 63
+ 388:	0f 92       	push	r0
+ 38a:	11 24       	eor	r1, r1
+ 38c:	8f 93       	push	r24
   goalRPM_status = GOALRPM_LPF_CHANGING;
- 378:	82 e0       	ldi	r24, 0x02	; 2
- 37a:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <goalRPM_status>
+ 38e:	82 e0       	ldi	r24, 0x02	; 2
+ 390:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <goalRPM_status>
 }
- 37e:	8f 91       	pop	r24
- 380:	0f 90       	pop	r0
- 382:	0f be       	out	0x3f, r0	; 63
- 384:	0f 90       	pop	r0
- 386:	1f 90       	pop	r1
- 388:	18 95       	reti
+ 394:	8f 91       	pop	r24
+ 396:	0f 90       	pop	r0
+ 398:	0f be       	out	0x3f, r0	; 63
+ 39a:	0f 90       	pop	r0
+ 39c:	1f 90       	pop	r1
+ 39e:	18 95       	reti
 
-0000038a <interface_checkForDirectionChange>:
+000003a0 <interface_checkForDirectionChange>:
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //see if the direction pin has changed
 void interface_checkForDirectionChange(void)
 {
- 38a:	cf 93       	push	r28
- 38c:	df 93       	push	r29
+ 3a0:	cf 93       	push	r28
+ 3a2:	df 93       	push	r29
 	static uint8_t grblDirection_previous = 2;
-	uint8_t grblDirection_now = ((PINB & (1<<PINB3)) >> (PINB3)); //0: CW //1: CCW
- 38e:	c3 b1       	in	r28, 0x03	; 3
- 390:	c3 fb       	bst	r28, 3
- 392:	cc 27       	eor	r28, r28
- 394:	c0 f9       	bld	r28, 0
- 396:	dc 2f       	mov	r29, r28
+	uint8_t grblDirection_now = ((PINB & (1<<PINB3)) >> (PINB3)); //0: CW (M3) //1: CCW (M4)
+ 3a4:	c3 b1       	in	r28, 0x03	; 3
+ 3a6:	c3 fb       	bst	r28, 3
+ 3a8:	cc 27       	eor	r28, r28
+ 3aa:	c0 f9       	bld	r28, 0
+ 3ac:	dc 2f       	mov	r29, r28
 
 	if(grblDirection_now != grblDirection_previous)
- 398:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <grblDirection_previous.2076>
- 39c:	c8 17       	cp	r28, r24
- 39e:	b1 f0       	breq	.+44     	; 0x3cc <interface_checkForDirectionChange+0x42>
+ 3ae:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <grblDirection_previous.2076>
+ 3b2:	c8 17       	cp	r28, r24
+ 3b4:	b1 f0       	breq	.+44     	; 0x3e2 <interface_checkForDirectionChange+0x42>
 	{
 		while(timing_measuredRPM_get() > 500) { a4910_disable(); } //coast motor until it slows down enough to change direction
- 3a0:	0e 94 4a 04 	call	0x894	; 0x894 <timing_measuredRPM_get>
- 3a4:	85 3f       	cpi	r24, 0xF5	; 245
- 3a6:	91 40       	sbci	r25, 0x01	; 1
- 3a8:	18 f0       	brcs	.+6      	; 0x3b0 <interface_checkForDirectionChange+0x26>
- 3aa:	0e 94 5f 00 	call	0xbe	; 0xbe <a4910_disable>
- 3ae:	f8 cf       	rjmp	.-16     	; 0x3a0 <interface_checkForDirectionChange+0x16>
+ 3b6:	0e 94 55 04 	call	0x8aa	; 0x8aa <timing_measuredRPM_get>
+ 3ba:	85 3f       	cpi	r24, 0xF5	; 245
+ 3bc:	91 40       	sbci	r25, 0x01	; 1
+ 3be:	18 f0       	brcs	.+6      	; 0x3c6 <interface_checkForDirectionChange+0x26>
+ 3c0:	0e 94 5f 00 	call	0xbe	; 0xbe <a4910_disable>
+ 3c4:	f8 cf       	rjmp	.-16     	; 0x3b6 <interface_checkForDirectionChange+0x16>
 
 		a4910_enable(); //turn FETs back on
- 3b0:	0e 94 61 00 	call	0xc2	; 0xc2 <a4910_enable>
+ 3c6:	0e 94 61 00 	call	0xc2	; 0xc2 <a4910_enable>
 
 		if(grblDirection_now == 0) { motor_direction_set(MOTOR_CW); }
- 3b4:	d1 11       	cpse	r29, r1
- 3b6:	02 c0       	rjmp	.+4      	; 0x3bc <interface_checkForDirectionChange+0x32>
- 3b8:	82 e0       	ldi	r24, 0x02	; 2
- 3ba:	01 c0       	rjmp	.+2      	; 0x3be <interface_checkForDirectionChange+0x34>
+ 3ca:	d1 11       	cpse	r29, r1
+ 3cc:	02 c0       	rjmp	.+4      	; 0x3d2 <interface_checkForDirectionChange+0x32>
+ 3ce:	82 e0       	ldi	r24, 0x02	; 2
+ 3d0:	01 c0       	rjmp	.+2      	; 0x3d4 <interface_checkForDirectionChange+0x34>
 		else                       { motor_direction_set(MOTOR_CCW); }
- 3bc:	81 e0       	ldi	r24, 0x01	; 1
- 3be:	0e 94 59 02 	call	0x4b2	; 0x4b2 <motor_direction_set>
+ 3d2:	81 e0       	ldi	r24, 0x01	; 1
+ 3d4:	0e 94 64 02 	call	0x4c8	; 0x4c8 <motor_direction_set>
 			
 		pid_dutyCycle_set(0);
- 3c2:	80 e0       	ldi	r24, 0x00	; 0
- 3c4:	0e 94 65 02 	call	0x4ca	; 0x4ca <pid_dutyCycle_set>
+ 3d8:	80 e0       	ldi	r24, 0x00	; 0
+ 3da:	0e 94 70 02 	call	0x4e0	; 0x4e0 <pid_dutyCycle_set>
 		//adc_goalRPM_set(0); //don't set this here //ADC won't sample again until next grbl interrupt occurs (e.g. 'S3000')
 
 		grblDirection_previous = grblDirection_now;
- 3c8:	c0 93 01 01 	sts	0x0101, r28	; 0x800101 <grblDirection_previous.2076>
+ 3de:	c0 93 01 01 	sts	0x0101, r28	; 0x800101 <grblDirection_previous.2076>
 	}
 } 
- 3cc:	df 91       	pop	r29
- 3ce:	cf 91       	pop	r28
- 3d0:	08 95       	ret
+ 3e2:	df 91       	pop	r29
+ 3e4:	cf 91       	pop	r28
+ 3e6:	08 95       	ret
 
-000003d2 <interface_handler>:
+000003e8 <interface_handler>:
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void interface_handler(void)
 {
 	if (goalRPM_status == GOALRPM_LPF_CHANGING) //set inside interrupt when grbl direction pin toggles
- 3d2:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <goalRPM_status>
- 3d6:	82 30       	cpi	r24, 0x02	; 2
- 3d8:	f9 f4       	brne	.+62     	; 0x418 <__EEPROM_REGION_LENGTH__+0x18>
+ 3e8:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <goalRPM_status>
+ 3ec:	82 30       	cpi	r24, 0x02	; 2
+ 3ee:	f9 f4       	brne	.+62     	; 0x42e <__EEPROM_REGION_LENGTH__+0x2e>
 	{
 		unoPinA2_high(); //debug
- 3da:	0e 94 22 01 	call	0x244	; 0x244 <unoPinA2_high>
+ 3f0:	0e 94 22 01 	call	0x244	; 0x244 <unoPinA2_high>
 
 		adc_scheduler(ADC_MEASURING_GOAL_RPM);
- 3de:	81 e0       	ldi	r24, 0x01	; 1
- 3e0:	0e 94 fe 00 	call	0x1fc	; 0x1fc <adc_scheduler>
+ 3f4:	81 e0       	ldi	r24, 0x01	; 1
+ 3f6:	0e 94 fe 00 	call	0x1fc	; 0x1fc <adc_scheduler>
 		
 		if(motor_state_get() == STOPPED) { motor_run(); } //JTS2doNow: Where should this go?
- 3e4:	0e 94 3d 02 	call	0x47a	; 0x47a <motor_state_get>
- 3e8:	81 11       	cpse	r24, r1
- 3ea:	02 c0       	rjmp	.+4      	; 0x3f0 <interface_handler+0x1e>
- 3ec:	0e 94 4e 02 	call	0x49c	; 0x49c <motor_run>
+ 3fa:	0e 94 48 02 	call	0x490	; 0x490 <motor_state_get>
+ 3fe:	81 11       	cpse	r24, r1
+ 400:	02 c0       	rjmp	.+4      	; 0x406 <__EEPROM_REGION_LENGTH__+0x6>
+ 402:	0e 94 59 02 	call	0x4b2	; 0x4b2 <motor_run>
 		#define GOALRPM_LPF_SETTLING_TIME_us 40000 //lowpass filter settles in 30 ms... wait longer
 		#define NUM_ITERATIONS_FOR_LPF_TO_SETTLE (GOALRPM_LPF_SETTLING_TIME_us / CONTROL_LOOP_PERIOD_us) //division handled to pre-processor
 
 		static uint16_t iterationCount = 0;
 
 		if(++iterationCount > NUM_ITERATIONS_FOR_LPF_TO_SETTLE)
- 3f0:	80 91 2b 01 	lds	r24, 0x012B	; 0x80012b <iterationCount.2084>
- 3f4:	90 91 2c 01 	lds	r25, 0x012C	; 0x80012c <iterationCount.2084+0x1>
- 3f8:	01 96       	adiw	r24, 0x01	; 1
- 3fa:	90 93 2c 01 	sts	0x012C, r25	; 0x80012c <iterationCount.2084+0x1>
- 3fe:	80 93 2b 01 	sts	0x012B, r24	; 0x80012b <iterationCount.2084>
- 402:	83 3e       	cpi	r24, 0xE3	; 227
- 404:	94 40       	sbci	r25, 0x04	; 4
- 406:	60 f0       	brcs	.+24     	; 0x420 <__EEPROM_REGION_LENGTH__+0x20>
+ 406:	80 91 2b 01 	lds	r24, 0x012B	; 0x80012b <iterationCount.2084>
+ 40a:	90 91 2c 01 	lds	r25, 0x012C	; 0x80012c <iterationCount.2084+0x1>
+ 40e:	01 96       	adiw	r24, 0x01	; 1
+ 410:	90 93 2c 01 	sts	0x012C, r25	; 0x80012c <iterationCount.2084+0x1>
+ 414:	80 93 2b 01 	sts	0x012B, r24	; 0x80012b <iterationCount.2084>
+ 418:	83 3e       	cpi	r24, 0xE3	; 227
+ 41a:	94 40       	sbci	r25, 0x04	; 4
+ 41c:	60 f0       	brcs	.+24     	; 0x436 <__EEPROM_REGION_LENGTH__+0x36>
 		{
 			goalRPM_status = GOALRPM_LPF_SETTLED;
- 408:	81 e0       	ldi	r24, 0x01	; 1
- 40a:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <goalRPM_status>
+ 41e:	81 e0       	ldi	r24, 0x01	; 1
+ 420:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <goalRPM_status>
 			iterationCount = 0;
- 40e:	10 92 2c 01 	sts	0x012C, r1	; 0x80012c <iterationCount.2084+0x1>
- 412:	10 92 2b 01 	sts	0x012B, r1	; 0x80012b <iterationCount.2084>
- 416:	08 95       	ret
+ 424:	10 92 2c 01 	sts	0x012C, r1	; 0x80012c <iterationCount.2084+0x1>
+ 428:	10 92 2b 01 	sts	0x012B, r1	; 0x80012b <iterationCount.2084>
+ 42c:	08 95       	ret
 		}
 	}
 	else
 	{
 		unoPinA2_low(); //debug
- 418:	0e 94 27 01 	call	0x24e	; 0x24e <unoPinA2_low>
+ 42e:	0e 94 27 01 	call	0x24e	; 0x24e <unoPinA2_low>
 
 		interface_checkForDirectionChange();
- 41c:	0c 94 c5 01 	jmp	0x38a	; 0x38a <interface_checkForDirectionChange>
- 420:	08 95       	ret
+ 432:	0c 94 d0 01 	jmp	0x3a0	; 0x3a0 <interface_checkForDirectionChange>
+ 436:	08 95       	ret
 
-00000422 <main>:
+00000438 <main>:
 #include "grBLDC.h"
 
 int main(void)
 {
   psc_init();
- 422:	0e 94 9c 02 	call	0x538	; 0x538 <psc_init>
+ 438:	0e 94 a7 02 	call	0x54e	; 0x54e <psc_init>
   adc_init();
- 426:	0e 94 c7 00 	call	0x18e	; 0x18e <adc_init>
+ 43c:	0e 94 c7 00 	call	0x18e	; 0x18e <adc_init>
   motor_init();
- 42a:	0e 94 44 02 	call	0x488	; 0x488 <motor_init>
+ 440:	0e 94 4f 02 	call	0x49e	; 0x49e <motor_init>
   hall_init();
- 42e:	0e 94 29 01 	call	0x252	; 0x252 <hall_init>
+ 444:	0e 94 29 01 	call	0x252	; 0x252 <hall_init>
   a4910_init(); //configure pin to digital output
- 432:	0e 94 5d 00 	call	0xba	; 0xba <a4910_init>
+ 448:	0e 94 5d 00 	call	0xba	; 0xba <a4910_init>
   timing_timer0_init();
- 436:	0e 94 08 04 	call	0x810	; 0x810 <timing_timer0_init>
+ 44c:	0e 94 13 04 	call	0x826	; 0x826 <timing_timer0_init>
   timing_timer1_init();
- 43a:	0e 94 20 04 	call	0x840	; 0x840 <timing_timer1_init>
+ 450:	0e 94 2b 04 	call	0x856	; 0x856 <timing_timer1_init>
   interface_init();
- 43e:	0e 94 ad 01 	call	0x35a	; 0x35a <interface_init>
+ 454:	0e 94 b8 01 	call	0x370	; 0x370 <interface_init>
 
   Start_pll_64_mega(); // Start the 64 MHz PLL
- 442:	86 e0       	ldi	r24, 0x06	; 6
- 444:	89 bd       	out	0x29, r24	; 41
+ 458:	86 e0       	ldi	r24, 0x06	; 6
+ 45a:	89 bd       	out	0x29, r24	; 41
   Wait_pll_ready();
- 446:	09 b4       	in	r0, 0x29	; 41
- 448:	00 fe       	sbrs	r0, 0
- 44a:	fd cf       	rjmp	.-6      	; 0x446 <main+0x24>
+ 45c:	09 b4       	in	r0, 0x29	; 41
+ 45e:	00 fe       	sbrs	r0, 0
+ 460:	fd cf       	rjmp	.-6      	; 0x45c <main+0x24>
   
   a4910_enable(); //enable MOSFET driver
- 44c:	0e 94 61 00 	call	0xc2	; 0xc2 <a4910_enable>
+ 462:	0e 94 61 00 	call	0xc2	; 0xc2 <a4910_enable>
   motor_run();
- 450:	0e 94 4e 02 	call	0x49c	; 0x49c <motor_run>
+ 466:	0e 94 59 02 	call	0x4b2	; 0x4b2 <motor_run>
 
   sei(); //enable interrupts
- 454:	78 94       	sei
+ 46a:	78 94       	sei
 
 	unoPinA2_high(); //debug
- 456:	0e 94 22 01 	call	0x244	; 0x244 <unoPinA2_high>
+ 46c:	0e 94 22 01 	call	0x244	; 0x244 <unoPinA2_high>
 	unoPinA2_low();
- 45a:	0e 94 27 01 	call	0x24e	; 0x24e <unoPinA2_low>
+ 470:	0e 94 27 01 	call	0x24e	; 0x24e <unoPinA2_low>
 	
 	unoPinA4_high(); //debug
- 45e:	0e 94 1f 01 	call	0x23e	; 0x23e <unoPinA4_high>
+ 474:	0e 94 1f 01 	call	0x23e	; 0x23e <unoPinA4_high>
 	unoPinA4_low();
- 462:	0e 94 25 01 	call	0x24a	; 0x24a <unoPinA4_low>
+ 478:	0e 94 25 01 	call	0x24a	; 0x24a <unoPinA4_low>
 
   while(1)
   {	  	  
     if (timing_runControlLoop_get() == TRUE) //controlled by Timer0 interrupt
- 466:	0e 94 02 04 	call	0x804	; 0x804 <timing_runControlLoop_get>
- 46a:	81 30       	cpi	r24, 0x01	; 1
- 46c:	e1 f7       	brne	.-8      	; 0x466 <main+0x44>
+ 47c:	0e 94 0d 04 	call	0x81a	; 0x81a <timing_runControlLoop_get>
+ 480:	81 30       	cpi	r24, 0x01	; 1
+ 482:	e1 f7       	brne	.-8      	; 0x47c <main+0x44>
     {	
       timing_runControlLoop_set(FALSE); //prevent control loop from running again until next Timer0 interrupt occurs
- 46e:	80 e0       	ldi	r24, 0x00	; 0
- 470:	0e 94 05 04 	call	0x80a	; 0x80a <timing_runControlLoop_set>
+ 484:	80 e0       	ldi	r24, 0x00	; 0
+ 486:	0e 94 10 04 	call	0x820	; 0x820 <timing_runControlLoop_set>
 
       interface_handler();
- 474:	0e 94 e9 01 	call	0x3d2	; 0x3d2 <interface_handler>
- 478:	f6 cf       	rjmp	.-20     	; 0x466 <main+0x44>
+ 48a:	0e 94 f4 01 	call	0x3e8	; 0x3e8 <interface_handler>
+ 48e:	f6 cf       	rjmp	.-20     	; 0x47c <main+0x44>
 
-0000047a <motor_state_get>:
+00000490 <motor_state_get>:
 uint8_t motorStatus = STOPPED;
 uint8_t motorDirection = MOTOR_CW;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 uint8_t motor_state_get(void) { return motorStatus; }
- 47a:	80 91 2d 01 	lds	r24, 0x012D	; 0x80012d <motorStatus>
- 47e:	08 95       	ret
+ 490:	80 91 2d 01 	lds	r24, 0x012D	; 0x80012d <motorStatus>
+ 494:	08 95       	ret
 
-00000480 <motor_stop>:
+00000496 <motor_stop>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void motor_stop(void)
 {
   motorStatus = STOPPED;
- 480:	10 92 2d 01 	sts	0x012D, r1	; 0x80012d <motorStatus>
+ 496:	10 92 2d 01 	sts	0x012D, r1	; 0x80012d <motorStatus>
   a4910_disable();
- 484:	0c 94 5f 00 	jmp	0xbe	; 0xbe <a4910_disable>
+ 49a:	0c 94 5f 00 	jmp	0xbe	; 0xbe <a4910_disable>
 
-00000488 <motor_init>:
+0000049e <motor_init>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void motor_init()
 {
   motor_stop();
- 488:	0e 94 40 02 	call	0x480	; 0x480 <motor_stop>
+ 49e:	0e 94 4b 02 	call	0x496	; 0x496 <motor_stop>
   adc_goalRPM_set(0);
- 48c:	80 e0       	ldi	r24, 0x00	; 0
- 48e:	90 e0       	ldi	r25, 0x00	; 0
- 490:	0e 94 1a 01 	call	0x234	; 0x234 <adc_goalRPM_set>
+ 4a2:	80 e0       	ldi	r24, 0x00	; 0
+ 4a4:	90 e0       	ldi	r25, 0x00	; 0
+ 4a6:	0e 94 1a 01 	call	0x234	; 0x234 <adc_goalRPM_set>
   timing_measuredRPM_set(0);
- 494:	80 e0       	ldi	r24, 0x00	; 0
- 496:	90 e0       	ldi	r25, 0x00	; 0
- 498:	0c 94 4f 04 	jmp	0x89e	; 0x89e <timing_measuredRPM_set>
+ 4aa:	80 e0       	ldi	r24, 0x00	; 0
+ 4ac:	90 e0       	ldi	r25, 0x00	; 0
+ 4ae:	0c 94 5a 04 	jmp	0x8b4	; 0x8b4 <timing_measuredRPM_set>
 
-0000049c <motor_run>:
+000004b2 <motor_run>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void motor_run(void)
 {
   motorStatus = RUNNING;
- 49c:	81 e0       	ldi	r24, 0x01	; 1
- 49e:	80 93 2d 01 	sts	0x012D, r24	; 0x80012d <motorStatus>
+ 4b2:	81 e0       	ldi	r24, 0x01	; 1
+ 4b4:	80 93 2d 01 	sts	0x012D, r24	; 0x80012d <motorStatus>
 
   a4910_enable();
- 4a2:	0e 94 61 00 	call	0xc2	; 0xc2 <a4910_enable>
+ 4b8:	0e 94 61 00 	call	0xc2	; 0xc2 <a4910_enable>
   
   pid_dutyCycle_set(175); //kickstart motor
- 4a6:	8f ea       	ldi	r24, 0xAF	; 175
- 4a8:	0e 94 65 02 	call	0x4ca	; 0x4ca <pid_dutyCycle_set>
+ 4bc:	8f ea       	ldi	r24, 0xAF	; 175
+ 4be:	0e 94 70 02 	call	0x4e0	; 0x4e0 <pid_dutyCycle_set>
   psc_commutateOutputWaveforms( 175 );
- 4ac:	8f ea       	ldi	r24, 0xAF	; 175
- 4ae:	0c 94 ed 02 	jmp	0x5da	; 0x5da <psc_commutateOutputWaveforms>
+ 4c2:	8f ea       	ldi	r24, 0xAF	; 175
+ 4c4:	0c 94 f8 02 	jmp	0x5f0	; 0x5f0 <psc_commutateOutputWaveforms>
 
-000004b2 <motor_direction_set>:
+000004c8 <motor_direction_set>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //JTS2doNow: Direction never set in code.  Fine for now.
 //JTS2doNow: If direction_now != direction_previous, need to stop motor first, then spin other way. //PID loop might take care of this automatically
 void    motor_direction_set(uint8_t direction) { (direction == MOTOR_CCW) ? (motorDirection = MOTOR_CCW) : (motorDirection = MOTOR_CW); }
- 4b2:	81 30       	cpi	r24, 0x01	; 1
- 4b4:	09 f0       	breq	.+2      	; 0x4b8 <motor_direction_set+0x6>
- 4b6:	82 e0       	ldi	r24, 0x02	; 2
- 4b8:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <motorDirection>
- 4bc:	08 95       	ret
+ 4c8:	81 30       	cpi	r24, 0x01	; 1
+ 4ca:	09 f0       	breq	.+2      	; 0x4ce <motor_direction_set+0x6>
+ 4cc:	82 e0       	ldi	r24, 0x02	; 2
+ 4ce:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <motorDirection>
+ 4d2:	08 95       	ret
 
-000004be <motor_direction_get>:
- 4be:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <motorDirection>
- 4c2:	08 95       	ret
+000004d4 <motor_direction_get>:
+ 4d4:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <motorDirection>
+ 4d8:	08 95       	ret
 
-000004c4 <pid_dutyCycle_get>:
+000004da <pid_dutyCycle_get>:
 
   if(speed_derivative >  255) speed_derivative =  255;
   if(speed_derivative < -255) speed_derivative = -255;
 
   return (SPEED_PID_DIFFERENTIAL_COEF * speed_derivative);
 }
- 4c4:	80 91 30 01 	lds	r24, 0x0130	; 0x800130 <dutyPID>
- 4c8:	08 95       	ret
+ 4da:	80 91 30 01 	lds	r24, 0x0130	; 0x800130 <dutyPID>
+ 4de:	08 95       	ret
 
-000004ca <pid_dutyCycle_set>:
- 4ca:	80 93 30 01 	sts	0x0130, r24	; 0x800130 <dutyPID>
- 4ce:	08 95       	ret
+000004e0 <pid_dutyCycle_set>:
+ 4e0:	80 93 30 01 	sts	0x0130, r24	; 0x800130 <dutyPID>
+ 4e4:	08 95       	ret
 
-000004d0 <pid_dutyCycle_calculate>:
+000004e6 <pid_dutyCycle_calculate>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 uint8_t pid_dutyCycle_calculate(void)
 {
- 4d0:	cf 93       	push	r28
- 4d2:	df 93       	push	r29
+ 4e6:	cf 93       	push	r28
+ 4e8:	df 93       	push	r29
   #ifdef SPINDLE_MODE_CLOSED_LOOP 
     static int16_t summedPID = 0;
     int16_t error_actualMinusGoal_RPM = (int16_t)timing_measuredRPM_get() - (int16_t)adc_goalRPM_get();
- 4d4:	0e 94 4a 04 	call	0x894	; 0x894 <timing_measuredRPM_get>
- 4d8:	ec 01       	movw	r28, r24
- 4da:	0e 94 15 01 	call	0x22a	; 0x22a <adc_goalRPM_get>
+ 4ea:	0e 94 55 04 	call	0x8aa	; 0x8aa <timing_measuredRPM_get>
+ 4ee:	ec 01       	movw	r28, r24
+ 4f0:	0e 94 15 01 	call	0x22a	; 0x22a <adc_goalRPM_get>
 
 	if(error_actualMinusGoal_RPM > 0) { summedPID--; }
- 4de:	c8 1b       	sub	r28, r24
- 4e0:	d9 0b       	sbc	r29, r25
- 4e2:	20 91 2e 01 	lds	r18, 0x012E	; 0x80012e <summedPID.2082>
- 4e6:	30 91 2f 01 	lds	r19, 0x012F	; 0x80012f <summedPID.2082+0x1>
- 4ea:	1c 16       	cp	r1, r28
- 4ec:	1d 06       	cpc	r1, r29
- 4ee:	1c f4       	brge	.+6      	; 0x4f6 <pid_dutyCycle_calculate+0x26>
- 4f0:	21 50       	subi	r18, 0x01	; 1
- 4f2:	31 09       	sbc	r19, r1
- 4f4:	02 c0       	rjmp	.+4      	; 0x4fa <pid_dutyCycle_calculate+0x2a>
+ 4f4:	c8 1b       	sub	r28, r24
+ 4f6:	d9 0b       	sbc	r29, r25
+ 4f8:	20 91 2e 01 	lds	r18, 0x012E	; 0x80012e <summedPID.2082>
+ 4fc:	30 91 2f 01 	lds	r19, 0x012F	; 0x80012f <summedPID.2082+0x1>
+ 500:	1c 16       	cp	r1, r28
+ 502:	1d 06       	cpc	r1, r29
+ 504:	1c f4       	brge	.+6      	; 0x50c <pid_dutyCycle_calculate+0x26>
+ 506:	21 50       	subi	r18, 0x01	; 1
+ 508:	31 09       	sbc	r19, r1
+ 50a:	02 c0       	rjmp	.+4      	; 0x510 <pid_dutyCycle_calculate+0x2a>
 	else                              { summedPID++; }
- 4f6:	2f 5f       	subi	r18, 0xFF	; 255
- 4f8:	3f 4f       	sbci	r19, 0xFF	; 255
- 4fa:	30 93 2f 01 	sts	0x012F, r19	; 0x80012f <summedPID.2082+0x1>
- 4fe:	20 93 2e 01 	sts	0x012E, r18	; 0x80012e <summedPID.2082>
+ 50c:	2f 5f       	subi	r18, 0xFF	; 255
+ 50e:	3f 4f       	sbci	r19, 0xFF	; 255
+ 510:	30 93 2f 01 	sts	0x012F, r19	; 0x80012f <summedPID.2082+0x1>
+ 514:	20 93 2e 01 	sts	0x012E, r18	; 0x80012e <summedPID.2082>
     // Duty Cycle calculation
     //summedPID = TermPID_proportional + TermPID_integral + TermPID_derivative;
     //summedPID = error_actualRPM_minus_goalRPM;
 
     // Bound max/min PWM value
     if     ( summedPID > (int16_t)(255) ) { summedPID = 255; }
- 502:	80 91 2e 01 	lds	r24, 0x012E	; 0x80012e <summedPID.2082>
- 506:	90 91 2f 01 	lds	r25, 0x012F	; 0x80012f <summedPID.2082+0x1>
- 50a:	8f 3f       	cpi	r24, 0xFF	; 255
- 50c:	91 05       	cpc	r25, r1
- 50e:	21 f0       	breq	.+8      	; 0x518 <pid_dutyCycle_calculate+0x48>
- 510:	1c f0       	brlt	.+6      	; 0x518 <pid_dutyCycle_calculate+0x48>
- 512:	8f ef       	ldi	r24, 0xFF	; 255
- 514:	90 e0       	ldi	r25, 0x00	; 0
- 516:	05 c0       	rjmp	.+10     	; 0x522 <pid_dutyCycle_calculate+0x52>
+ 518:	80 91 2e 01 	lds	r24, 0x012E	; 0x80012e <summedPID.2082>
+ 51c:	90 91 2f 01 	lds	r25, 0x012F	; 0x80012f <summedPID.2082+0x1>
+ 520:	8f 3f       	cpi	r24, 0xFF	; 255
+ 522:	91 05       	cpc	r25, r1
+ 524:	21 f0       	breq	.+8      	; 0x52e <pid_dutyCycle_calculate+0x48>
+ 526:	1c f0       	brlt	.+6      	; 0x52e <pid_dutyCycle_calculate+0x48>
+ 528:	8f ef       	ldi	r24, 0xFF	; 255
+ 52a:	90 e0       	ldi	r25, 0x00	; 0
+ 52c:	05 c0       	rjmp	.+10     	; 0x538 <pid_dutyCycle_calculate+0x52>
     else if( summedPID < (int16_t)(125) ) { summedPID = 125; }
- 518:	8d 37       	cpi	r24, 0x7D	; 125
- 51a:	91 05       	cpc	r25, r1
- 51c:	34 f4       	brge	.+12     	; 0x52a <pid_dutyCycle_calculate+0x5a>
- 51e:	8d e7       	ldi	r24, 0x7D	; 125
- 520:	90 e0       	ldi	r25, 0x00	; 0
- 522:	90 93 2f 01 	sts	0x012F, r25	; 0x80012f <summedPID.2082+0x1>
- 526:	80 93 2e 01 	sts	0x012E, r24	; 0x80012e <summedPID.2082>
+ 52e:	8d 37       	cpi	r24, 0x7D	; 125
+ 530:	91 05       	cpc	r25, r1
+ 532:	34 f4       	brge	.+12     	; 0x540 <pid_dutyCycle_calculate+0x5a>
+ 534:	8d e7       	ldi	r24, 0x7D	; 125
+ 536:	90 e0       	ldi	r25, 0x00	; 0
+ 538:	90 93 2f 01 	sts	0x012F, r25	; 0x80012f <summedPID.2082+0x1>
+ 53c:	80 93 2e 01 	sts	0x012E, r24	; 0x80012e <summedPID.2082>
     
     dutyPID = summedPID;
- 52a:	80 91 2e 01 	lds	r24, 0x012E	; 0x80012e <summedPID.2082>
- 52e:	80 93 30 01 	sts	0x0130, r24	; 0x800130 <dutyPID>
+ 540:	80 91 2e 01 	lds	r24, 0x012E	; 0x80012e <summedPID.2082>
+ 544:	80 93 30 01 	sts	0x0130, r24	; 0x800130 <dutyPID>
   #elif defined SPINDLE_MODE_OPEN_LOOP
     dutyPID = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;
   #endif
 	
   return dutyPID;
 }
- 532:	df 91       	pop	r29
- 534:	cf 91       	pop	r28
- 536:	08 95       	ret
+ 548:	df 91       	pop	r29
+ 54a:	cf 91       	pop	r28
+ 54c:	08 95       	ret
 
-00000538 <psc_init>:
+0000054e <psc_init>:
   // PD0 => UH     PB7 => UL
   // PC0 => VH     PB6 => VL
   // PB0 => WH     PB1 => WL
 
   // Set MOSFET Drive pins low (soo all FETs are off when set to output in next step)
   PORTB &= ~(1<<PORTB7 | 1<<PORTB6 | 1<<PORTB1 | 1<<PORTB0);
- 538:	85 b1       	in	r24, 0x05	; 5
- 53a:	8c 73       	andi	r24, 0x3C	; 60
- 53c:	85 b9       	out	0x05, r24	; 5
+ 54e:	85 b1       	in	r24, 0x05	; 5
+ 550:	8c 73       	andi	r24, 0x3C	; 60
+ 552:	85 b9       	out	0x05, r24	; 5
   PORTC &= ~(1<<PORTC0);
- 53e:	40 98       	cbi	0x08, 0	; 8
+ 554:	40 98       	cbi	0x08, 0	; 8
   PORTD &= ~(1<<PORTD0);
- 540:	58 98       	cbi	0x0b, 0	; 11
+ 556:	58 98       	cbi	0x0b, 0	; 11
 
   // Configure MOSFET pins to output
   DDRB = (1<<DDB7)|(1<<DDB6)|(1<<DDB1)|(1<<DDB0);
- 542:	83 ec       	ldi	r24, 0xC3	; 195
- 544:	84 b9       	out	0x04, r24	; 4
+ 558:	83 ec       	ldi	r24, 0xC3	; 195
+ 55a:	84 b9       	out	0x04, r24	; 4
   DDRC = (1<<DDC0);
- 546:	81 e0       	ldi	r24, 0x01	; 1
- 548:	87 b9       	out	0x07, r24	; 7
+ 55c:	81 e0       	ldi	r24, 0x01	; 1
+ 55e:	87 b9       	out	0x07, r24	; 7
   DDRD = (1<<DDD0);
- 54a:	8a b9       	out	0x0a, r24	; 10
+ 560:	8a b9       	out	0x0a, r24	; 10
 
 //used if PSCs are controlling commutation
 void psc_connectAllMOSFETs(void)
 {
   //POC: PSC output configuration
   POC = ( (1<<POEN0A)|(1<<POEN0B) |  //0:disconnect PSC outputs 0A & 0B from I/O pins //1:connect PSC output
- 54c:	9f e3       	ldi	r25, 0x3F	; 63
- 54e:	90 93 b6 00 	sts	0x00B6, r25	; 0x8000b6 <__TEXT_REGION_LENGTH__+0x7f80b6>
+ 562:	9f e3       	ldi	r25, 0x3F	; 63
+ 564:	90 93 b6 00 	sts	0x00B6, r25	; 0x8000b6 <__TEXT_REGION_LENGTH__+0x7f80b6>
    //SA_VAL: When PSC counter is less    than this value, high FET is enabled
    //SB_VAL: When PSC counter is greater than this value, low  FET is enabled
    //The difference between SA and SB sets the dead time between phases 
    //RA_VAL: Not used in centered mode //can be used to synchronize ADC
    //RB_VAL: Not used in centered mode 
    Psc_set_module_A(A_SA_VAL,A_RA_VAL,A_SB_VAL);
- 552:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
- 556:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
- 55a:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
- 55e:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
- 562:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
- 566:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
+ 568:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
+ 56c:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
+ 570:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
+ 574:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
+ 578:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
+ 57c:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
    Psc_set_module_B(B_SA_VAL,B_RA_VAL,B_SB_VAL);
- 56a:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
- 56e:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
- 572:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
- 576:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
- 57a:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
- 57e:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
+ 580:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
+ 584:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
+ 588:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
+ 58c:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
+ 590:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
+ 594:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
    Psc_set_module_C(C_SA_VAL,C_RA_VAL,C_SB_VAL);
- 582:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
- 586:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
- 58a:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
- 58e:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
- 592:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
- 596:	10 92 b0 00 	sts	0x00B0, r1	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
+ 598:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
+ 59c:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
+ 5a0:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
+ 5a4:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
+ 5a8:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
+ 5ac:	10 92 b0 00 	sts	0x00B0, r1	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
    Psc_set_register_RB(RB_VAL); //max value 12b free-running PSC counter counts up to
- 59a:	10 92 b3 00 	sts	0x00B3, r1	; 0x8000b3 <__TEXT_REGION_LENGTH__+0x7f80b3>
- 59e:	9e ef       	ldi	r25, 0xFE	; 254
- 5a0:	90 93 b2 00 	sts	0x00B2, r25	; 0x8000b2 <__TEXT_REGION_LENGTH__+0x7f80b2>
+ 5b0:	10 92 b3 00 	sts	0x00B3, r1	; 0x8000b3 <__TEXT_REGION_LENGTH__+0x7f80b3>
+ 5b4:	9e ef       	ldi	r25, 0xFE	; 254
+ 5b6:	90 93 b2 00 	sts	0x00B2, r25	; 0x8000b2 <__TEXT_REGION_LENGTH__+0x7f80b2>
 
    Psc_config();
- 5a4:	94 e1       	ldi	r25, 0x14	; 20
- 5a6:	90 93 b5 00 	sts	0x00B5, r25	; 0x8000b5 <__TEXT_REGION_LENGTH__+0x7f80b5>
+ 5ba:	94 e1       	ldi	r25, 0x14	; 20
+ 5bc:	90 93 b5 00 	sts	0x00B5, r25	; 0x8000b5 <__TEXT_REGION_LENGTH__+0x7f80b5>
 
    Psc_config_input_0(PSC_OVERLAP_ENABLE,\
- 5aa:	98 ed       	ldi	r25, 0xD8	; 216
- 5ac:	90 93 b8 00 	sts	0x00B8, r25	; 0x8000b8 <__TEXT_REGION_LENGTH__+0x7f80b8>
+ 5c0:	98 ed       	ldi	r25, 0xD8	; 216
+ 5c2:	90 93 b8 00 	sts	0x00B8, r25	; 0x8000b8 <__TEXT_REGION_LENGTH__+0x7f80b8>
                       PSC_USE_LOW_LEVEL,\
                       PSC_INPUT_FILTER_ENABLE,\
                       PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
                       PSC_INPUT_NO_ACTION); //PSC input is ignored
 
    Psc_config_input_1(PSC_OVERLAP_ENABLE,\
- 5b0:	28 ef       	ldi	r18, 0xF8	; 248
- 5b2:	20 93 b9 00 	sts	0x00B9, r18	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7f80b9>
+ 5c6:	28 ef       	ldi	r18, 0xF8	; 248
+ 5c8:	20 93 b9 00 	sts	0x00B9, r18	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7f80b9>
                       PSC_USE_HIGH_LEVEL,\
                       PSC_INPUT_FILTER_ENABLE,\
                       PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
                       PSC_INPUT_NO_ACTION);
 
    Psc_config_input_2(PSC_OVERLAP_ENABLE,\
- 5b6:	90 93 ba 00 	sts	0x00BA, r25	; 0x8000ba <__TEXT_REGION_LENGTH__+0x7f80ba>
+ 5cc:	90 93 ba 00 	sts	0x00BA, r25	; 0x8000ba <__TEXT_REGION_LENGTH__+0x7f80ba>
                       PSC_USE_LOW_LEVEL,\
                       PSC_INPUT_FILTER_ENABLE,\
                       PSC_SYNCHRONOUS_OUTPUT_CONTROL,\
                       PSC_INPUT_NO_ACTION);
 
    PIFR = (1<<PEV2)|(1<<PEV1)|(1<<PEV0)|(1<<PEOP); //PSC interrupt flag register
- 5ba:	9f e0       	ldi	r25, 0x0F	; 15
- 5bc:	90 93 bc 00 	sts	0x00BC, r25	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 5d0:	9f e0       	ldi	r25, 0x0F	; 15
+ 5d2:	90 93 bc 00 	sts	0x00BC, r25	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
 
    PIM = (0<<PEVE1)|(0<<PEVE1)|(0<<PEVE2)|(0<<PEOPE); //PSC interrupt mask register
- 5c0:	10 92 bb 00 	sts	0x00BB, r1	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7f80bb>
+ 5d6:	10 92 bb 00 	sts	0x00BB, r1	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7f80bb>
                          //PEVE0 high: when fault occurs on PSC1, generate interrupt //low: no interrupt
                          //PEVE1 high: when fault occurs on PSC1, generate interrupt //low: no interrupt
                          //PEVE2 high: when fault occurs on PSC1, generate interrupt //low: no interrupt
                          //PEOPE high: PSC generates interrupt when end of cycle reached //low: no interrupt
 
    Psc_run();
- 5c4:	80 93 b7 00 	sts	0x00B7, r24	; 0x8000b7 <__TEXT_REGION_LENGTH__+0x7f80b7>
- 5c8:	08 95       	ret
+ 5da:	80 93 b7 00 	sts	0x00B7, r24	; 0x8000b7 <__TEXT_REGION_LENGTH__+0x7f80b7>
+ 5de:	08 95       	ret
 
-000005ca <psc_disconnectAllMOSFETs>:
+000005e0 <psc_disconnectAllMOSFETs>:
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void psc_disconnectAllMOSFETs(void)
 {
   //set standard pin outputs low
   PORTB &= ( ~((1<<PORTB7)|(1<<PORTB6)|(1<<PORTB0)|(1<<PORTB1)) ); //Turn off Q2/Q4/Q5/Q6, respectively
- 5ca:	85 b1       	in	r24, 0x05	; 5
- 5cc:	8c 73       	andi	r24, 0x3C	; 60
- 5ce:	85 b9       	out	0x05, r24	; 5
+ 5e0:	85 b1       	in	r24, 0x05	; 5
+ 5e2:	8c 73       	andi	r24, 0x3C	; 60
+ 5e4:	85 b9       	out	0x05, r24	; 5
   PORTC &= ( ~(1<<PORTC0) ); //turn off Q3
- 5d0:	40 98       	cbi	0x08, 0	; 8
+ 5e6:	40 98       	cbi	0x08, 0	; 8
   PORTD &= ( ~(1<<PORTD0) ); //turn off Q1
- 5d2:	58 98       	cbi	0x0b, 0	; 11
+ 5e8:	58 98       	cbi	0x0b, 0	; 11
 
   //POC: PSC output configuration
   POC = ( (0<<POEN0A)|(0<<POEN0B) |  //0:disconnect PSC outputs 0A & 0B from I/O pins //1:connect PSC output
- 5d4:	10 92 b6 00 	sts	0x00B6, r1	; 0x8000b6 <__TEXT_REGION_LENGTH__+0x7f80b6>
- 5d8:	08 95       	ret
+ 5ea:	10 92 b6 00 	sts	0x00B6, r1	; 0x8000b6 <__TEXT_REGION_LENGTH__+0x7f80b6>
+ 5ee:	08 95       	ret
 
-000005da <psc_commutateOutputWaveforms>:
+000005f0 <psc_commutateOutputWaveforms>:
 
 //Set the duty cycle values in the PSC according to the value calculate by the regulation loop
   // duty =   0: Duty Cycle   0%
   // duty = 255: Duty Cycle 100%
 void psc_commutateOutputWaveforms(uint8_t duty)
 { 
- 5da:	cf 93       	push	r28
- 5dc:	df 93       	push	r29
- 5de:	d8 2f       	mov	r29, r24
+ 5f0:	cf 93       	push	r28
+ 5f2:	df 93       	push	r29
+ 5f4:	d8 2f       	mov	r29, r24
   if ( motor_state_get() == STOPPED )
- 5e0:	0e 94 3d 02 	call	0x47a	; 0x47a <motor_state_get>
- 5e4:	81 11       	cpse	r24, r1
- 5e6:	28 c0       	rjmp	.+80     	; 0x638 <psc_commutateOutputWaveforms+0x5e>
+ 5f6:	0e 94 48 02 	call	0x490	; 0x490 <motor_state_get>
+ 5fa:	81 11       	cpse	r24, r1
+ 5fc:	28 c0       	rjmp	.+80     	; 0x64e <psc_commutateOutputWaveforms+0x5e>
   {
     psc_disconnectAllMOSFETs();
- 5e8:	0e 94 e5 02 	call	0x5ca	; 0x5ca <psc_disconnectAllMOSFETs>
+ 5fe:	0e 94 f0 02 	call	0x5e0	; 0x5e0 <psc_disconnectAllMOSFETs>
 
     //disable PWM on all FETs
     Psc_set_module_A(0,A_RA_VAL,0);
- 5ec:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
- 5f0:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
- 5f4:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
- 5f8:	81 e0       	ldi	r24, 0x01	; 1
- 5fa:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
- 5fe:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
- 602:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
+ 602:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
+ 606:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
+ 60a:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
+ 60e:	81 e0       	ldi	r24, 0x01	; 1
+ 610:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
+ 614:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
+ 618:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
     Psc_set_module_B(0,B_RA_VAL,0);
- 606:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
- 60a:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
- 60e:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
- 612:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
- 616:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
- 61a:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
+ 61c:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
+ 620:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
+ 624:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
+ 628:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
+ 62c:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
+ 630:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
     Psc_set_module_C(0,C_RA_VAL,0);
- 61e:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
- 622:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
- 626:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
- 62a:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
- 62e:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
- 632:	10 92 b0 00 	sts	0x00B0, r1	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
- 636:	e3 c0       	rjmp	.+454    	; 0x7fe <psc_commutateOutputWaveforms+0x224>
+ 634:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
+ 638:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
+ 63c:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
+ 640:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
+ 644:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
+ 648:	10 92 b0 00 	sts	0x00B0, r1	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
+ 64c:	e3 c0       	rjmp	.+454    	; 0x814 <__DATA_REGION_LENGTH__+0x14>
 
 //used if PSCs are controlling commutation
 void psc_connectAllMOSFETs(void)
 {
   //POC: PSC output configuration
   POC = ( (1<<POEN0A)|(1<<POEN0B) |  //0:disconnect PSC outputs 0A & 0B from I/O pins //1:connect PSC output
- 638:	8f e3       	ldi	r24, 0x3F	; 63
- 63a:	80 93 b6 00 	sts	0x00B6, r24	; 0x8000b6 <__TEXT_REGION_LENGTH__+0x7f80b6>
+ 64e:	8f e3       	ldi	r24, 0x3F	; 63
+ 650:	80 93 b6 00 	sts	0x00B6, r24	; 0x8000b6 <__TEXT_REGION_LENGTH__+0x7f80b6>
   }
   else //(motor_state_get() == RUNNING)
   {
     psc_connectAllMOSFETs();
     
     uint8_t hallState = hall_getPosition();
- 63e:	0e 94 35 01 	call	0x26a	; 0x26a <hall_getPosition>
- 642:	c8 2f       	mov	r28, r24
+ 654:	0e 94 35 01 	call	0x26a	; 0x26a <hall_getPosition>
+ 658:	c8 2f       	mov	r28, r24
 
 	//flip hall bits (6->1, 5->2. 4->3, 3->4, 2->5, 1->6)
-    if(motor_direction_get() == MOTOR_CW) { hallState = ((~hallState) & 0b00000111); }
- 644:	0e 94 5f 02 	call	0x4be	; 0x4be <motor_direction_get>
- 648:	82 30       	cpi	r24, 0x02	; 2
- 64a:	11 f4       	brne	.+4      	; 0x650 <psc_commutateOutputWaveforms+0x76>
- 64c:	c0 95       	com	r28
- 64e:	c7 70       	andi	r28, 0x07	; 7
+    if(motor_direction_get() == MOTOR_CCW) { hallState = ((~hallState) & 0b00000111); }
+ 65a:	0e 94 6a 02 	call	0x4d4	; 0x4d4 <motor_direction_get>
+ 65e:	81 30       	cpi	r24, 0x01	; 1
+ 660:	11 f4       	brne	.+4      	; 0x666 <psc_commutateOutputWaveforms+0x76>
+ 662:	c0 95       	com	r28
+ 664:	c7 70       	andi	r28, 0x07	; 7
 
     Psc_lock();
- 650:	84 e3       	ldi	r24, 0x34	; 52
- 652:	80 93 b5 00 	sts	0x00B5, r24	; 0x8000b5 <__TEXT_REGION_LENGTH__+0x7f80b5>
+ 666:	84 e3       	ldi	r24, 0x34	; 52
+ 668:	80 93 b5 00 	sts	0x00B5, r24	; 0x8000b5 <__TEXT_REGION_LENGTH__+0x7f80b5>
 
     //Determine which two PSC outputs will generate PWM waveforms 
     switch(hallState)
- 656:	c3 30       	cpi	r28, 0x03	; 3
- 658:	09 f4       	brne	.+2      	; 0x65c <psc_commutateOutputWaveforms+0x82>
- 65a:	64 c0       	rjmp	.+200    	; 0x724 <psc_commutateOutputWaveforms+0x14a>
- 65c:	00 f5       	brcc	.+64     	; 0x69e <psc_commutateOutputWaveforms+0xc4>
- 65e:	c1 30       	cpi	r28, 0x01	; 1
- 660:	09 f4       	brne	.+2      	; 0x664 <psc_commutateOutputWaveforms+0x8a>
- 662:	3f c0       	rjmp	.+126    	; 0x6e2 <psc_commutateOutputWaveforms+0x108>
- 664:	c2 30       	cpi	r28, 0x02	; 2
- 666:	09 f0       	breq	.+2      	; 0x66a <psc_commutateOutputWaveforms+0x90>
- 668:	c7 c0       	rjmp	.+398    	; 0x7f8 <psc_commutateOutputWaveforms+0x21e>
+ 66c:	c3 30       	cpi	r28, 0x03	; 3
+ 66e:	09 f4       	brne	.+2      	; 0x672 <psc_commutateOutputWaveforms+0x82>
+ 670:	64 c0       	rjmp	.+200    	; 0x73a <psc_commutateOutputWaveforms+0x14a>
+ 672:	00 f5       	brcc	.+64     	; 0x6b4 <psc_commutateOutputWaveforms+0xc4>
+ 674:	c1 30       	cpi	r28, 0x01	; 1
+ 676:	09 f4       	brne	.+2      	; 0x67a <psc_commutateOutputWaveforms+0x8a>
+ 678:	3f c0       	rjmp	.+126    	; 0x6f8 <psc_commutateOutputWaveforms+0x108>
+ 67a:	c2 30       	cpi	r28, 0x02	; 2
+ 67c:	09 f0       	breq	.+2      	; 0x680 <psc_commutateOutputWaveforms+0x90>
+ 67e:	c7 c0       	rjmp	.+398    	; 0x80e <__DATA_REGION_LENGTH__+0xe>
         Psc_set_module_B(0,B_RA_VAL,0);
         Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
       break;
 
       case 2: //Set_Q3Q2(); 1A 0B
         Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
- 66a:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
- 66e:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
- 672:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
- 676:	81 e0       	ldi	r24, 0x01	; 1
- 678:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
- 67c:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
- 680:	d0 93 a4 00 	sts	0x00A4, r29	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
+ 680:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
+ 684:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
+ 688:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
+ 68c:	81 e0       	ldi	r24, 0x01	; 1
+ 68e:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
+ 692:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
+ 696:	d0 93 a4 00 	sts	0x00A4, r29	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
         Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
- 684:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
- 688:	d0 93 a6 00 	sts	0x00A6, r29	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
- 68c:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
- 690:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
- 694:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
- 698:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
- 69c:	9c c0       	rjmp	.+312    	; 0x7d6 <psc_commutateOutputWaveforms+0x1fc>
-    if(motor_direction_get() == MOTOR_CW) { hallState = ((~hallState) & 0b00000111); }
+ 69a:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
+ 69e:	d0 93 a6 00 	sts	0x00A6, r29	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
+ 6a2:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
+ 6a6:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
+ 6aa:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
+ 6ae:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
+ 6b2:	9c c0       	rjmp	.+312    	; 0x7ec <psc_commutateOutputWaveforms+0x1fc>
+    if(motor_direction_get() == MOTOR_CCW) { hallState = ((~hallState) & 0b00000111); }
 
     Psc_lock();
 
     //Determine which two PSC outputs will generate PWM waveforms 
     switch(hallState)
- 69e:	c5 30       	cpi	r28, 0x05	; 5
- 6a0:	09 f4       	brne	.+2      	; 0x6a4 <psc_commutateOutputWaveforms+0xca>
- 6a2:	80 c0       	rjmp	.+256    	; 0x7a4 <psc_commutateOutputWaveforms+0x1ca>
- 6a4:	08 f4       	brcc	.+2      	; 0x6a8 <psc_commutateOutputWaveforms+0xce>
- 6a6:	64 c0       	rjmp	.+200    	; 0x770 <psc_commutateOutputWaveforms+0x196>
- 6a8:	c6 30       	cpi	r28, 0x06	; 6
- 6aa:	09 f0       	breq	.+2      	; 0x6ae <psc_commutateOutputWaveforms+0xd4>
- 6ac:	a5 c0       	rjmp	.+330    	; 0x7f8 <psc_commutateOutputWaveforms+0x21e>
+ 6b4:	c5 30       	cpi	r28, 0x05	; 5
+ 6b6:	09 f4       	brne	.+2      	; 0x6ba <psc_commutateOutputWaveforms+0xca>
+ 6b8:	80 c0       	rjmp	.+256    	; 0x7ba <psc_commutateOutputWaveforms+0x1ca>
+ 6ba:	08 f4       	brcc	.+2      	; 0x6be <psc_commutateOutputWaveforms+0xce>
+ 6bc:	64 c0       	rjmp	.+200    	; 0x786 <psc_commutateOutputWaveforms+0x196>
+ 6be:	c6 30       	cpi	r28, 0x06	; 6
+ 6c0:	09 f0       	breq	.+2      	; 0x6c4 <psc_commutateOutputWaveforms+0xd4>
+ 6c2:	a5 c0       	rjmp	.+330    	; 0x80e <__DATA_REGION_LENGTH__+0xe>
         Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
         Psc_set_module_C(0,C_RA_VAL,0);
       break;
 
       case 6: //Set_Q5Q2(); 2A 0B
         Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
- 6ae:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
- 6b2:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
- 6b6:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
- 6ba:	81 e0       	ldi	r24, 0x01	; 1
- 6bc:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
- 6c0:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
- 6c4:	d0 93 a4 00 	sts	0x00A4, r29	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
+ 6c4:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
+ 6c8:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
+ 6cc:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
+ 6d0:	81 e0       	ldi	r24, 0x01	; 1
+ 6d2:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
+ 6d6:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
+ 6da:	d0 93 a4 00 	sts	0x00A4, r29	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
         Psc_set_module_B(0,B_RA_VAL,0);
- 6c8:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
- 6cc:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
- 6d0:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
- 6d4:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
- 6d8:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
- 6dc:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
- 6e0:	7f c0       	rjmp	.+254    	; 0x7e0 <psc_commutateOutputWaveforms+0x206>
+ 6de:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
+ 6e2:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
+ 6e6:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
+ 6ea:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
+ 6ee:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
+ 6f2:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
+ 6f6:	7f c0       	rjmp	.+254    	; 0x7f6 <psc_commutateOutputWaveforms+0x206>
 
     //Determine which two PSC outputs will generate PWM waveforms 
     switch(hallState)
     {
       case 1:  
         Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
- 6e2:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
- 6e6:	d0 93 a0 00 	sts	0x00A0, r29	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
- 6ea:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
- 6ee:	c0 93 a2 00 	sts	0x00A2, r28	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
- 6f2:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
- 6f6:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
+ 6f8:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
+ 6fc:	d0 93 a0 00 	sts	0x00A0, r29	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
+ 700:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
+ 704:	c0 93 a2 00 	sts	0x00A2, r28	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
+ 708:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
+ 70c:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
         Psc_set_module_B(0,B_RA_VAL,0);
- 6fa:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
- 6fe:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
- 702:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
- 706:	c0 93 a8 00 	sts	0x00A8, r28	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
- 70a:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
- 70e:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
+ 710:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
+ 714:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
+ 718:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
+ 71c:	c0 93 a8 00 	sts	0x00A8, r28	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
+ 720:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
+ 724:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
         Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
- 712:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
- 716:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
- 71a:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
- 71e:	c0 93 ae 00 	sts	0x00AE, r28	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
- 722:	21 c0       	rjmp	.+66     	; 0x766 <psc_commutateOutputWaveforms+0x18c>
+ 728:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
+ 72c:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
+ 730:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
+ 734:	c0 93 ae 00 	sts	0x00AE, r28	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
+ 738:	21 c0       	rjmp	.+66     	; 0x77c <psc_commutateOutputWaveforms+0x18c>
         Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
         Psc_set_module_C(0,C_RA_VAL,0);
       break;
 
       case 3: //Set_Q3Q6(); 1A 2B
         Psc_set_module_A(0,A_RA_VAL,0);
- 724:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
- 728:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
- 72c:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
- 730:	81 e0       	ldi	r24, 0x01	; 1
- 732:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
- 736:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
- 73a:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
+ 73a:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
+ 73e:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
+ 742:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
+ 746:	81 e0       	ldi	r24, 0x01	; 1
+ 748:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
+ 74c:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
+ 750:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
         Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
- 73e:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
- 742:	d0 93 a6 00 	sts	0x00A6, r29	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
- 746:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
- 74a:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
- 74e:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
- 752:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
+ 754:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
+ 758:	d0 93 a6 00 	sts	0x00A6, r29	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
+ 75c:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
+ 760:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
+ 764:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
+ 768:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
         Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
- 756:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
- 75a:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
- 75e:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
- 762:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
- 766:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
- 76a:	d0 93 b0 00 	sts	0x00B0, r29	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
+ 76c:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
+ 770:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
+ 774:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
+ 778:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
+ 77c:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
+ 780:	d0 93 b0 00 	sts	0x00B0, r29	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
       break;
- 76e:	44 c0       	rjmp	.+136    	; 0x7f8 <psc_commutateOutputWaveforms+0x21e>
+ 784:	44 c0       	rjmp	.+136    	; 0x80e <__DATA_REGION_LENGTH__+0xe>
 
       case 4: //Set_Q5Q4(); 2A 1B
         Psc_set_module_A(0,A_RA_VAL,0);
- 770:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
- 774:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
- 778:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
- 77c:	81 e0       	ldi	r24, 0x01	; 1
- 77e:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
- 782:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
- 786:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
+ 786:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
+ 78a:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
+ 78e:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
+ 792:	81 e0       	ldi	r24, 0x01	; 1
+ 794:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
+ 798:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
+ 79c:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
         Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
- 78a:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
- 78e:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
- 792:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
- 796:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
- 79a:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
- 79e:	d0 93 aa 00 	sts	0x00AA, r29	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
- 7a2:	1e c0       	rjmp	.+60     	; 0x7e0 <psc_commutateOutputWaveforms+0x206>
+ 7a0:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
+ 7a4:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
+ 7a8:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
+ 7ac:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
+ 7b0:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
+ 7b4:	d0 93 aa 00 	sts	0x00AA, r29	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
+ 7b8:	1e c0       	rjmp	.+60     	; 0x7f6 <psc_commutateOutputWaveforms+0x206>
         Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
       break;
 
       case 5: //Set_Q1Q4(); 0A 1B
         Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
- 7a4:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
- 7a8:	d0 93 a0 00 	sts	0x00A0, r29	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
- 7ac:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
- 7b0:	81 e0       	ldi	r24, 0x01	; 1
- 7b2:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
- 7b6:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
- 7ba:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
+ 7ba:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
+ 7be:	d0 93 a0 00 	sts	0x00A0, r29	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
+ 7c2:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
+ 7c6:	81 e0       	ldi	r24, 0x01	; 1
+ 7c8:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
+ 7cc:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
+ 7d0:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
         Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
- 7be:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
- 7c2:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
- 7c6:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
- 7ca:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
- 7ce:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
- 7d2:	d0 93 aa 00 	sts	0x00AA, r29	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
+ 7d4:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
+ 7d8:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
+ 7dc:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
+ 7e0:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
+ 7e4:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
+ 7e8:	d0 93 aa 00 	sts	0x00AA, r29	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
         Psc_set_module_C(0,C_RA_VAL,0);
- 7d6:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
- 7da:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
- 7de:	04 c0       	rjmp	.+8      	; 0x7e8 <psc_commutateOutputWaveforms+0x20e>
+ 7ec:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
+ 7f0:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
+ 7f4:	04 c0       	rjmp	.+8      	; 0x7fe <psc_commutateOutputWaveforms+0x20e>
       break;
 
       case 6: //Set_Q5Q2(); 2A 0B
         Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
         Psc_set_module_B(0,B_RA_VAL,0);
         Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
- 7e0:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
- 7e4:	d0 93 ac 00 	sts	0x00AC, r29	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
- 7e8:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
- 7ec:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
- 7f0:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
- 7f4:	10 92 b0 00 	sts	0x00B0, r1	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
+ 7f6:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
+ 7fa:	d0 93 ac 00 	sts	0x00AC, r29	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
+ 7fe:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
+ 802:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
+ 806:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
+ 80a:	10 92 b0 00 	sts	0x00B0, r1	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
       break;
       
       default: /*psc_disconnectAllMOSFETs();*/ break;
     }
 
     Psc_unlock();
- 7f8:	84 e1       	ldi	r24, 0x14	; 20
- 7fa:	80 93 b5 00 	sts	0x00B5, r24	; 0x8000b5 <__TEXT_REGION_LENGTH__+0x7f80b5>
+ 80e:	84 e1       	ldi	r24, 0x14	; 20
+ 810:	80 93 b5 00 	sts	0x00B5, r24	; 0x8000b5 <__TEXT_REGION_LENGTH__+0x7f80b5>
   }
 }
- 7fe:	df 91       	pop	r29
- 800:	cf 91       	pop	r28
- 802:	08 95       	ret
+ 814:	df 91       	pop	r29
+ 816:	cf 91       	pop	r28
+ 818:	08 95       	ret
 
-00000804 <timing_runControlLoop_get>:
+0000081a <timing_runControlLoop_get>:
 
 uint16_t motorRPM_measured = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 uint8_t timing_runControlLoop_get(void)          { return runControlLoop; }
- 804:	80 91 33 01 	lds	r24, 0x0133	; 0x800133 <runControlLoop>
- 808:	08 95       	ret
+ 81a:	80 91 33 01 	lds	r24, 0x0133	; 0x800133 <runControlLoop>
+ 81e:	08 95       	ret
 
-0000080a <timing_runControlLoop_set>:
+00000820 <timing_runControlLoop_set>:
 void    timing_runControlLoop_set(uint8_t state) { runControlLoop = state; }
- 80a:	80 93 33 01 	sts	0x0133, r24	; 0x800133 <runControlLoop>
- 80e:	08 95       	ret
+ 820:	80 93 33 01 	sts	0x0133, r24	; 0x800133 <runControlLoop>
+ 824:	08 95       	ret
 
-00000810 <timing_timer0_init>:
+00000826 <timing_timer0_init>:
 //Configure 8b Timer0 //count up to OCR0A
 //interrupt occurs when timer value is OCR0A
 //interrupt causes main control loop to execute
 void timing_timer0_init(void)
 {
   TCCR0A = (1<<WGM01); //set timer mode=CTC, don't connect timer to any output pins
- 810:	82 e0       	ldi	r24, 0x02	; 2
- 812:	84 bd       	out	0x24, r24	; 36
+ 826:	82 e0       	ldi	r24, 0x02	; 2
+ 828:	84 bd       	out	0x24, r24	; 36
   TCCR0B = (1<<CS01)|(1<<CS00); //prescale Timer0 clock to CPU/64 prescaler //MUST also change TIMER0_TICK_PERIOD_us constant!
- 814:	93 e0       	ldi	r25, 0x03	; 3
- 816:	95 bd       	out	0x25, r25	; 37
+ 82a:	93 e0       	ldi	r25, 0x03	; 3
+ 82c:	95 bd       	out	0x25, r25	; 37
   OCR0A  = TIMER0_COUNTS_TO; // f_interrupt = 1/(16MHz/64DIV)*(OCR0A+1) //OCR0A=7: 32us tick (512 clocks @ 16 MHz)
- 818:	97 e0       	ldi	r25, 0x07	; 7
- 81a:	97 bd       	out	0x27, r25	; 39
+ 82e:	97 e0       	ldi	r25, 0x07	; 7
+ 830:	97 bd       	out	0x27, r25	; 39
   TIMSK0 = (1<<OCIE0A); // Output compare A Match interrupt Enable
- 81c:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <__TEXT_REGION_LENGTH__+0x7f806e>
- 820:	08 95       	ret
+ 832:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <__TEXT_REGION_LENGTH__+0x7f806e>
+ 836:	08 95       	ret
 
-00000822 <__vector_15>:
+00000838 <__vector_15>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //Timer0 interrupt occurs when timer hits 'OCR0A' value
 //used to run main control loop 
 ISR(TIMER0_COMPA_vect) { timing_runControlLoop_set(TRUE); }
- 822:	1f 92       	push	r1
- 824:	0f 92       	push	r0
- 826:	0f b6       	in	r0, 0x3f	; 63
- 828:	0f 92       	push	r0
- 82a:	11 24       	eor	r1, r1
- 82c:	8f 93       	push	r24
+ 838:	1f 92       	push	r1
+ 83a:	0f 92       	push	r0
+ 83c:	0f b6       	in	r0, 0x3f	; 63
+ 83e:	0f 92       	push	r0
+ 840:	11 24       	eor	r1, r1
+ 842:	8f 93       	push	r24
 uint16_t motorRPM_measured = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 uint8_t timing_runControlLoop_get(void)          { return runControlLoop; }
 void    timing_runControlLoop_set(uint8_t state) { runControlLoop = state; }
- 82e:	81 e0       	ldi	r24, 0x01	; 1
- 830:	80 93 33 01 	sts	0x0133, r24	; 0x800133 <runControlLoop>
+ 844:	81 e0       	ldi	r24, 0x01	; 1
+ 846:	80 93 33 01 	sts	0x0133, r24	; 0x800133 <runControlLoop>
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //Timer0 interrupt occurs when timer hits 'OCR0A' value
 //used to run main control loop 
 ISR(TIMER0_COMPA_vect) { timing_runControlLoop_set(TRUE); }
- 834:	8f 91       	pop	r24
- 836:	0f 90       	pop	r0
- 838:	0f be       	out	0x3f, r0	; 63
- 83a:	0f 90       	pop	r0
- 83c:	1f 90       	pop	r1
- 83e:	18 95       	reti
+ 84a:	8f 91       	pop	r24
+ 84c:	0f 90       	pop	r0
+ 84e:	0f be       	out	0x3f, r0	; 63
+ 850:	0f 90       	pop	r0
+ 852:	1f 90       	pop	r1
+ 854:	18 95       	reti
 
-00000840 <timing_timer1_init>:
+00000856 <timing_timer1_init>:
 
 //configure 16b Timer1: count up to 2^16
 //used to calculate RPM (by measuring time between HallB rising edges)
 void timing_timer1_init(void)
 {
   TCCR1A = 0; //set timer mode=normal, don't connect timer to any output pins
- 840:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7f8080>
+ 856:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7f8080>
   TCCR1B = (0<<CS12)|(1<<CS11)|(1<<CS10); //prescale Timer1 clock to CPU/64 prescaler //MUST also change TIMER1_TICK_PERIOD_us constant!
- 844:	83 e0       	ldi	r24, 0x03	; 3
- 846:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7f8081>
+ 85a:	83 e0       	ldi	r24, 0x03	; 3
+ 85c:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7f8081>
   TIMSK1 = (1<<TOIE1); //generate interrupt each time an overflow occurs
- 84a:	81 e0       	ldi	r24, 0x01	; 1
- 84c:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <__TEXT_REGION_LENGTH__+0x7f806f>
- 850:	08 95       	ret
+ 860:	81 e0       	ldi	r24, 0x01	; 1
+ 862:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <__TEXT_REGION_LENGTH__+0x7f806f>
+ 866:	08 95       	ret
 
-00000852 <__vector_14>:
+00000868 <__vector_14>:
 //used to determine actual spindle RPM
 //Timer1 increments every 4us ( 1/[16MHz/64] )
 //Timer1 overflow interrupt occurs if no HallB rising edge occurs after ~262 milliseconds (2^16 * 4us) //HallB interrupt resets TCNT1 to zero)
 //The value on Timer1 is the time between each Hall_B rising edge
 ISR(TIMER1_OVF_vect)
 {
- 852:	1f 92       	push	r1
- 854:	0f 92       	push	r0
- 856:	0f b6       	in	r0, 0x3f	; 63
- 858:	0f 92       	push	r0
- 85a:	11 24       	eor	r1, r1
+ 868:	1f 92       	push	r1
+ 86a:	0f 92       	push	r0
+ 86c:	0f b6       	in	r0, 0x3f	; 63
+ 86e:	0f 92       	push	r0
+ 870:	11 24       	eor	r1, r1
 
 uint16_t timing_measuredRPM_get(void) { return motorRPM_measured; }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void timing_measuredRPM_set(uint16_t measured_speed) { motorRPM_measured = measured_speed; }
- 85c:	10 92 32 01 	sts	0x0132, r1	; 0x800132 <motorRPM_measured+0x1>
- 860:	10 92 31 01 	sts	0x0131, r1	; 0x800131 <motorRPM_measured>
+ 872:	10 92 32 01 	sts	0x0132, r1	; 0x800132 <motorRPM_measured+0x1>
+ 876:	10 92 31 01 	sts	0x0131, r1	; 0x800131 <motorRPM_measured>
   
   //pid_dutyCycle_set(175);
   //for(uint16_t ii=0; ii<1000; ii++) { psc_commutateOutputWaveforms( 175 ); } 
 
   timing_measuredRPM_set(0); //motor isn't spinning
 }
- 864:	0f 90       	pop	r0
- 866:	0f be       	out	0x3f, r0	; 63
- 868:	0f 90       	pop	r0
- 86a:	1f 90       	pop	r1
- 86c:	18 95       	reti
+ 87a:	0f 90       	pop	r0
+ 87c:	0f be       	out	0x3f, r0	; 63
+ 87e:	0f 90       	pop	r0
+ 880:	1f 90       	pop	r1
+ 882:	18 95       	reti
 
-0000086e <timing_calculateRPM>:
+00000884 <timing_calculateRPM>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 inline void timing_calculateRPM(void)
 {
   uint16_t timerCount = TCNT1; //retrive 16b timer value
- 86e:	e4 e8       	ldi	r30, 0x84	; 132
- 870:	f0 e0       	ldi	r31, 0x00	; 0
- 872:	20 81       	ld	r18, Z
- 874:	31 81       	ldd	r19, Z+1	; 0x01
+ 884:	e4 e8       	ldi	r30, 0x84	; 132
+ 886:	f0 e0       	ldi	r31, 0x00	; 0
+ 888:	20 81       	ld	r18, Z
+ 88a:	31 81       	ldd	r19, Z+1	; 0x01
   TCNT1 = 0x00; //reset Timer 1 ASAP (to minimize jitter)
- 876:	11 82       	std	Z+1, r1	; 0x01
- 878:	10 82       	st	Z, r1
+ 88c:	11 82       	std	Z+1, r1	; 0x01
+ 88e:	10 82       	st	Z, r1
 
 uint16_t timing_measuredRPM_get(void) { return motorRPM_measured; }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void timing_measuredRPM_set(uint16_t measured_speed) { motorRPM_measured = measured_speed; }
- 87a:	40 e0       	ldi	r20, 0x00	; 0
- 87c:	50 e0       	ldi	r21, 0x00	; 0
- 87e:	60 ee       	ldi	r22, 0xE0	; 224
- 880:	70 e7       	ldi	r23, 0x70	; 112
- 882:	82 e7       	ldi	r24, 0x72	; 114
- 884:	90 e0       	ldi	r25, 0x00	; 0
- 886:	0e 94 54 04 	call	0x8a8	; 0x8a8 <__udivmodsi4>
- 88a:	30 93 32 01 	sts	0x0132, r19	; 0x800132 <motorRPM_measured+0x1>
- 88e:	20 93 31 01 	sts	0x0131, r18	; 0x800131 <motorRPM_measured>
- 892:	08 95       	ret
+ 890:	40 e0       	ldi	r20, 0x00	; 0
+ 892:	50 e0       	ldi	r21, 0x00	; 0
+ 894:	60 ee       	ldi	r22, 0xE0	; 224
+ 896:	70 e7       	ldi	r23, 0x70	; 112
+ 898:	82 e7       	ldi	r24, 0x72	; 114
+ 89a:	90 e0       	ldi	r25, 0x00	; 0
+ 89c:	0e 94 5f 04 	call	0x8be	; 0x8be <__udivmodsi4>
+ 8a0:	30 93 32 01 	sts	0x0132, r19	; 0x800132 <motorRPM_measured+0x1>
+ 8a4:	20 93 31 01 	sts	0x0131, r18	; 0x800131 <motorRPM_measured>
+ 8a8:	08 95       	ret
 
-00000894 <timing_measuredRPM_get>:
+000008aa <timing_measuredRPM_get>:
   #endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 uint16_t timing_measuredRPM_get(void) { return motorRPM_measured; }
- 894:	80 91 31 01 	lds	r24, 0x0131	; 0x800131 <motorRPM_measured>
- 898:	90 91 32 01 	lds	r25, 0x0132	; 0x800132 <motorRPM_measured+0x1>
- 89c:	08 95       	ret
+ 8aa:	80 91 31 01 	lds	r24, 0x0131	; 0x800131 <motorRPM_measured>
+ 8ae:	90 91 32 01 	lds	r25, 0x0132	; 0x800132 <motorRPM_measured+0x1>
+ 8b2:	08 95       	ret
 
-0000089e <timing_measuredRPM_set>:
+000008b4 <timing_measuredRPM_set>:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void timing_measuredRPM_set(uint16_t measured_speed) { motorRPM_measured = measured_speed; }
- 89e:	90 93 32 01 	sts	0x0132, r25	; 0x800132 <motorRPM_measured+0x1>
- 8a2:	80 93 31 01 	sts	0x0131, r24	; 0x800131 <motorRPM_measured>
- 8a6:	08 95       	ret
+ 8b4:	90 93 32 01 	sts	0x0132, r25	; 0x800132 <motorRPM_measured+0x1>
+ 8b8:	80 93 31 01 	sts	0x0131, r24	; 0x800131 <motorRPM_measured>
+ 8bc:	08 95       	ret
 
-000008a8 <__udivmodsi4>:
- 8a8:	a1 e2       	ldi	r26, 0x21	; 33
- 8aa:	1a 2e       	mov	r1, r26
- 8ac:	aa 1b       	sub	r26, r26
- 8ae:	bb 1b       	sub	r27, r27
- 8b0:	fd 01       	movw	r30, r26
- 8b2:	0d c0       	rjmp	.+26     	; 0x8ce <__udivmodsi4_ep>
+000008be <__udivmodsi4>:
+ 8be:	a1 e2       	ldi	r26, 0x21	; 33
+ 8c0:	1a 2e       	mov	r1, r26
+ 8c2:	aa 1b       	sub	r26, r26
+ 8c4:	bb 1b       	sub	r27, r27
+ 8c6:	fd 01       	movw	r30, r26
+ 8c8:	0d c0       	rjmp	.+26     	; 0x8e4 <__udivmodsi4_ep>
 
-000008b4 <__udivmodsi4_loop>:
- 8b4:	aa 1f       	adc	r26, r26
- 8b6:	bb 1f       	adc	r27, r27
- 8b8:	ee 1f       	adc	r30, r30
- 8ba:	ff 1f       	adc	r31, r31
- 8bc:	a2 17       	cp	r26, r18
- 8be:	b3 07       	cpc	r27, r19
- 8c0:	e4 07       	cpc	r30, r20
- 8c2:	f5 07       	cpc	r31, r21
- 8c4:	20 f0       	brcs	.+8      	; 0x8ce <__udivmodsi4_ep>
- 8c6:	a2 1b       	sub	r26, r18
- 8c8:	b3 0b       	sbc	r27, r19
- 8ca:	e4 0b       	sbc	r30, r20
- 8cc:	f5 0b       	sbc	r31, r21
+000008ca <__udivmodsi4_loop>:
+ 8ca:	aa 1f       	adc	r26, r26
+ 8cc:	bb 1f       	adc	r27, r27
+ 8ce:	ee 1f       	adc	r30, r30
+ 8d0:	ff 1f       	adc	r31, r31
+ 8d2:	a2 17       	cp	r26, r18
+ 8d4:	b3 07       	cpc	r27, r19
+ 8d6:	e4 07       	cpc	r30, r20
+ 8d8:	f5 07       	cpc	r31, r21
+ 8da:	20 f0       	brcs	.+8      	; 0x8e4 <__udivmodsi4_ep>
+ 8dc:	a2 1b       	sub	r26, r18
+ 8de:	b3 0b       	sbc	r27, r19
+ 8e0:	e4 0b       	sbc	r30, r20
+ 8e2:	f5 0b       	sbc	r31, r21
 
-000008ce <__udivmodsi4_ep>:
- 8ce:	66 1f       	adc	r22, r22
- 8d0:	77 1f       	adc	r23, r23
- 8d2:	88 1f       	adc	r24, r24
- 8d4:	99 1f       	adc	r25, r25
- 8d6:	1a 94       	dec	r1
- 8d8:	69 f7       	brne	.-38     	; 0x8b4 <__udivmodsi4_loop>
- 8da:	60 95       	com	r22
- 8dc:	70 95       	com	r23
- 8de:	80 95       	com	r24
- 8e0:	90 95       	com	r25
- 8e2:	9b 01       	movw	r18, r22
- 8e4:	ac 01       	movw	r20, r24
- 8e6:	bd 01       	movw	r22, r26
- 8e8:	cf 01       	movw	r24, r30
- 8ea:	08 95       	ret
+000008e4 <__udivmodsi4_ep>:
+ 8e4:	66 1f       	adc	r22, r22
+ 8e6:	77 1f       	adc	r23, r23
+ 8e8:	88 1f       	adc	r24, r24
+ 8ea:	99 1f       	adc	r25, r25
+ 8ec:	1a 94       	dec	r1
+ 8ee:	69 f7       	brne	.-38     	; 0x8ca <__udivmodsi4_loop>
+ 8f0:	60 95       	com	r22
+ 8f2:	70 95       	com	r23
+ 8f4:	80 95       	com	r24
+ 8f6:	90 95       	com	r25
+ 8f8:	9b 01       	movw	r18, r22
+ 8fa:	ac 01       	movw	r20, r24
+ 8fc:	bd 01       	movw	r22, r26
+ 8fe:	cf 01       	movw	r24, r30
+ 900:	08 95       	ret
 
-000008ec <_exit>:
- 8ec:	f8 94       	cli
+00000902 <_exit>:
+ 902:	f8 94       	cli
 
-000008ee <__stop_program>:
- 8ee:	ff cf       	rjmp	.-2      	; 0x8ee <__stop_program>
+00000904 <__stop_program>:
+ 904:	ff cf       	rjmp	.-2      	; 0x904 <__stop_program>
