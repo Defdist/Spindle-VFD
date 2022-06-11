@@ -58,8 +58,8 @@ void interface_handler(void)
 	{
 		adc_scheduler(ADC_MEASURING_GOAL_RPM);
 		
-		if(motor_state_get() == STOPPED) { motor_run(); }
-
+		motor_stop();  //prevent motion while requested speed is changing
+		
 		#define GOALRPM_LPF_SETTLING_TIME_us 40000 //lowpass filter settles in 30 ms... wait at least this long
 		#define NUM_ITERATIONS_FOR_LPF_TO_SETTLE (GOALRPM_LPF_SETTLING_TIME_us / CONTROL_LOOP_PERIOD_us) //division handled by pre-processor
 
@@ -71,5 +71,10 @@ void interface_handler(void)
 			iterationCount = 0;
 		}
 	}
-	else { interface_checkForDirectionChange(); } //We don't want to do this when grbl is toggling direction pin (to generate interrupt)
+	else
+	{
+		interface_checkForDirectionChange(); //We don't want to do this when grbl is toggling direction pin (to generate interrupt)
+	
+		if( (motor_state_get() == STOPPED) && (adc_goalRPM_get() > MIN_ALLOWED_RPM) ) { motor_run(); }
+	} 
 }

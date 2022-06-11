@@ -23,7 +23,7 @@ uint8_t hall_getPosition(void)
 {
   static uint8_t state_previous = 0;
   static uint8_t numConsecutiveInvalidStates = 0;	
-	  
+  
   //Build Hall state 0b0000 0BGY (B=BLU, G=GRN, Y=YEL)
   uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //MSB
                     (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL //LSB

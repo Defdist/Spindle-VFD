@@ -1,8 +1,8 @@
 #include "grBLDC.h"
 
-uint8_t runControlLoop = FALSE;
+volatile uint8_t runControlLoop = FALSE;
 
-uint16_t motorRPM_measured = 0;
+volatile uint16_t motorRPM_measured = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,16 +48,9 @@ void timing_timer1_init(void)
 //The value on Timer1 is the time between each Hall_B rising edge
 ISR(TIMER1_OVF_vect)
 {
-  //timer1 timed out
-  //TCNT1=0x00; //set Timer1 value to 0
-  
-  //a4910_disable();
-  //a4910_enable();
-  
-  //pid_dutyCycle_set(175);
-  //for(uint16_t ii=0; ii<1000; ii++) { psc_commutateOutputWaveforms( 175 ); } 
-
-  timing_measuredRPM_set(0); //motor isn't spinning
+  //timer1 hit max value //spindle isn't spinning
+  //TCNT1=0x00; //set Timer1 value to 0 //don't reset... we only want interrupt to fire once
+  timing_measuredRPM_set(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

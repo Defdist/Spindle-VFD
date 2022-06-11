@@ -54,6 +54,9 @@ ISR(ADC_vect)
 	
     uint16_t adcResultScaled_goalRPM = (uint16_t)(ADC_COUNTS_TO_RPM__GAIN * adcResult_counts) + ADC_COUNTS_TO_RPM__OFFSET;
 
+	if(adcResultScaled_goalRPM < MIN_ALLOWED_RPM) { a4910_disable(); }
+	else                                          { a4910_enable(); }
+
     adc_goalRPM_set(adcResultScaled_goalRPM);
   }
 

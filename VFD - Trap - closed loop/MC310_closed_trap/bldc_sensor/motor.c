@@ -2,7 +2,7 @@
 
 //Motor interface
 
-uint8_t motorStatus = STOPPED;
+volatile uint8_t motorStatus = STOPPED;
 uint8_t motorDirection = MOTOR_CW;
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -23,6 +23,7 @@ void motor_init()
 void motor_stop(void)
 {
   motorStatus = STOPPED;
+  adc_goalRPM_set(0);
   a4910_disable();
 }
 
@@ -31,11 +32,7 @@ void motor_stop(void)
 void motor_run(void)
 {
   motorStatus = RUNNING;
-
   a4910_enable();
-  
-  pid_dutyCycle_set(175); //kickstart motor
-  psc_commutateOutputWaveforms( 175 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

@@ -74,14 +74,16 @@ uint8_t pid_dutyCycle_calculate(void)
 
       // Bound max/min PWM value
       if     ( summedPID > (int16_t)(255) ) { summedPID = 255; }
-      else if( summedPID < (int16_t)(125) ) { summedPID = 125; } //JTS2doNow: Can we lower these values now?
+      else if( summedPID < (int16_t)(125) ) { summedPID = 125; }
       
       dutyPID = summedPID;
     }
     else //(adc_goalRPM_get() < MIN_ALLOWED_RPM)
     {
-      dutyPID = 0;
-      a4910_disable(); //turn off output stage
+      summedPID = 0;
+	  dutyPID = summedPID;
+	  
+      motor_stop(); //turn off output stage
     }
 
   #elif defined SPINDLE_MODE_OPEN_LOOP

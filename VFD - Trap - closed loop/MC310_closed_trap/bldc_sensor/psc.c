@@ -141,7 +141,7 @@ void psc_commutateOutputWaveforms(uint8_t duty)
   		Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
   		break;
         
-  		default: unoPinA2_high(); /*psc_disconnectAllMOSFETs();*/ break; //JTS2doNow: Should we re-enable this now?
+  		default: psc_disconnectAllMOSFETs(); break;
   	}
 
     Psc_unlock();
