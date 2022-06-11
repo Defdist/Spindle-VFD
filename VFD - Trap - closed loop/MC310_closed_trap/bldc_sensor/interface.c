@@ -44,7 +44,7 @@ void interface_checkForDirectionChange(void)
 		else                       { motor_direction_set(MOTOR_CCW); }
 			
 		pid_dutyCycle_set(0);
-		//adc_goalRPM_set(0); //don't set this here //ADC won't sample again until next grbl interrupt occurs (e.g. 'S3000')
+		//adc_goalRPM_set(0); //don't set this here... ADC isn't sampling goalRPM at this point, so goalRPM will remain 0 until next interrupt occurs (e.g. 'S3000')
 
 		grblDirection_previous = grblDirection_now;
 	}
@@ -56,14 +56,12 @@ void interface_handler(void)
 {
 	if (goalRPM_status == GOALRPM_LPF_CHANGING) //set inside interrupt when grbl direction pin toggles
 	{
-		unoPinA2_high(); //debug
-
 		adc_scheduler(ADC_MEASURING_GOAL_RPM);
 		
-		if(motor_state_get() == STOPPED) { motor_run(); } //JTS2doNow: Where should this go?
+		if(motor_state_get() == STOPPED) { motor_run(); }
 
-		#define GOALRPM_LPF_SETTLING_TIME_us 40000 //lowpass filter settles in 30 ms... wait longer
-		#define NUM_ITERATIONS_FOR_LPF_TO_SETTLE (GOALRPM_LPF_SETTLING_TIME_us / CONTROL_LOOP_PERIOD_us) //division handled to pre-processor
+		#define GOALRPM_LPF_SETTLING_TIME_us 40000 //lowpass filter settles in 30 ms... wait at least this long
+		#define NUM_ITERATIONS_FOR_LPF_TO_SETTLE (GOALRPM_LPF_SETTLING_TIME_us / CONTROL_LOOP_PERIOD_us) //division handled by pre-processor
 
 		static uint16_t iterationCount = 0;
 
@@ -73,10 +71,5 @@ void interface_handler(void)
 			iterationCount = 0;
 		}
 	}
-	else
-	{
-		unoPinA2_low(); //debug
-
-		interface_checkForDirectionChange();
-	}
+	else { interface_checkForDirectionChange(); } //We don't want to do this when grbl is toggling direction pin (to generate interrupt)
 }

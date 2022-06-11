@@ -13,6 +13,8 @@
 
     #define PID_UPDATE_PERIOD_MICROSECONDS 1000
 
+    #define MIN_ALLOWED_RPM 1500 //must be larger than ADC_COUNTS_TO_RPM__OFFSET (or spindle won't stop spinning)
+
 	uint8_t pid_dutyCycle_get(void);
 	void    pid_dutyCycle_set(uint8_t newDuty);
 

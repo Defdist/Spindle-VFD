@@ -40,7 +40,5 @@ void motor_run(void)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-//JTS2doNow: Direction never set in code.  Fine for now.
-//JTS2doNow: If direction_now != direction_previous, need to stop motor first, then spin other way. //PID loop might take care of this automatically
 void    motor_direction_set(uint8_t direction) { (direction == MOTOR_CCW) ? (motorDirection = MOTOR_CCW) : (motorDirection = MOTOR_CW); }
 uint8_t motor_direction_get(void) { return motorDirection; } //This ONLY retrieves the modal state (not the actual pin logic level)

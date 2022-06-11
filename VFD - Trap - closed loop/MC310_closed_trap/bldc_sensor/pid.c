@@ -56,24 +56,33 @@ uint8_t pid_dutyCycle_calculate(void)
 {
   #ifdef SPINDLE_MODE_CLOSED_LOOP 
     static int16_t summedPID = 0;
-    int16_t error_actualMinusGoal_RPM = (int16_t)timing_measuredRPM_get() - (int16_t)adc_goalRPM_get();
 
-	if(error_actualMinusGoal_RPM > 0) { summedPID--; }
-	else                              { summedPID++; }
+    if(adc_goalRPM_get() > MIN_ALLOWED_RPM)
+    { 
+      int16_t error_actualMinusGoal_RPM = (int16_t)timing_measuredRPM_get() - (int16_t)adc_goalRPM_get();
 
-    //int16_t TermPID_proportional = pid_calculate_proportional(speedError);
-    //int16_t TermPID_integral     = pid_calculate_integral    (speedError);
-    //int16_t TermPID_derivative   = pid_calculate_derivative  (speedError);
+      if(error_actualMinusGoal_RPM > 0) { summedPID--; }
+      else                              { summedPID++; }
 
-    // Duty Cycle calculation
-    //summedPID = TermPID_proportional + TermPID_integral + TermPID_derivative;
-    //summedPID = error_actualRPM_minus_goalRPM;
+      //int16_t TermPID_proportional = pid_calculate_proportional(speedError);
+      //int16_t TermPID_integral     = pid_calculate_integral    (speedError);
+      //int16_t TermPID_derivative   = pid_calculate_derivative  (speedError);
 
-    // Bound max/min PWM value
-    if     ( summedPID > (int16_t)(255) ) { summedPID = 255; }
-    else if( summedPID < (int16_t)(125) ) { summedPID = 125; }
-    
-    dutyPID = summedPID;
+      // Duty Cycle calculation
+      //summedPID = TermPID_proportional + TermPID_integral + TermPID_derivative;
+      //summedPID = error_actualRPM_minus_goalRPM;
+
+      // Bound max/min PWM value
+      if     ( summedPID > (int16_t)(255) ) { summedPID = 255; }
+      else if( summedPID < (int16_t)(125) ) { summedPID = 125; } //JTS2doNow: Can we lower these values now?
+      
+      dutyPID = summedPID;
+    }
+    else //(adc_goalRPM_get() < MIN_ALLOWED_RPM)
+    {
+      dutyPID = 0;
+      a4910_disable(); //turn off output stage
+    }
 
   #elif defined SPINDLE_MODE_OPEN_LOOP
     dutyPID = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;
