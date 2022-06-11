@@ -204,7 +204,7 @@ ISR(ADC_vect)
  12c:	ef 93       	push	r30
  12e:	ff 93       	push	r31
   if(ADC_stateMachine == ADC_MEASURING_GOAL_RPM)
- 130:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <ADC_stateMachine>
+ 130:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
  134:	81 30       	cpi	r24, 0x01	; 1
  136:	c1 f4       	brne	.+48     	; 0x168 <__vector_27+0x5a>
   {
@@ -375,7 +375,7 @@ void adc_scheduler(uint8_t channel)
  21e:	90 64       	ori	r25, 0x40	; 64
  220:	90 93 7a 00 	sts	0x007A, r25	; 0x80007a <__TEXT_REGION_LENGTH__+0x7f807a>
         ADC_stateMachine = ADC_MEASURING_GOAL_RPM;
- 224:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <ADC_stateMachine>
+ 224:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
  228:	08 95       	ret
 
 0000022a <adc_goalRPM_get>:
@@ -451,19 +451,19 @@ void hall_init(void)
   static uint8_t state_previous = 0;
   static uint8_t numConsecutiveInvalidStates = 0;	
 	  
-  //Example: if Hall GRN & YEL are high, the result is 0b00000110
-  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //LSB
+  //Build Hall state 0b0000 0BGY (B=BLU, G=GRN, Y=YEL)
+  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //MSB
  26a:	69 b1       	in	r22, 0x09	; 9
-                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL
+                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL //LSB
  26c:	96 b1       	in	r25, 0x06	; 6
-                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN //MSB
+                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN
  26e:	89 b1       	in	r24, 0x09	; 9
 {
   static uint8_t state_previous = 0;
   static uint8_t numConsecutiveInvalidStates = 0;	
 	  
-  //Example: if Hall GRN & YEL are high, the result is 0b00000110
-  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //LSB
+  //Build Hall state 0b0000 0BGY (B=BLU, G=GRN, Y=YEL)
+  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //MSB
  270:	61 fb       	bst	r22, 1
  272:	44 27       	eor	r20, r20
  274:	40 f9       	bld	r20, 0
@@ -483,8 +483,8 @@ void hall_init(void)
  290:	91 70       	andi	r25, 0x01	; 1
  292:	82 2f       	mov	r24, r18
  294:	89 2b       	or	r24, r25
-                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL
-                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN //MSB
+                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL //LSB
+                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN
 
   if( ((state == 0b00000000) || (state == 0b00000111)) && //invalid Hall state (due to H->L or L->H transition)
  296:	11 f0       	breq	.+4      	; 0x29c <hall_getPosition+0x32>
@@ -492,10 +492,10 @@ void hall_init(void)
  29a:	51 f4       	brne	.+20     	; 0x2b0 <hall_getPosition+0x46>
       (numConsecutiveInvalidStates < 10)                ) 
  29c:	90 91 2a 01 	lds	r25, 0x012A	; 0x80012a <numConsecutiveInvalidStates.2068>
-  //Example: if Hall GRN & YEL are high, the result is 0b00000110
-  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //LSB
-                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL
-                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN //MSB
+  //Build Hall state 0b0000 0BGY (B=BLU, G=GRN, Y=YEL)
+  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //MSB
+                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL //LSB
+                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN
 
   if( ((state == 0b00000000) || (state == 0b00000111)) && //invalid Hall state (due to H->L or L->H transition)
  2a0:	9a 30       	cpi	r25, 0x0A	; 10
@@ -1217,12 +1217,12 @@ void psc_connectAllMOSFETs(void)
  662:	c0 95       	com	r28
  664:	c7 70       	andi	r28, 0x07	; 7
 
-    Psc_lock();
+	Psc_lock();
  666:	84 e3       	ldi	r24, 0x34	; 52
  668:	80 93 b5 00 	sts	0x00B5, r24	; 0x8000b5 <__TEXT_REGION_LENGTH__+0x7f80b5>
 
-    //Determine which two PSC outputs will generate PWM waveforms 
-    switch(hallState)
+	//Determine which two PSC outputs will generate PWM waveforms 
+	switch(hallState)
  66c:	c3 30       	cpi	r28, 0x03	; 3
  66e:	09 f4       	brne	.+2      	; 0x672 <psc_commutateOutputWaveforms+0x82>
  670:	64 c0       	rjmp	.+200    	; 0x73a <psc_commutateOutputWaveforms+0x14a>
@@ -1233,12 +1233,12 @@ void psc_connectAllMOSFETs(void)
  67a:	c2 30       	cpi	r28, 0x02	; 2
  67c:	09 f0       	breq	.+2      	; 0x680 <psc_commutateOutputWaveforms+0x90>
  67e:	c7 c0       	rjmp	.+398    	; 0x80e <__DATA_REGION_LENGTH__+0xe>
-        Psc_set_module_B(0,B_RA_VAL,0);
-        Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
-      break;
+		Psc_set_module_B(0,B_RA_VAL,0);
+		Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
+		break;
 
-      case 2: //Set_Q3Q2(); 1A 0B
-        Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
+		case 2: //Set_Q3Q2(); 1A 0B
+		Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
  680:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
  684:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
  688:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
@@ -1246,7 +1246,7 @@ void psc_connectAllMOSFETs(void)
  68e:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
  692:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
  696:	d0 93 a4 00 	sts	0x00A4, r29	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
-        Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
+		Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
  69a:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
  69e:	d0 93 a6 00 	sts	0x00A6, r29	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
  6a2:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
@@ -1256,10 +1256,10 @@ void psc_connectAllMOSFETs(void)
  6b2:	9c c0       	rjmp	.+312    	; 0x7ec <psc_commutateOutputWaveforms+0x1fc>
     if(motor_direction_get() == MOTOR_CCW) { hallState = ((~hallState) & 0b00000111); }
 
-    Psc_lock();
+	Psc_lock();
 
-    //Determine which two PSC outputs will generate PWM waveforms 
-    switch(hallState)
+	//Determine which two PSC outputs will generate PWM waveforms 
+	switch(hallState)
  6b4:	c5 30       	cpi	r28, 0x05	; 5
  6b6:	09 f4       	brne	.+2      	; 0x6ba <psc_commutateOutputWaveforms+0xca>
  6b8:	80 c0       	rjmp	.+256    	; 0x7ba <psc_commutateOutputWaveforms+0x1ca>
@@ -1268,12 +1268,12 @@ void psc_connectAllMOSFETs(void)
  6be:	c6 30       	cpi	r28, 0x06	; 6
  6c0:	09 f0       	breq	.+2      	; 0x6c4 <psc_commutateOutputWaveforms+0xd4>
  6c2:	a5 c0       	rjmp	.+330    	; 0x80e <__DATA_REGION_LENGTH__+0xe>
-        Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
-        Psc_set_module_C(0,C_RA_VAL,0);
-      break;
+		Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
+		Psc_set_module_C(0,C_RA_VAL,0);
+		break;
 
-      case 6: //Set_Q5Q2(); 2A 0B
-        Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
+		case 6: //Set_Q5Q2(); 2A 0B
+		Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
  6c4:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
  6c8:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
  6cc:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
@@ -1281,7 +1281,7 @@ void psc_connectAllMOSFETs(void)
  6d2:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
  6d6:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
  6da:	d0 93 a4 00 	sts	0x00A4, r29	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
-        Psc_set_module_B(0,B_RA_VAL,0);
+		Psc_set_module_B(0,B_RA_VAL,0);
  6de:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
  6e2:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
  6e6:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
@@ -1290,36 +1290,36 @@ void psc_connectAllMOSFETs(void)
  6f2:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
  6f6:	7f c0       	rjmp	.+254    	; 0x7f6 <psc_commutateOutputWaveforms+0x206>
 
-    //Determine which two PSC outputs will generate PWM waveforms 
-    switch(hallState)
-    {
-      case 1:  
-        Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
+	//Determine which two PSC outputs will generate PWM waveforms 
+	switch(hallState)
+	{
+		case 1:  
+		Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
  6f8:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
  6fc:	d0 93 a0 00 	sts	0x00A0, r29	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
  700:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
  704:	c0 93 a2 00 	sts	0x00A2, r28	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
  708:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
  70c:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
-        Psc_set_module_B(0,B_RA_VAL,0);
+		Psc_set_module_B(0,B_RA_VAL,0);
  710:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
  714:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
  718:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
  71c:	c0 93 a8 00 	sts	0x00A8, r28	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
  720:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
  724:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
-        Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
+		Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
  728:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
  72c:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
  730:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
  734:	c0 93 ae 00 	sts	0x00AE, r28	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
  738:	21 c0       	rjmp	.+66     	; 0x77c <psc_commutateOutputWaveforms+0x18c>
-        Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
-        Psc_set_module_C(0,C_RA_VAL,0);
-      break;
+		Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
+		Psc_set_module_C(0,C_RA_VAL,0);
+		break;
 
-      case 3: //Set_Q3Q6(); 1A 2B
-        Psc_set_module_A(0,A_RA_VAL,0);
+		case 3: //Set_Q3Q6(); 1A 2B
+		Psc_set_module_A(0,A_RA_VAL,0);
  73a:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
  73e:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
  742:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
@@ -1327,25 +1327,25 @@ void psc_connectAllMOSFETs(void)
  748:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
  74c:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
  750:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
-        Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
+		Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
  754:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
  758:	d0 93 a6 00 	sts	0x00A6, r29	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
  75c:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
  760:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
  764:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
  768:	10 92 aa 00 	sts	0x00AA, r1	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
-        Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
+		Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
  76c:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
  770:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
  774:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
  778:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
  77c:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
  780:	d0 93 b0 00 	sts	0x00B0, r29	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
-      break;
+		break;
  784:	44 c0       	rjmp	.+136    	; 0x80e <__DATA_REGION_LENGTH__+0xe>
 
-      case 4: //Set_Q5Q4(); 2A 1B
-        Psc_set_module_A(0,A_RA_VAL,0);
+		case 4: //Set_Q5Q4(); 2A 1B
+		Psc_set_module_A(0,A_RA_VAL,0);
  786:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
  78a:	10 92 a0 00 	sts	0x00A0, r1	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
  78e:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
@@ -1353,7 +1353,7 @@ void psc_connectAllMOSFETs(void)
  794:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
  798:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
  79c:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
-        Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
+		Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
  7a0:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
  7a4:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
  7a8:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
@@ -1361,11 +1361,11 @@ void psc_connectAllMOSFETs(void)
  7b0:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
  7b4:	d0 93 aa 00 	sts	0x00AA, r29	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
  7b8:	1e c0       	rjmp	.+60     	; 0x7f6 <psc_commutateOutputWaveforms+0x206>
-        Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
-      break;
+		Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
+		break;
 
-      case 5: //Set_Q1Q4(); 0A 1B
-        Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
+		case 5: //Set_Q1Q4(); 0A 1B
+		Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
  7ba:	10 92 a1 00 	sts	0x00A1, r1	; 0x8000a1 <__TEXT_REGION_LENGTH__+0x7f80a1>
  7be:	d0 93 a0 00 	sts	0x00A0, r29	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7f80a0>
  7c2:	10 92 a3 00 	sts	0x00A3, r1	; 0x8000a3 <__TEXT_REGION_LENGTH__+0x7f80a3>
@@ -1373,33 +1373,33 @@ void psc_connectAllMOSFETs(void)
  7c8:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__TEXT_REGION_LENGTH__+0x7f80a2>
  7cc:	10 92 a5 00 	sts	0x00A5, r1	; 0x8000a5 <__TEXT_REGION_LENGTH__+0x7f80a5>
  7d0:	10 92 a4 00 	sts	0x00A4, r1	; 0x8000a4 <__TEXT_REGION_LENGTH__+0x7f80a4>
-        Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
+		Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
  7d4:	10 92 a7 00 	sts	0x00A7, r1	; 0x8000a7 <__TEXT_REGION_LENGTH__+0x7f80a7>
  7d8:	10 92 a6 00 	sts	0x00A6, r1	; 0x8000a6 <__TEXT_REGION_LENGTH__+0x7f80a6>
  7dc:	10 92 a9 00 	sts	0x00A9, r1	; 0x8000a9 <__TEXT_REGION_LENGTH__+0x7f80a9>
  7e0:	80 93 a8 00 	sts	0x00A8, r24	; 0x8000a8 <__TEXT_REGION_LENGTH__+0x7f80a8>
  7e4:	10 92 ab 00 	sts	0x00AB, r1	; 0x8000ab <__TEXT_REGION_LENGTH__+0x7f80ab>
  7e8:	d0 93 aa 00 	sts	0x00AA, r29	; 0x8000aa <__TEXT_REGION_LENGTH__+0x7f80aa>
-        Psc_set_module_C(0,C_RA_VAL,0);
+		Psc_set_module_C(0,C_RA_VAL,0);
  7ec:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
  7f0:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
  7f4:	04 c0       	rjmp	.+8      	; 0x7fe <psc_commutateOutputWaveforms+0x20e>
-      break;
+		break;
 
-      case 6: //Set_Q5Q2(); 2A 0B
-        Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
-        Psc_set_module_B(0,B_RA_VAL,0);
-        Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
+		case 6: //Set_Q5Q2(); 2A 0B
+		Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
+		Psc_set_module_B(0,B_RA_VAL,0);
+		Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
  7f6:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <__TEXT_REGION_LENGTH__+0x7f80ad>
  7fa:	d0 93 ac 00 	sts	0x00AC, r29	; 0x8000ac <__TEXT_REGION_LENGTH__+0x7f80ac>
  7fe:	10 92 af 00 	sts	0x00AF, r1	; 0x8000af <__TEXT_REGION_LENGTH__+0x7f80af>
  802:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <__TEXT_REGION_LENGTH__+0x7f80ae>
  806:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
  80a:	10 92 b0 00 	sts	0x00B0, r1	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
-      break;
+		break;
       
-      default: /*psc_disconnectAllMOSFETs();*/ break;
-    }
+		default: /*psc_disconnectAllMOSFETs();*/ break;
+	}
 
     Psc_unlock();
  80e:	84 e1       	ldi	r24, 0x14	; 20

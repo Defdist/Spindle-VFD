@@ -24,10 +24,10 @@ uint8_t hall_getPosition(void)
   static uint8_t state_previous = 0;
   static uint8_t numConsecutiveInvalidStates = 0;	
 	  
-  //Example: if Hall GRN & YEL are high, the result is 0b00000110
-  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //LSB
-                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL
-                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN //MSB
+  //Build Hall state 0b0000 0BGY (B=BLU, G=GRN, Y=YEL)
+  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //MSB
+                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL //LSB
+                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN
 
   if( ((state == 0b00000000) || (state == 0b00000111)) && //invalid Hall state (due to H->L or L->H transition)
       (numConsecutiveInvalidStates < 10)                ) 

@@ -100,49 +100,49 @@ void psc_commutateOutputWaveforms(uint8_t duty)
 	//flip hall bits (6->1, 5->2. 4->3, 3->4, 2->5, 1->6)
     if(motor_direction_get() == MOTOR_CCW) { hallState = ((~hallState) & 0b00000111); }
 
-    Psc_lock();
+	Psc_lock();
 
-    //Determine which two PSC outputs will generate PWM waveforms 
-    switch(hallState)
-    {
-      case 1:  
-        Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
-        Psc_set_module_B(0,B_RA_VAL,0);
-        Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
-      break;
+	//Determine which two PSC outputs will generate PWM waveforms 
+	switch(hallState)
+	{
+		case 1:  
+		Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
+		Psc_set_module_B(0,B_RA_VAL,0);
+		Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
+		break;
 
-      case 2: //Set_Q3Q2(); 1A 0B
-        Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
-        Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
-        Psc_set_module_C(0,C_RA_VAL,0);
-      break;
+		case 2: //Set_Q3Q2(); 1A 0B
+		Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
+		Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
+		Psc_set_module_C(0,C_RA_VAL,0);
+		break;
 
-      case 3: //Set_Q3Q6(); 1A 2B
-        Psc_set_module_A(0,A_RA_VAL,0);
-        Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
-        Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
-      break;
+		case 3: //Set_Q3Q6(); 1A 2B
+		Psc_set_module_A(0,A_RA_VAL,0);
+		Psc_set_module_B(duty,B_RA_VAL,0); //PWM_Q3 (PSC1A)(PC0)
+		Psc_set_module_C(0,C_RA_VAL,duty); //PWM_Q6 (PSC2B)(PB1)
+		break;
 
-      case 4: //Set_Q5Q4(); 2A 1B
-        Psc_set_module_A(0,A_RA_VAL,0);
-        Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
-        Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
-      break;
+		case 4: //Set_Q5Q4(); 2A 1B
+		Psc_set_module_A(0,A_RA_VAL,0);
+		Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
+		Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
+		break;
 
-      case 5: //Set_Q1Q4(); 0A 1B
-        Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
-        Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
-        Psc_set_module_C(0,C_RA_VAL,0);
-      break;
+		case 5: //Set_Q1Q4(); 0A 1B
+		Psc_set_module_A(duty,A_RA_VAL,0); //PWM_Q1 (PSC0A)(PD0)
+		Psc_set_module_B(0,B_RA_VAL,duty); //PWM_Q4 (PSC1B)(PB6)
+		Psc_set_module_C(0,C_RA_VAL,0);
+		break;
 
-      case 6: //Set_Q5Q2(); 2A 0B
-        Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
-        Psc_set_module_B(0,B_RA_VAL,0);
-        Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
-      break;
+		case 6: //Set_Q5Q2(); 2A 0B
+		Psc_set_module_A(0,A_RA_VAL,duty); //PWM_Q2 (PSC0B)(PB7)
+		Psc_set_module_B(0,B_RA_VAL,0);
+		Psc_set_module_C(duty,C_RA_VAL,0); //PWM_Q5 (PSC2A)(PB0)
+		break;
       
-      default: /*psc_disconnectAllMOSFETs();*/ break;
-    }
+		default: /*psc_disconnectAllMOSFETs();*/ break;
+	}
 
     Psc_unlock();
   }
