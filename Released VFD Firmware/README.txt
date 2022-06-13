@@ -8,9 +8,9 @@ Windows: https://drive.google.com/file/d/1EFyPPsjfm5gzKeZ9XufNfWa4SMT3P-wj/view?
 
 2: Open DDcut and go to settings>software
 
-3: Choose the Beta 328p & 32M1 hex files, located in the folder "2022JUN09 beta closed loop" (same directory as this readme).
+3: Navigate to the folder with the firmware version you want to load (e.g. "2022JUN09_BETA").  Inside this folder, you will find two hex files.  Select both of these files inside DDcut.
 
-4: Click "Upload Custom Firmware" button.
+3: Click "Upload Custom Firmware" button.
 DO NOT CLICK THE 'OK' button on the popup message (that says "Upload succeeded == true").   
 
 5: Wait one minute, then click the OK button.
@@ -34,4 +34,4 @@ S1500
 
 11: Cut new things at lower speeds and verify everything works well.
 
-12: If the new closed loop firmware is terrible, you can reload the old version by following the same steps (above), but with the files inside the folder "restore old firmware".
+12: You can reload older firmware versions by following the same steps (above), but with the files inside the folder "2020MAR03_INITIAL_RELEASE".
