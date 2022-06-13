@@ -14,20 +14,20 @@ void hall_init(void)
   PCMSK1 = (1<<PCINT9);
   
   // Enable pin change interrupts on PCMSK1 & 2
-  PCICR = ( (1<<PCIE1) | (1<<PCIE2) );
+  PCICR |= ( (1<<PCIE1) | (1<<PCIE2) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-inline uint8_t hall_getPosition(void)
+uint8_t hall_getPosition(void)
 {
   static uint8_t state_previous = 0;
   static uint8_t numConsecutiveInvalidStates = 0;	
-	  
-  //Example: if Hall GRN & YEL are high, the result is 0b00000110
-  uint8_t state = ((PIND & (1<<PIND1)) >> (PIND1-0)) | //Hall BLU //LSB
-                  ((PINC & (1<<PINC1)) >> (PINC1-1)) | //Hall YEL
-                  ((PIND & (1<<PIND2)) >> (PIND2-2));   //Hall GRN //MSB
+  
+  //Build Hall state 0b0000 0BGY (B=BLU, G=GRN, Y=YEL)
+  uint8_t state = ( (( (PIND & (1<<PIND1)) >> PIND1) << 2) |  //Hall BLU //MSB
+                    (( (PINC & (1<<PINC1)) >> PINC1) << 0) |  //Hall YEL //LSB
+                    (( (PIND & (1<<PIND2)) >> PIND2) << 1) ); //Hall GRN
 
   if( ((state == 0b00000000) || (state == 0b00000111)) && //invalid Hall state (due to H->L or L->H transition)
       (numConsecutiveInvalidStates < 10)                ) 
@@ -50,14 +50,14 @@ inline uint8_t hall_getPosition(void)
 //Configure interrupt vectors (each time a hall sensor state changes)
 ISR( HALL_AC_vect )  //Hall_A & Hall_C share the same interrupt vector byte
 {
-  mosfet_commutate( hall_getPosition() );
+  psc_commutateOutputWaveforms( pid_dutyCycle_get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 ISR( HALL_B_vect )
 {
-  mosfet_commutate( hall_getPosition() );
+  psc_commutateOutputWaveforms( pid_dutyCycle_get() );
 
   uint8_t hallB_state = 0;
   static uint8_t hallB_state_previous = 0;
@@ -72,9 +72,7 @@ ISR( HALL_B_vect )
     {
       //rising edge just occurred on Hall B
       timing_calculateRPM();
-
-      //if( timing_measuredRPM_get() > 6000 ) { unoPinA4_high(); }
-      //else                                  { unoPinA4_low();  } //debug
+	  pid_dutyCycle_calculate();
     }
   }
 

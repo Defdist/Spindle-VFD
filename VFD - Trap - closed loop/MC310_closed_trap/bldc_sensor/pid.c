@@ -2,11 +2,17 @@
 
 //Spindle RPM PID controller
 
-uint8_t dutyCycle = 0;    //Closed loop speed regulation PWM Duty Cycle
+#ifdef SPINDLE_MODE_OPEN_LOOP
+	uint8_t dutyPID = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;
+#elif defined SPINDLE_MODE_CLOSED_LOOP
+	uint8_t dutyPID = 0; //Closed loop PSC PWM Duty Cycle //0:255
+#else 
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-uint8_t pid_dutyCycle_get() { return dutyCycle; }
+uint8_t pid_dutyCycle_get() { return dutyPID; }
+void pid_dutyCycle_set(uint8_t newDuty) { dutyPID = newDuty; } 
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,21 +54,56 @@ int16_t pid_calculate_derivative(int16_t speedError)
 
 uint8_t pid_dutyCycle_calculate(void)
 {
-  int16_t summedPID = 0;
-  int16_t speedError = adc_goalRPM_get() - timing_measuredRPM_get();
+  #ifdef SPINDLE_MODE_CLOSED_LOOP 
+    static int16_t summedPID = 0;
 
-  int16_t TermPID_proportional = pid_calculate_proportional(speedError);
-  int16_t TermPID_integral     = pid_calculate_integral    (speedError);
-  int16_t TermPID_derivative   = pid_calculate_derivative  (speedError);
+    if(adc_goalRPM_get() > MIN_ALLOWED_RPM)
+    { 
+      int16_t error_actualMinusGoal_RPM = (int16_t)timing_measuredRPM_get() - (int16_t)adc_goalRPM_get();
 
-  // Duty Cycle calculation
-  summedPID = TermPID_proportional + TermPID_integral + TermPID_derivative;
-  summedPID = summedPID >> K_SPEED_SCALAR;
+      if(error_actualMinusGoal_RPM > 0) { summedPID--; }
+      else                              { summedPID++; }
 
-  // Bound max/min PWM value
-  if     ( summedPID >= (int16_t)(255) ) { dutyCycle = 255;                  }
-  else if( summedPID <= (int16_t)(  0) ) { dutyCycle =   0;                  }
-  else                                   { dutyCycle = (uint8_t)(summedPID); }
+      //int16_t TermPID_proportional = pid_calculate_proportional(speedError);
+      //int16_t TermPID_integral     = pid_calculate_integral    (speedError);
+      //int16_t TermPID_derivative   = pid_calculate_derivative  (speedError);
 
-  return dutyCycle;
+      // Duty Cycle calculation
+      //summedPID = TermPID_proportional + TermPID_integral + TermPID_derivative;
+      //summedPID = error_actualRPM_minus_goalRPM;
+
+      // Bound max/min PWM value
+      if     ( summedPID > (int16_t)(255) ) { summedPID = 255; }
+      else if( summedPID < (int16_t)(125) ) { summedPID = 125; }
+      
+      dutyPID = summedPID;
+    }
+    else //(adc_goalRPM_get() < MIN_ALLOWED_RPM)
+    {
+      summedPID = 0;
+	  dutyPID = summedPID;
+	  
+      motor_stop(); //turn off output stage
+    }
+
+  #elif defined SPINDLE_MODE_OPEN_LOOP
+    dutyPID = OPEN_LOOP_STATIC_PSC_DUTY_CYCLE;
+  #endif
+	
+  return dutyPID;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+void pid_scheduler(void)
+{
+  static uint16_t timeSinceLastUpdate_PID = 0;
+  
+  timeSinceLastUpdate_PID += TIMER0_INTERRUPT_PERIOD_us;
+
+  if(timeSinceLastUpdate_PID >= PID_UPDATE_PERIOD_MICROSECONDS)
+  {
+    pid_dutyCycle_calculate();
+    timeSinceLastUpdate_PID = 0;
+  }
 }

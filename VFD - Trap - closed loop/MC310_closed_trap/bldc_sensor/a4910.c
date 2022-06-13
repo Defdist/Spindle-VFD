@@ -6,7 +6,7 @@
 
 #include "grBLDC.h"
 
-void a4910_init(void)   { (DDRB |= (1<<DDB4)); } //set pin to output
+void a4910_init(void)   { (DDRB |= (1<<DDB4)); } //set A4910 reset pin to output
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
