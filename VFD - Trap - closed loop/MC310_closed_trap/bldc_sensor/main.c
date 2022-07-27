@@ -1,5 +1,11 @@
 #include "grBLDC.h"
 
+FUSES = { //set 32M1's fuses.  //Requires avr/io.h
+	.low      = 0xFF,
+	.high     = 0xD7,
+	.extended = 0xFF
+};
+
 int main(void)
 {
   psc_init();
@@ -18,12 +24,6 @@ int main(void)
   //motor_run();
 
   sei(); //enable interrupts
-
-	unoPinA2_high(); //debug
-	unoPinA2_low();
-	
-	unoPinA4_high(); //debug
-	unoPinA4_low();
 
   while(1)
   {	  	  
