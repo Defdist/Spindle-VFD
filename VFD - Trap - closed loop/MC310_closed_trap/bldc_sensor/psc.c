@@ -17,9 +17,9 @@ void psc_init (void)
   PORTD &= ~(1<<PORTD0);
 
   // Configure MOSFET pins to output
-  DDRB = (1<<DDB7)|(1<<DDB6)|(1<<DDB1)|(1<<DDB0);
-  DDRC = (1<<DDC0);
-  DDRD = (1<<DDD0);
+  DDRB |= (1<<DDB7)|(1<<DDB6)|(1<<DDB1)|(1<<DDB0);
+  DDRC |= (1<<DDC0);
+  DDRD |= (1<<DDD0);
 
   psc_connectAllMOSFETs(); //debug
 

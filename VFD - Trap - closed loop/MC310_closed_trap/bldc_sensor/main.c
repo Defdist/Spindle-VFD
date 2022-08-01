@@ -21,7 +21,6 @@ int main(void)
   Wait_pll_ready();
   
   a4910_enable(); //enable MOSFET driver
-  //motor_run();
 
   sei(); //enable interrupts
 
@@ -34,9 +33,10 @@ int main(void)
       interface_handler();
     }
 	
-	if((TCNT1 > 65534) && (motor_state_get() == RUNNING) ) //hall event hasn't occurred recently
-	{
-		pid_dutyCycle_set(150); //kickstart motor
+	if((timing_measuredRPM_get() == 0) && (motor_state_get() == RUNNING) ) //motor isn't spinning, but should be
+	{	
+		//kickstart motor
+		pid_dutyCycle_set(150);
 		psc_commutateOutputWaveforms(150);
 	}
   }

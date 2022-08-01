@@ -9,4 +9,5 @@
 	void interface_init(void);
 	void interface_handler(void);
 
+	void interface_sendStatus_RPM(void);
 #endif

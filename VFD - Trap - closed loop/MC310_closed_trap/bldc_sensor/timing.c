@@ -49,7 +49,7 @@ void timing_timer1_init(void)
 ISR(TIMER1_OVF_vect)
 {
   //timer1 hit max value //spindle isn't spinning
-  //TCNT1=0x00; //set Timer1 value to 0 //don't reset... we only want interrupt to fire once
+  TCNT1 = 0; //set Timer1 value to 0 //don't reset... we only want interrupt to fire once
   timing_measuredRPM_set(0);
 }
 
@@ -57,8 +57,8 @@ ISR(TIMER1_OVF_vect)
 
 inline void timing_calculateRPM(void)
 {
-  uint16_t timerCount = TCNT1; //retrive 16b timer value
-  TCNT1 = 0x00; //reset Timer 1 ASAP (to minimize jitter)
+  uint16_t timerCount = TCNT1; //retrieve 16b timer value
+  TCNT1 = 0; //reset Timer 1 ASAP (to minimize jitter)
   
   #define MICROSECONDS_PER_SECOND 1000000
   #define SECONDS_PER_MINUTE 60
