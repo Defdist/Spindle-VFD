@@ -208,7 +208,7 @@ ISR(ADC_vect)
  130:	ef 93       	push	r30
  132:	ff 93       	push	r31
   if(ADC_stateMachine == ADC_MEASURING_GOAL_RPM)
- 134:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <ADC_stateMachine>
+ 134:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
  138:	81 30       	cpi	r24, 0x01	; 1
  13a:	11 f5       	brne	.+68     	; 0x180 <__vector_27+0x72>
   {
@@ -398,7 +398,7 @@ void adc_scheduler(uint8_t channel)
  23a:	90 64       	ori	r25, 0x40	; 64
  23c:	90 93 7a 00 	sts	0x007A, r25	; 0x80007a <__TEXT_REGION_LENGTH__+0x7f807a>
         ADC_stateMachine = ADC_MEASURING_GOAL_RPM;
- 240:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <ADC_stateMachine>
+ 240:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
  244:	08 95       	ret
 
 00000246 <adc_goalRPM_get>:
@@ -814,28 +814,28 @@ void interface_sendStatus_RPM(void)
 
 	if(motor_state_get() == RUNNING)
 	{	
-		if     (RPM_actualMinusGoal > -1000) { unoPinA2_high(); unoPinA4_low() ; } //actualRPM between    0 & 1000 RPM slower than setpoint (or is faster than setpoint) 
+		if     (RPM_actualMinusGoal > -1000) { unoPinA2_low() ; unoPinA4_low() ; } //actualRPM between    0 & 1000 RPM slower than setpoint (or is faster than setpoint) 
  42e:	89 31       	cpi	r24, 0x19	; 25
  430:	2c ef       	ldi	r18, 0xFC	; 252
  432:	92 07       	cpc	r25, r18
  434:	1c f0       	brlt	.+6      	; 0x43c <interface_sendStatus_RPM+0x30>
- 436:	0e 94 32 01 	call	0x264	; 0x264 <unoPinA2_high>
+ 436:	0e 94 38 01 	call	0x270	; 0x270 <unoPinA2_low>
  43a:	17 c0       	rjmp	.+46     	; 0x46a <interface_sendStatus_RPM+0x5e>
-		else if(RPM_actualMinusGoal > -2000) { unoPinA2_high(); unoPinA4_high(); } //actualRPM between 1000 & 2000 RPM slower than setpoint
+		else if(RPM_actualMinusGoal > -2000) { unoPinA2_low() ; unoPinA4_high(); } //actualRPM between 1000 & 2000 RPM slower than setpoint
  43c:	81 33       	cpi	r24, 0x31	; 49
  43e:	28 ef       	ldi	r18, 0xF8	; 248
  440:	92 07       	cpc	r25, r18
  442:	1c f0       	brlt	.+6      	; 0x44a <interface_sendStatus_RPM+0x3e>
- 444:	0e 94 32 01 	call	0x264	; 0x264 <unoPinA2_high>
+ 444:	0e 94 38 01 	call	0x270	; 0x270 <unoPinA2_low>
  448:	08 c0       	rjmp	.+16     	; 0x45a <interface_sendStatus_RPM+0x4e>
-		else if(RPM_actualMinusGoal > -3000) { unoPinA2_low() ; unoPinA4_low() ; } //actualRPM between 2000 & 3000 RPM slower than setpoint
+		else if(RPM_actualMinusGoal > -3000) { unoPinA2_high(); unoPinA4_low() ; } //actualRPM between 2000 & 3000 RPM slower than setpoint
  44a:	89 34       	cpi	r24, 0x49	; 73
  44c:	94 4f       	sbci	r25, 0xF4	; 244
  44e:	1c f0       	brlt	.+6      	; 0x456 <interface_sendStatus_RPM+0x4a>
- 450:	0e 94 38 01 	call	0x270	; 0x270 <unoPinA2_low>
+ 450:	0e 94 32 01 	call	0x264	; 0x264 <unoPinA2_high>
  454:	0a c0       	rjmp	.+20     	; 0x46a <interface_sendStatus_RPM+0x5e>
-		else                                 { unoPinA2_low() ; unoPinA4_high(); } //actualRPM beyond  3000        RPM slower than setpoint	
- 456:	0e 94 38 01 	call	0x270	; 0x270 <unoPinA2_low>
+		else                                 { unoPinA2_high(); unoPinA4_high(); } //actualRPM beyond  3000        RPM slower than setpoint	
+ 456:	0e 94 32 01 	call	0x264	; 0x264 <unoPinA2_high>
 	else //motor STOPPED
 	{
 		unoPinA2_input(); //shared with X1 limit switch (X1 only used during X table level)
@@ -847,10 +847,10 @@ void interface_sendStatus_RPM(void)
  460:	0f 91       	pop	r16
 	if(motor_state_get() == RUNNING)
 	{	
-		if     (RPM_actualMinusGoal > -1000) { unoPinA2_high(); unoPinA4_low() ; } //actualRPM between    0 & 1000 RPM slower than setpoint (or is faster than setpoint) 
-		else if(RPM_actualMinusGoal > -2000) { unoPinA2_high(); unoPinA4_high(); } //actualRPM between 1000 & 2000 RPM slower than setpoint
-		else if(RPM_actualMinusGoal > -3000) { unoPinA2_low() ; unoPinA4_low() ; } //actualRPM between 2000 & 3000 RPM slower than setpoint
-		else                                 { unoPinA2_low() ; unoPinA4_high(); } //actualRPM beyond  3000        RPM slower than setpoint	
+		if     (RPM_actualMinusGoal > -1000) { unoPinA2_low() ; unoPinA4_low() ; } //actualRPM between    0 & 1000 RPM slower than setpoint (or is faster than setpoint) 
+		else if(RPM_actualMinusGoal > -2000) { unoPinA2_low() ; unoPinA4_high(); } //actualRPM between 1000 & 2000 RPM slower than setpoint
+		else if(RPM_actualMinusGoal > -3000) { unoPinA2_high(); unoPinA4_low() ; } //actualRPM between 2000 & 3000 RPM slower than setpoint
+		else                                 { unoPinA2_high(); unoPinA4_high(); } //actualRPM beyond  3000        RPM slower than setpoint	
  462:	0c 94 2f 01 	jmp	0x25e	; 0x25e <unoPinA4_high>
 	}
 	else //motor STOPPED
@@ -863,7 +863,7 @@ void interface_sendStatus_RPM(void)
  46c:	cf 91       	pop	r28
  46e:	1f 91       	pop	r17
  470:	0f 91       	pop	r16
-		else                                 { unoPinA2_low() ; unoPinA4_high(); } //actualRPM beyond  3000        RPM slower than setpoint	
+		else                                 { unoPinA2_high(); unoPinA4_high(); } //actualRPM beyond  3000        RPM slower than setpoint	
 	}
 	else //motor STOPPED
 	{
