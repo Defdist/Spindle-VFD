@@ -2,9 +2,7 @@ All steps in this README are shown in the following video:
 https://youtu.be/xo_RG4Zgdmc
 
 
-1: Download and install beta DDcut:
-Mac: https://drive.google.com/file/d/1ckqJORKC9LdCiA5aiHUaRxv-CCwtGKTb/view?usp=sharing
-Windows: https://drive.google.com/file/d/1EFyPPsjfm5gzKeZ9XufNfWa4SMT3P-wj/view?usp=sharing
+1: Download and install DDcut 5.2.2-2 or later (contact DD if you're a beta customer and we haven't released this version yet):
 
 2: Open DDcut and go to settings>software
 
@@ -34,4 +32,40 @@ S1500
 
 11: Cut new things at lower speeds and verify everything works well.
 
+12: If the new closed loop firmware is terrible, you can reload the old version by following the same steps (above), but with the files inside the folder "restore old firmware".
+
+/////////////////////////////////////////////////////
+
+Revision History:
+
+2020MAR03
+-Initial open loop release.
+
+*************
+
+2022JUN09
+-Internal closed loop protype.
+
+*************
+
+2022JUL27
+-Internal closed loop prototype.
+-Fixed issue where X Table level routine did not work ($L).
+
+*************
+
+2022JUL31
+-release candidate
+-GG can now tell DDcut how close actualRPM is to goalRPM.
+Each time a connection to grbl is opened, type 'Mxxx' (TBD, probably 'M105') to enable this "spindle RPM feedback mode".  
+Once enabled, grbl will no longer respond with 'ok' after processing each message, but instead will respond:
+'0k' if actualRPM is within 0000:0999 of goalRPM (note: this is "number zero + k", not "letter o + k")
+'1k' if actualRPM is within 1000:1999 of goalRPM
+'2k' if actualRPM is within 2000:2999 of goalRPM
+'3k' if actualRPM is beyond 3000      of goalRPM
+
+-Fixed corner case where spindle might not start rotating when initially stationary.
+
+*************
+=======
 12: You can reload older firmware versions by following the same steps (above), but with the files inside the folder "2020MAR03_INITIAL_RELEASE".

@@ -71,10 +71,32 @@ void interface_handler(void)
 			iterationCount = 0;
 		}
 	}
-	else
+	else //goalRPM_status == GOALRPM_LPF_SETTLED
 	{
 		interface_checkForDirectionChange(); //We don't want to do this when grbl is toggling direction pin (to generate interrupt)
 	
 		if( (motor_state_get() == STOPPED) && (adc_goalRPM_get() > MIN_ALLOWED_RPM) ) { motor_run(); }
-	} 
+			
+		interface_sendStatus_RPM();
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void interface_sendStatus_RPM(void)
+{
+	int16_t RPM_actualMinusGoal = (int16_t)timing_measuredRPM_get() - (int16_t)adc_goalRPM_get();
+
+	if(motor_state_get() == RUNNING)
+	{	
+		if     (RPM_actualMinusGoal > -1000) { unoPinA2_low() ; unoPinA4_low() ; } //actualRPM between    0 & 1000 RPM slower than setpoint (or is faster than setpoint) 
+		else if(RPM_actualMinusGoal > -2000) { unoPinA2_low() ; unoPinA4_high(); } //actualRPM between 1000 & 2000 RPM slower than setpoint
+		else if(RPM_actualMinusGoal > -3000) { unoPinA2_high(); unoPinA4_low() ; } //actualRPM between 2000 & 3000 RPM slower than setpoint
+		else                                 { unoPinA2_high(); unoPinA4_high(); } //actualRPM beyond  3000        RPM slower than setpoint	
+	}
+	else //motor STOPPED
+	{
+		unoPinA2_input(); //shared with X1 limit switch (X1 only used during X table level)
+		unoPinA4_low();
+	}
 }
