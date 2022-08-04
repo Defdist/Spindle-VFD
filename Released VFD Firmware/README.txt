@@ -57,7 +57,7 @@ Revision History:
 *************
 
 2022JUL31
--Internal closed loop prototype.
+-release candidate
 -GG can now tell DDcut how close actualRPM is to goalRPM.
 Each time a connection to grbl is opened, type 'Mxxx' (TBD, probably 'M105') to enable this "spindle RPM feedback mode".  
 Once enabled, grbl will no longer respond with 'ok' after processing each message, but instead will respond:
@@ -66,6 +66,6 @@ Once enabled, grbl will no longer respond with 'ok' after processing each messag
 '2k' if actualRPM is within 2000:2999 of goalRPM
 '3k' if actualRPM is beyond 3000      of goalRPM
 
--Fixed corner case where spindle might not start rotating when commanded to.
+-Fixed corner case where spindle might not start rotating when initially stationary.
 
 *************
