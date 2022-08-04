@@ -2,15 +2,13 @@ All steps in this README are shown in the following video:
 https://youtu.be/xo_RG4Zgdmc
 
 
-1: Download and install beta DDcut:
-Mac: https://drive.google.com/file/d/1ckqJORKC9LdCiA5aiHUaRxv-CCwtGKTb/view?usp=sharing
-Windows: https://drive.google.com/file/d/1EFyPPsjfm5gzKeZ9XufNfWa4SMT3P-wj/view?usp=sharing
+1: Download and install DDcut 5.2.2-2 or later (contact DD if you're a beta customer and we haven't released this version yet):
 
 2: Open DDcut and go to settings>software
 
-3: Choose the Beta 328p & 32M1 hex files, located in the folder "2022JUN09 beta closed loop" (same directory as this readme).
+3: Navigate to the folder with the firmware version you want to load (e.g. "2022JUN09_BETA").  Inside this folder, you will find two hex files.  Select both of these files inside DDcut.
 
-4: Click "Upload Custom Firmware" button.
+3: Click "Upload Custom Firmware" button.
 DO NOT CLICK THE 'OK' button on the popup message (that says "Upload succeeded == true").   
 
 5: Wait one minute, then click the OK button.
@@ -69,3 +67,5 @@ Once enabled, grbl will no longer respond with 'ok' after processing each messag
 -Fixed corner case where spindle might not start rotating when initially stationary.
 
 *************
+=======
+12: You can reload older firmware versions by following the same steps (above), but with the files inside the folder "2020MAR03_INITIAL_RELEASE".
